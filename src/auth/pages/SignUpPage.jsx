@@ -3,15 +3,30 @@ import { useTheme } from "@mui/material/styles";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
+import { useForm } from "../../hooks/useForm";
 
+//  TODO: Change naming to buttons
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
   { id: "facebook", name: "Facebook" },
   { id: "spotify", name: "Spotify" },
+  { id: "webapi", name: "Web API" },
 ];
+
+const initialForm = {
+  confirmPassword: "",
+  password: "",
+};
+
 export const SignUpPage = () => {
-  const onSignUpUser = (email, password, provider) => {};
+  const { password, confirmPassword, onInputChange } = useForm(initialForm);
+  const onSignUpUser = (email, password, provider) => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+  };
   const theme = useTheme();
 
   function SignInLink() {
@@ -23,25 +38,58 @@ export const SignUpPage = () => {
   }
 
   function Title() {
-    return <h2 style={{ marginBottom: 8 }}>Sign Up</h2>;
+    return (
+      <h1
+        style={{
+          marginBottom: 4,
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        Sign Up
+      </h1>
+    );
   }
 
+  //TODO: create a component to handling this Text field
   function PasswordField() {
     return (
       <>
         <TextField
           required
-          id="standard-basic"
+          type="password"
+          id="password"
+          name="password"
           label="Password"
           size="small"
           variant="standard"
+          fontSize="0.8rem"
+          value={password}
+          onChange={onInputChange}
+          InputProps={{
+            style: { fontSize: "0.9rem" },
+          }}
+          InputLabelProps={{
+            style: { fontSize: "0.9rem" },
+          }}
         />
         <TextField
           required
-          id="standard-basic"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
           label="Confirm Password"
           size="small"
           variant="standard"
+          value={confirmPassword}
+          onChange={onInputChange}
+          InputProps={{
+            style: { fontSize: "0.9rem" },
+          }}
+          InputLabelProps={{
+            style: { fontSize: "0.9rem" },
+          }}
         />
       </>
     );
@@ -65,8 +113,15 @@ export const SignUpPage = () => {
 
   function Subtitle() {
     return (
-      <div sx={{ mb: 2, px: 1, py: 0.25 }} size="small">
-         Register to start to listening content.
+      <div
+        style={{
+          marginBottom: 16,
+          fontSize: "0.8rem",
+          color: "#666",
+          textAlign: "center",
+        }}
+      >
+        Register to start to listening content.
       </div>
     );
   }
@@ -91,7 +146,6 @@ export const SignUpPage = () => {
             }
             slotProps={{
               emailField: { variant: "standard", autoFocus: false },
-              form: { noValidate: true },
             }}
             slots={{
               signUpLink: SignInLink,
@@ -99,6 +153,7 @@ export const SignUpPage = () => {
               passwordField: PasswordField,
               submitButton: CustomButton,
               subtitle: Subtitle,
+              rememberMe: () => null,
             }}
             providers={providers}
           />

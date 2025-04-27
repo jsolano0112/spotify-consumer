@@ -5,12 +5,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { useTheme } from "@mui/material/styles";
-import { Button, Link } from "@mui/material";
+import { Link } from "@mui/material";
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
   { id: "facebook", name: "Facebook" },
   { id: "spotify", name: "Spotify" },
+  { id: "webapi", name: "Web API" },
 ];
 export const LoginPage = () => {
   const theme = useTheme();
@@ -21,13 +22,13 @@ export const LoginPage = () => {
     if (provider === "credentials") {
       login({ email, password });
       navigate("/", { replace: true });
-    } else if (provider === "spotify") {
+    } else if (provider === "Spotify") {
       console.log("entra");
-    } else if (provider === "facebook") {
+    } else if (provider === "Facebook") {
       console.log("entra");
-    } else if (provider === "google") {
+    } else if (provider === "Google") {
       console.log("entra");
-    } else if (provider === "webAPI") {
+    } else if (provider === "Web API") {
       console.log("entra");
     }
   };
@@ -40,35 +41,7 @@ export const LoginPage = () => {
     );
   }
 
-  function CustomButton() {
-    return (
-      <>
-        <Button
-          type="submit"
-          variant="outlined"
-          color="info"
-          size="small"
-          disableElevation
-          fullWidth
-          sx={{ my: 1 }}
-        >
-          Sign In With Email And Password
-        </Button>
-        <Button
-          type="submit"
-          variant="outlined"
-          color="info"
-          size="small"
-          disableElevation
-          fullWidth
-          sx={{ my: 1 }}
-        >
-          Sign In With Web API
-        </Button>
-      </>
-    );
-  }
-
+ 
   return (
     <>
       <AppProvider theme={theme}>
@@ -85,7 +58,7 @@ export const LoginPage = () => {
             onLoginUser(
               formData?.get("email"),
               formData?.get("password"),
-              provider.id
+              provider.name
             )
           }
           slotProps={{
@@ -103,7 +76,6 @@ export const LoginPage = () => {
             },
           }}
           slots={{
-            submitButton: CustomButton,
             signUpLink: SignUpLink,
           }}
           providers={providers}
