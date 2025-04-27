@@ -1,0 +1,27 @@
+import { authTypes } from "../types/authTypes"
+
+export const useAuthenticate = (dispatch) => {
+    //login
+    //desarrollar la logica
+    const login = ({ email, password }) => {
+        const action = {
+            type: authTypes.login,
+            payload: { email, password },
+        };
+
+        localStorage.setItem('user', JSON.stringify({email, password}));
+        
+        dispatch(action)
+    };
+
+    const logout = () => {
+        const action = {
+            type: authTypes.logout,
+        }
+        localStorage.setItem('user', JSON.stringify(null));
+        dispatch(action)
+
+    }
+    return { login, logout };
+};
+
