@@ -11,6 +11,14 @@ export const HomePage = () => {
 
     navigate("/", { replace: true });
   };
+
+  const toPerfil = () => {
+    navigate("/Perfil", { replace: true });
+  };
+
+  const toPlayList = () => {
+    navigate("/Playlists", { replace: true });
+  };
   return (
     <>
       <div>HomePage</div>
@@ -21,6 +29,20 @@ export const HomePage = () => {
           onClick={onLogoutUser}
         >
           Logout
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary btn-lg btn-block"
+          onClick={toPerfil}
+        >
+          Perfil
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary btn-lg btn-block"
+          onClick={toPlayList}
+        >
+          My Playlists
         </button>
       </div>
     </>

@@ -34,7 +34,7 @@ export const LoginPage = () => {
 
   function SignUpLink() {
     return (
-      <Link href="/" variant="body2">
+      <Link href="/SignUp" variant="body2">
         Sign up
       </Link>
     );
