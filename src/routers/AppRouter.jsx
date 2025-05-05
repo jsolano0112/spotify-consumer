@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { SignUpPage } from "../auth/pages/SignUpPage";
 import Sidenav from "../events/pages/Sidenav";
-
+import '../App.css'; 
 export const AppRouter = () => {
   const {
     userState: { logged },
