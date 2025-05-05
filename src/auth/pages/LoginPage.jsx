@@ -16,18 +16,37 @@ const providers = [
 export const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { login } = useContext(UserContext);
+  const { login, loginGoogle } = useContext(UserContext);
 
-  const onLoginUser = (email, password, provider) => {
-    if (provider === "credentials") {
-      login({ email, password });
-      navigate("/", { replace: true });
+  const onLoginUser = async (email, password, provider) => {
+
+    console.log("provider",provider);
+    
+
+    if (provider === "Email and Password") {
+
+      const isLogged = await login({ email, password });
+
+      console.log("logged?", isLogged);
+
+      if(!isLogged){
+        setError(true);
+      }else{
+        navigate('/', {replace: true});
+      }
     } else if (provider === "Spotify") {
       console.log("entra");
     } else if (provider === "Facebook") {
       console.log("entra");
     } else if (provider === "Google") {
-      console.log("entra");
+
+        const isLogged = await loginGoogle();
+    
+        if(!isLogged) {
+          setError(true);
+        }else{
+          navigate('/', {replace: true});
+        }
     } else if (provider === "Web API") {
       console.log("entra");
     }
