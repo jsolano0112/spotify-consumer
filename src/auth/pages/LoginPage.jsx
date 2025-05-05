@@ -19,7 +19,11 @@ export const LoginPage = () => {
   const { login } = useContext(UserContext);
 
   const onLoginUser = (email, password, provider) => {
-    if (provider === "credentials") {
+    console.log(email)
+    console.log(password)
+    console.log(provider)
+
+    if (provider === "Email and Password") {
       login({ email, password });
       navigate("/", { replace: true });
     } else if (provider === "Spotify") {
