@@ -1,0 +1,82 @@
+{
+  "hash": "07c32cd1",
+  "configHash": "1ee62866",
+  "lockfileHash": "2054bd27",
+  "browserHash": "6054f7a4",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "b3bafd8a",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "89341aaa",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "b4a0c6c4",
+      "needsInterop": false
+    },
+    "@mui/material/Checkbox": {
+      "src": "../../node_modules/@mui/material/esm/Checkbox/index.js",
+      "file": "@mui_material_Checkbox.js",
+      "fileHash": "1486ff93",
+      "needsInterop": false
+    },
+    "@toolpad/core/AppProvider": {
+      "src": "../../node_modules/@toolpad/core/esm/AppProvider/index.js",
+      "file": "@toolpad_core_AppProvider.js",
+      "fileHash": "f3c13693",
+      "needsInterop": false
+    },
+    "@toolpad/core/SignInPage": {
+      "src": "../../node_modules/@toolpad/core/esm/SignInPage/index.js",
+      "file": "@toolpad_core_SignInPage.js",
+      "fileHash": "18b46c76",
+      "needsInterop": false
+    },
+    "@mui/material/styles": {
+      "src": "../../node_modules/@mui/material/esm/styles/index.js",
+      "file": "@mui_material_styles.js",
+      "fileHash": "c7bf8ffe",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/esm/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "fe078245",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-RV2D6KOB": {
+      "file": "chunk-RV2D6KOB.js"
+    },
+    "chunk-G6GIL5IO": {
+      "file": "chunk-G6GIL5IO.js"
+    },
+    "chunk-JA77F7RF": {
+      "file": "chunk-JA77F7RF.js"
+    },
+    "chunk-77LRWX3W": {
+      "file": "chunk-77LRWX3W.js"
+    },
+    "chunk-DPC33NHT": {
+      "file": "chunk-DPC33NHT.js"
+    },
+    "chunk-32EPLIDQ": {
+      "file": "chunk-32EPLIDQ.js"
+    },
+    "chunk-WEJJOBXA": {
+      "file": "chunk-WEJJOBXA.js"
+    },
+    "chunk-VCDLJVZS": {
+      "file": "chunk-VCDLJVZS.js"
+    }
+  }
+}
