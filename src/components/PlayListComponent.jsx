@@ -44,7 +44,7 @@ const cards = [
         album: "Hurry Up Tomorrow",
         time: "3:44",
       },
-    ]
+    ],
     artist: 'Shakira',
   },
   {
@@ -65,7 +65,7 @@ const cards = [
         album: "Hurry Up Tomorrow",
         time: "3:44",
       },
-    ]
+    ],
     artist: 'Shakira',
   },
   {
@@ -86,7 +86,7 @@ const cards = [
         album: "Hurry Up Tomorrow",
         time: "3:44",
       },
-    ]
+    ],
     artist: 'Shakira',
   },
   {
@@ -107,7 +107,7 @@ const cards = [
         album: "Hurry Up Tomorrow",
         time: "3:44",
       },
-    ]
+    ],
     artist: 'Shakira',
   },
 
@@ -115,11 +115,11 @@ const cards = [
     id: 6,
     by: 'Juana0112',
     title: "This is The Weekend",
-    image: "/public/album 6.jpg"
+    image: "/public/album 6.jpg",
     description: 'lalala',
     followers: '',
     createdDate: '',
-    updatedDate: '',,
+    updatedDate: '',
     songsCount: 12,
     totalTime: "3h 15 min approximately",
 
@@ -129,7 +129,7 @@ const cards = [
         album: "Hurry Up Tomorrow",
         time: "3:44",
       },
-    ]
+    ],
     artist: 'Shakira',
   },
 ];
