@@ -17,16 +17,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { PiPlaylistFill } from "react-icons/pi";
+import { FcDataConfiguration } from "react-icons/fc";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
-import PlayListPage from "./PlayListPage";
+import PlayListPage from "./ConfigurationPage";
 import ProfilePage from "./ProfilePage";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
+import { GrConfigure } from "react-icons/gr";
+import ConfigurationPage from "./ConfigurationPage";
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -118,9 +121,9 @@ const listItems = [
     icon: <FaPerson />,
   },
   {
-    text: "My PlayLists",
-    link: <PlayListPage />,
-    icon: <PiPlaylistFill />,
+    text: "Configuration",
+    link: <ConfigurationPage />,
+    icon: <GrConfigure />    ,
   },
 ];
 export default function Sidenav() {
@@ -144,7 +147,7 @@ export default function Sidenav() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} >
         <Toolbar   sx={{
@@ -300,10 +303,10 @@ export default function Sidenav() {
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  backgroundColor: 'var(--color-dark-blue)'}}>
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfilePage />}
-        {menu === "My PlayLists" && <PlayListPage />}
+        {menu === "Configuration" && <ConfigurationPage />}
         {menu === "Logout" && onLogoutUser()}
       </Box>
     </Box>

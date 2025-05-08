@@ -1,6 +1,5 @@
 import { UserContext } from "../auth/contexts/UserContext";
 import { LoginPage } from "../auth/pages/LoginPage";
-import { HomePage } from "../events/pages/HomePage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { SignUpPage } from "../auth/pages/SignUpPage";

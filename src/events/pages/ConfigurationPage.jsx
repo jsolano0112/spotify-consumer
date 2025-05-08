@@ -1,11 +1,11 @@
 import React from "react";
 import Box from "@mui/material/Box";
 
-export default function PlayListPage() {
+export default function ConfigurationPage() {
   return (
     <>
       <Box height={100} />
-      <div>Page</div>
+      <div>Config</div>
     </>
   );
 }
