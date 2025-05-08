@@ -6,6 +6,7 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "@mui/material";
+import { useState } from "react";
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
@@ -17,9 +18,9 @@ export const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { login, loginGoogle } = useContext(UserContext);
+  const [error, setError] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
-
     console.log("provider",provider);
     
 
