@@ -17,16 +17,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { PiPlaylistFill } from "react-icons/pi";
+import { FcDataConfiguration } from "react-icons/fc";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
-import PlayListPage from "./PlayListPage";
+import PlayListPage from "./ConfigurationPage";
 import ProfilePage from "./ProfilePage";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
+import { GrConfigure } from "react-icons/gr";
+import ConfigurationPage from "./ConfigurationPage";
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -118,9 +121,9 @@ const listItems = [
     icon: <FaPerson />,
   },
   {
-    text: "My PlayLists",
-    link: <PlayListPage />,
-    icon: <PiPlaylistFill />,
+    text: "Configuration",
+    link: <ConfigurationPage />,
+    icon: <GrConfigure />    ,
   },
 ];
 export default function Sidenav() {
@@ -144,10 +147,13 @@ export default function Sidenav() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} >
+        <Toolbar   sx={{
+    backgroundColor: 'var(--color-blue)',
+    color: 'var(--color-yellow)',
+  }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -163,12 +169,20 @@ export default function Sidenav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Spotify Consumer
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <Drawer
+        variant="permanent"
+        open={open}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'var(--color-blue)',
+          },
+        }}
+      >
+        <DrawerHeader >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -236,65 +250,64 @@ export default function Sidenav() {
         </List>
         <Divider />
         <List>
-            <ListItem
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={() => setMenu('Logout')}
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => setMenu("Logout")}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
             >
-              <ListItemButton
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: "center",
                   },
                   open
                     ? {
-                        justifyContent: "initial",
+                        mr: 3,
                       }
                     : {
-                        justifyContent: "center",
+                        mr: "auto",
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: "center",
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: "auto",
-                        },
-                  ]}
-                >
-                  <RiLogoutBoxFill />
-
-                </ListItemIcon>
-                <ListItemText
-                  primary='Logout'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
+                <RiLogoutBoxFill />
+              </ListItemIcon>
+              <ListItemText
+                primary="Logout"
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  backgroundColor: 'var(--color-dark-blue)'}}>
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfilePage />}
-        {menu === "My PlayLists" && <PlayListPage />}
-        {menu === "Logout" &&  onLogoutUser()}
+        {menu === "Configuration" && <ConfigurationPage />}
+        {menu === "Logout" && onLogoutUser()}
       </Box>
     </Box>
   );
