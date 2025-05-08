@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import CardToReproduce from "../../components/CardToReproduceComponent";
 import PlayList from "../../components/PlayListComponent";
-import Typography from "@mui/material/Typography";
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 export const HomePage = () => {
@@ -10,7 +9,6 @@ export const HomePage = () => {
 
   const columnBoxStyle = {
     flex: 1,
-    background: "var(--color-yellow)",
     borderRadius: "8px",
     padding: 2,
   };
@@ -36,9 +34,6 @@ export const HomePage = () => {
             },
           ]}
         >
-          <Typography variant="h6" noWrap component="div">
-            Lists you'd like to try
-          </Typography>
           <div style={{ flexGrow: 1, overflow: 'hidden' }}>
             <PlayList />
           </div>
@@ -48,6 +43,7 @@ export const HomePage = () => {
           sx={[
             columnBoxStyle,
             {
+              marginTop: "45px",
               height: "200px",
               width: isSmallScreen ? '100%' : 'auto',
               flex: isMediumScreen ? 1 : (isSmallScreen ? 1 : 0.5),

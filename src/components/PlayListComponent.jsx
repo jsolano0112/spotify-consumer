@@ -1,159 +1,237 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import CarouselComponent from "./CarouselComponent";
+import Typography from "@mui/material/Typography";
 
 //TODO: call to bringing users playlists
+
 const cards = [
   {
-    id: 1,
-    by: 'Juana0112',
-    title: "Romeo Santos | Formula",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    image: "/public/album1.jpg",
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 1,
+    "by": "Spotify",
+    "title": "Romeo Santos | Formula Vol. 3",
+    "description": "The latest album from the King of Bachata, featuring collaborations and his signature romantic style.",
+    "followers": "2.5M",
+    "createdDate": "2022-09-01",
+    "updatedDate": "2022-09-01",
+    "image": "/public/album1.jpg",
+    "songsCount": 17,
+    "totalTime": "1 hr 1 min approximately",
+    "songs": [
       {
-        id: 1,
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
-        artist: 'Shakira'
+        "id": 1,
+        "title": "Sin Fin (with Justin Timberlake)",
+        "album": "Formula Vol. 3",
+        "time": "4:07",
+        "artist": "Romeo Santos, Justin Timberlake"
       },
-    ],
+      {
+        "id": 2,
+        "title": "Sus Huellas",
+        "album": "Formula Vol. 3",
+        "time": "3:35",
+        "artist": "Romeo Santos"
+      }
+    ]
   },
   {
-    id: 2,
-    by: 'Juana0112',
-    title: "Willie Colón | Greatest Hits",
-    image: "/public/album2.jpg",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 2,
+    "by": "Apple Music",
+    "title": "Willie Colón | El Gran Varón and Other Hits",
+    "image": "/public/album2.jpg",
+    "description": "A collection of the greatest salsa hits from the legendary Willie Colón.",
+    "followers": "870K",
+    "createdDate": "2010-05-15",
+    "updatedDate": "2010-05-15",
+    "songsCount": 15,
+    "totalTime": "55 min approximately",
+    "songs": [
       {
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
+        "id": 3,
+        "title": "El Gran Varón",
+        "album": "Tiempo Pa' Matar",
+        "time": "6:35",
+        "artist": "Willie Colón"
       },
+      {
+        "id": 4,
+        "title": "Gitana",
+        "album": "Fantasmas",
+        "time": "5:08",
+        "artist": "Willie Colón"
+      }
     ],
-    artist: 'Shakira',
+    "artist": "Willie Colón"
   },
   {
-    id: 3,
-    by: 'Juana0112',
-    title: "Los Adolescentes Mix",
-    image: "/public/album3.jpg",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 3,
+    "by": "Deezer",
+    "title": "Los Adolescentes Mix - Éxitos",
+    "image": "/public/album3.jpg",
+    "description": "The best mix of hits from the popular Venezuelan salsa band Los Adolescentes.",
+    "followers": "1.2M",
+    "createdDate": "2018-11-20",
+    "updatedDate": "2018-11-20",
+    "songsCount": 20,
+    "totalTime": "1 hr 20 min approximately",
+    "songs": [
       {
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
+        "id": 5,
+        "title": "Persona Ideal",
+        "album": "Reclamando Tu Amor",
+        "time": "4:32",
+        "artist": "Los Adolescentes"
       },
+      {
+        "id": 6,
+        "title": "Anhelo",
+        "album": "Ahora Más Que Nunca",
+        "time": "4:05",
+        "artist": "Los Adolescentes"
+      }
     ],
-    artist: 'Shakira',
+    "artist": "Los Adolescentes"
   },
   {
-    id: 4,
-    by: 'Juana0112',
-    title: "Rauw Alejando | Viceversa",
-    image: "/public/album4.jpg",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 4,
+    "by": "YouTube Music",
+    "title": "Rauw Alejandro | Vice Versa",
+    "image": "/public/album4.jpg",
+    "description": "Rauw Alejandro's diverse album blending reggaeton, pop, and electronic sounds.",
+    "followers": "950K",
+    "createdDate": "2021-06-25",
+    "updatedDate": "2021-06-25",
+    "songsCount": 14,
+    "totalTime": "45 min approximately",
+    "songs": [
       {
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
+        "id": 7,
+        "title": "Todo De Ti",
+        "album": "Vice Versa",
+        "time": "3:19",
+        "artist": "Rauw Alejandro"
       },
+      {
+        "id": 8,
+        "title": "Desesperados (with Chencho Corleone)",
+        "album": "Vice Versa",
+        "time": "3:44",
+        "artist": "Rauw Alejandro, Chencho Corleone"
+      }
     ],
-    artist: 'Shakira',
+    "artist": "Rauw Alejandro"
   },
   {
-    id: 5,
-    by: 'Juana0112',
-    title: "The best songs of Luis Miguel",
-    image: "/public/album5.jpg",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 5,
+    "by": "Amazon Music",
+    "title": "Lo Mejor de Luis Miguel",
+    "image": "/public/album5.jpg",
+    "description": "A collection of the most iconic songs from the legendary Mexican singer Luis Miguel.",
+    "followers": "1.5M",
+    "createdDate": "2005-01-01",
+    "updatedDate": "2005-01-01",
+    "songsCount": 18,
+    "totalTime": "1 hr 10 min approximately",
+    "songs": [
       {
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
+        "id": 9,
+        "title": "La Incondicional",
+        "album": "Busca Una Mujer",
+        "time": "4:26",
+        "artist": "Luis Miguel"
       },
+      {
+        "id": 10,
+        "title": "Ahora Te Puedes Marchar",
+        "album": "Soy Como Quiero Ser",
+        "time": "3:11",
+        "artist": "Luis Miguel"
+      }
     ],
-    artist: 'Shakira',
+    "artist": "Luis Miguel"
   },
-
   {
-    id: 6,
-    by: 'Juana0112',
-    title: "This is The Weekend",
-    image: "/public/album 6.jpg",
-    description: 'lalala',
-    followers: '',
-    createdDate: '',
-    updatedDate: '',
-    songsCount: 12,
-    totalTime: "3h 15 min approximately",
-
-    songs: [
+    "id": 6,
+    "by": "Tidal",
+    "title": "This Is The Weeknd",
+    "image": "/public/album 6.jpg",
+    "description": "A curated playlist showcasing the best tracks from The Weeknd.",
+    "followers": "3M",
+    "createdDate": "2023-03-10",
+    "updatedDate": "2024-11-15",
+    "songsCount": 50,
+    "totalTime": "3 hr approximately",
+    "songs": [
       {
-        title: "Cry for me",
-        album: "Hurry Up Tomorrow",
-        time: "3:44",
+        "id": 11,
+        "title": "Blinding Lights",
+        "album": "After Hours",
+        "time": "3:22",
+        "artist": "The Weeknd"
       },
+      {
+        "id": 12,
+        "title": "Starboy (feat. Daft Punk)",
+        "album": "Starboy",
+        "time": "3:50",
+        "artist": "The Weeknd, Daft Punk"
+      }
     ],
-    artist: 'Shakira',
-  },
+    "artist": "The Weeknd"
+  }
 ];
 
 export default function PlayList() {
   const shuffled1 = [...cards].sort(() => 0.5 - Math.random());
   const shuffled2 = [...cards].sort(() => 0.5 - Math.random());
+
+  const subtitleStyle = {
+    textAlign: "left",
+    ml: 2,
+    fontWeight: "bold",
+    color: "var(--color-yellow)",
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
         flexGrow: 1,
         display: "flex",
+        // alignItems: "center",
         flexDirection: "column",
-        alignItems: "center",
+        minHeight: "300px",
       }}
     >
       {cards.length === 0 ? (
-        //TODO: improve message
-        <p>There are no playlists to display.</p>
+        <>
+          <Typography
+            variant="overline"
+            component="div"
+            sx={{
+              textAlign: "center",
+              fontSize: "2rem",
+              color: "var(--color-yellow)",
+            }}
+          >
+            No playlists to display
+          </Typography>
+        </>
       ) : (
         <>
-          <CarouselComponent cards={shuffled1} />
-          <CarouselComponent cards={shuffled2} />
+          <Typography variant="h5" sx={subtitleStyle}>
+            Your Playlists
+          </Typography>
+          <Box>
+            <CarouselComponent cards={shuffled1} />
+          </Box>
+
+          <Typography variant="h5" sx={subtitleStyle}>
+            Lists you'd like to try
+          </Typography>
+          <Box>
+            <CarouselComponent cards={shuffled2} />
+          </Box>
         </>
       )}
     </Box>
