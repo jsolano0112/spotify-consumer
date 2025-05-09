@@ -102,14 +102,18 @@ export default function CarouselCard({ card, setMenu }) {
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
             {card.title}
           </Typography>
-          <Link href="#" variant="body2"  onClick={() => {
-                setMenu("PlayLists"); 
-                handleClose();
-              }}>
-              {"See playlist"}
-            </Link>
+          <Link
+            href="#"
+            variant="body2"
+            onClick={() => {
+              setMenu("PlayLists");
+              handleClose();
+            }}
+          >
+            {"See playlist"}
+          </Link>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            Spotify - {card.songsCount} songs saved, {card.totalTime}
+            {card.songsCount} songs saved, {card.totalTime}
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             by {card.by}
