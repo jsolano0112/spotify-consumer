@@ -4,28 +4,29 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 export default function CarouselCard({ card, cardsPerPage }) {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
-      <Card onClick={handleOpen}
+      <Card
+        onClick={handleOpen}
         key={card.id}
         sx={{
           width: {
@@ -33,24 +34,57 @@ export default function CarouselCard({ card, cardsPerPage }) {
             sm: "45%",
             md: `calc(100% / ${cardsPerPage} - 16px)`,
           },
+
+          backgroundColor: "rgba(118, 120, 237, 0.9)",
+          aspectRatio: "2 / 3", 
         }}
       >
-        <CardActionArea>
+        <CardActionArea sx={{ height: "100%" }}>
           <CardContent
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "space-between",
+              height: "100%",
+              p: 1,
             }}
           >
             <CardMedia
               component="img"
-              sx={{ width: "100%", maxWidth: 100, mb: 1 }}
+              sx={{
+                width: "80%",
+                height: "auto",
+                mb: 1,
+                flexGrow: 1,
+                objectFit: "cover",
+              }}
               image={card.image}
               alt={card.title}
             />
-            <Typography variant="body2" color="text.secondary" align="center">
+            <Typography
+              variant="caption"
+              color="white"
+              align="center"
+              fontWeight="bold"
+              sx={{ mt: 1 }}
+            >
               {card.title}
+            </Typography>
+            <Typography
+              variant="caption"
+              color="white"
+              align="center"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                mt: 0.5,
+              }}
+            >
+              {card.description}
             </Typography>
           </CardContent>
         </CardActionArea>
