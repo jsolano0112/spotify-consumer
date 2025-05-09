@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import CarouselComponent from "./CarouselComponent";
 
 //TODO: call to bringing users playlists
-const cards = [
+export const cards = [
   {
     id: 1,
     by: 'Juana0112',
