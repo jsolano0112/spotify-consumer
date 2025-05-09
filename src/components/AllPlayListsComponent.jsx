@@ -6,12 +6,98 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { CiFilter } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import { CircularProgress } from "@mui/material";
+import  Pagination  from '@mui/material/Pagination';
+
+import usePagination from "../hooks/usePagination";
 
 function AllPlayListsComponent({ playlists, setValue }) {
   //const handleOpen = () => setValue(playlists);
+
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 4;
+
+  const count = Math.ceil(playlists.length / PER_PAGE)
+  const _DATA = usePagination(playlists, PER_PAGE)
+
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p)
+  }
+
+  const [loading, setLoading] = useState(false);
+  const [userPlaylists, setUserPlaylists] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    const ferchUserPlayLists = () => {
+      setTimeout(() => {
+        setUserPlaylists(playlists);
+        setLoading(false);
+      }, 3000);
+    };
+    ferchUserPlayLists();
+  }, [playlists]);
+
+  if (loading) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            Loading...
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
+  if (!userPlaylists || userPlaylists.length === 0) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#3D348B",
+          }}
+        >
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            No PlaysLists Saved Yet!!
+          </Typography>
+        </Box>
+      </>
+    );
+  }
 
   return (
     <>
@@ -26,23 +112,24 @@ function AllPlayListsComponent({ playlists, setValue }) {
           paddingBottom: 30,
           color: "white",
         }}
-        fontWeight='bold'
+        fontWeight="bold"
       >
-        Lists you'd like to try 
-      </Typography> 
-      
+        Lists you'd like to try
+      </Typography>
 
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {playlists.map((playList) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={playList.id}>
-
-            
+        {_DATA.currentData().map((playList) => (
+          
+          <Grid size={{ xs: 6, sm: 4, md: 3 }} key={playList.id}>
             <Card
-              onClick={()=>setValue(playList)}
+              onClick={() => {
+                setValue(playList);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               key={playList.id}
               sx={{
                 height: "100%",
@@ -74,12 +161,13 @@ function AllPlayListsComponent({ playlists, setValue }) {
                 </CardContent>
               </CardActionArea>
             </Card>
-
-
-
           </Grid>
         ))}
       </Grid>
+
+      <Pagination count={count} size="large"  page={page} onChange={handleChange} sx={{display:"flex", alignContent:"center", justifyContent:"center", marginTop:"30px"}}/>
+      <Typography sx={{display:"flex", alignContent:"center", justifyContent:"center",}}>Page: {page}</Typography>
+
     </>
   );
 }

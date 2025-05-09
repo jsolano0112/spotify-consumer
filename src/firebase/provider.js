@@ -2,15 +2,12 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 import {GoogleAuthProvider} from "firebase/auth"
 
-const GoogleProvider = new GoogleAuthProvider(); // Cambia el nombre para evitar conflictos
+const GoogleProvider = new GoogleAuthProvider();
 
 export const loginUser = async (email, password) => {
     try {
 
-        console.log("email3:", email);
-        console.log("password3:", password);
         const result = await signInWithEmailAndPassword(FirebaseAuth, email, password);
-        console.log(result);
 
         const { uid, photoURL, displayName } = result.user;
 

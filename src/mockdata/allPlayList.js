@@ -60,20 +60,7 @@ export const allPlayLists = [
       "songsCount": 15,
       "totalTime": "55 min approximately",
       "songs": [
-        {
-          "id": 3,
-          "title": "El Gran Varón",
-          "album": "Tiempo Pa' Matar",
-          "time": "6:35",
-          "artist": "Willie Colón"
-        },
-        {
-          "id": 4,
-          "title": "Gitana",
-          "album": "Fantasmas",
-          "time": "5:08",
-          "artist": "Willie Colón"
-        }
+        
       ],
       "artist": "Willie Colón"
     },
@@ -192,6 +179,7 @@ export const allPlayLists = [
         }
       ],
       "artist": "The Weeknd"
-    }
+    },
+    
   ];
   

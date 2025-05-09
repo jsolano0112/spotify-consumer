@@ -6,9 +6,6 @@ export const useAuthenticate = (dispatch) => {
     //desarrollar la logica
     const login = async ({ email, password }) => {
 
-        console.log("email2:", email);
-        console.log("password2:", password);
-
         const {ok, uid, photoURL, displayName, errorMessage} = await loginUser(email, password)
 
         if ( !ok ) {

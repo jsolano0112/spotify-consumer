@@ -39,22 +39,26 @@ export default function PlayListPage() {
           alignItems: "center",
           justifyContent: "center",
           padding: 2,
-          
         }}
       >
         <Autocomplete
           disablePortal
           options={allPlayLists}
-          sx={{ width: 300, background: "#F7B801", borderRadius: "10px"  }}
+          sx={{ width: 300, background: "white", borderRadius: "10px" }}
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Playlist" variant="filled" sx={{borderRadius: "10px"}} color="warning"/>}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Playlist"
+              variant="filled"
+              sx={{ borderRadius: "10px" }}
+              color="warning"
+            />
+          )}
         />
-        {/*<TextField value={value}></TextField>
-      {value && <h1 style={{ color: '#fff' }}>{value}</h1>}
-      */}
       </Box>
 
       <Box
@@ -143,8 +147,7 @@ export default function PlayListPage() {
           padding: 2,
           flexDirection: isSmallScreen ? "column-reverse" : "row",
         }}
-      >
-      </Box>
+      ></Box>
     </>
   );
 }

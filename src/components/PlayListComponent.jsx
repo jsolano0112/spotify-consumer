@@ -24,7 +24,7 @@ export default function PlayList({ setMenu }) {
       setTimeout(() => {
         setPlaylists(cards);
         setLoading(false);
-      }, 3000 );
+      }, 2000 );
     };
 
     fetchUserPlaylists();

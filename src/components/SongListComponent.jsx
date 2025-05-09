@@ -14,13 +14,89 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Fragment } from "react";
+import { useState, useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
 function SongListComponent({ playlist }) {
-  console.log("PLAYLIST: ", playlist);
-  if (!playlist || !playlist.songs || !Array.isArray(playlist.songs)) {
+  const [loading, setLoading] = useState(false);
+  const [playListsSongs, setPlayListsSongs] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    const ferchUserPlayLists = () => {
+      setTimeout(() => {
+        setPlayListsSongs(playlist.songs);
+        setLoading(false);
+      }, 2000);
+    };
+    ferchUserPlayLists();
+  }, [playlist.songs]);
+
+  if (loading) {
     return (
       <>
-        <div>No songs</div>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "10px",
+          }}
+        >
+          {/* 
+          <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            Loading...
+          </Typography>
+              */}
+        <Box sx={{ width: 300 }}>
+          <Skeleton />
+          <Skeleton animation="wave" />
+          <Skeleton animation={false} />
+        </Box>
+        </Box>
+      </>
+    );
+  }
+
+  //console.log("PLAYLIST: ", playlist);
+  if (!playListsSongs || playListsSongs.length === 0) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#3D348B",
+            borderRadius: "10px",
+          }}
+        >
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            No Songs Saved Yet!
+          </Typography>
+        </Box>
       </>
     );
   }
@@ -41,7 +117,9 @@ function SongListComponent({ playlist }) {
                 secondaryAction={
                   <>
                     <IconButton edge="end" aria-label="play">
-                      <PlayArrowIcon />
+                      <PlayArrowIcon
+                        sx={{ color: "black", marginRight: "10px" }}
+                      />
                     </IconButton>
                   </>
                 }
@@ -62,17 +140,12 @@ function SongListComponent({ playlist }) {
                         {playlist.label}
                       </Typography>
                       <br />
-                      {song.album}
+                      {song.album} - {song.time}
                     </React.Fragment>
                   }
                 />
               </ListItem>
-              <Divider
-                variant="inset"
-                component="li"
-                color="black"
-                sx={{ background: "black" }}
-              />
+              <Divider component="li" sx={{ background: "black" }} />
             </Fragment>
           </>
         ))}
