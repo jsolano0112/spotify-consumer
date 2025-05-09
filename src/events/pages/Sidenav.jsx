@@ -123,11 +123,11 @@ const listItems = [
     link: <ProfilePage />,
     icon: <FaPerson />,
   },
-  {
-    text: "Configuration",
-    link: <ConfigurationPage />,
-    icon: <GrConfigure />    ,
-  },
+  // {
+  //   text: "Configuration",
+  //   link: <ConfigurationPage />,
+  //   icon: <GrConfigure />    ,
+  // },
   {
     text: "PlayLists",
     link: <PlayListPage />,
@@ -314,7 +314,7 @@ export default function Sidenav() {
       <Box component="main" sx={{ flexGrow: 1, p: 3,  backgroundColor: 'var(--color-dark-blue)'}}>
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfileUserPage />}
-        {menu === "Configuration" && <ConfigurationPage />}
+        {/* {menu === "Configuration" && <ConfigurationPage />} */}
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}
       </Box>

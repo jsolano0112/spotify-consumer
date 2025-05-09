@@ -7,6 +7,7 @@ import { SignInPage } from "@toolpad/core/SignInPage";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "@mui/material";
 import { useState } from "react";
+import { loginWithSpotify } from "../../api/providerapi";
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
@@ -36,7 +37,7 @@ export const LoginPage = () => {
         navigate('/', {replace: true});
       }
     } else if (provider === "Spotify") {
-      console.log("entra");
+      loginWithSpotify()
     } else if (provider === "Facebook") {
       console.log("entra");
     } else if (provider === "Google") {
