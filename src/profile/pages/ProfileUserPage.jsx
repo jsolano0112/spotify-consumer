@@ -3,7 +3,7 @@ import '../styles/style.css'
 import { cards } from '../../mockdata/cards';
 import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea } from '@mui/material';
 
-export default function EditButton() {
+export default function ProfileUserPage() {
 
   return (
     <Box sx={{borderRadius: '1%', backgroundColor: '#3D348B', py: 5, minHeight: '100vh' }}>

@@ -31,6 +31,7 @@ import { useNavigate } from "react-router-dom";
 import { GrConfigure } from "react-icons/gr";
 import ConfigurationPage from "./ConfigurationPage";
 import PlayListPage from "./PlayListPage";
+import ProfileUserPage from "../../profile/pages/ProfileUserPage";
 
 
 const openedMixin = (theme) => ({
