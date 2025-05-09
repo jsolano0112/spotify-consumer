@@ -21,7 +21,6 @@ export const LoginPage = () => {
   const [error, setError] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
-    console.log("provider",provider);
     
 
     if (provider === "Email and Password") {

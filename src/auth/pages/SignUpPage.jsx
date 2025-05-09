@@ -106,7 +106,7 @@ export const SignUpPage = () => {
         fullWidth
         sx={{ my: 1 }}
       >
-        Sign Up With Email And Password
+        Sign Up
       </Button>
     );
   }

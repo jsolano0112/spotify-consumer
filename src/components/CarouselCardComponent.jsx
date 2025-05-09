@@ -19,7 +19,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function CarouselCard({ card, cardsPerPage }) {
+export default function CarouselCard({ card }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,9 +30,9 @@ export default function CarouselCard({ card, cardsPerPage }) {
         key={card.id}
         sx={{
           width: {
-            xs: "80%",
-            sm: "45%",
-            md: `calc(100% / ${cardsPerPage} - 16px)`,
+            xs: "50%",
+            sm: "40%",
+            md: "80%",
           },
 
           backgroundColor: "rgba(118, 120, 237, 0.9)",
