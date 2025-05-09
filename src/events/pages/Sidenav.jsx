@@ -23,11 +23,8 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
-import ProfilePage from "./ProfilePage";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
-import { GrConfigure } from "react-icons/gr";
-import ConfigurationPage from "./ConfigurationPage";
 import PlayListPage from "./PlayListPage";
 import ProfileUserPage from "../../profile/pages/ProfileUserPage";
 import { color } from "framer-motion";
@@ -118,7 +115,7 @@ const listItems = [
   },
   {
     text: "Profile",
-    link: <ProfilePage />,
+    link: <ProfileUserPage />,
     icon: <FaPerson style={{ color: "#FFFFFF" }}/>,
   },
   {
