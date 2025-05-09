@@ -27,7 +27,7 @@ function SongListComponent({ playlist }) {
       setTimeout(() => {
         setPlayListsSongs(playlist.songs);
         setLoading(false);
-      }, 3000);
+      }, 2000);
     };
     ferchUserPlayLists();
   }, [playlist.songs]);
@@ -42,8 +42,7 @@ function SongListComponent({ playlist }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            borderRadius:"10px"
-            
+            borderRadius: "10px",
           }}
         >
           <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
@@ -75,7 +74,7 @@ function SongListComponent({ playlist }) {
             alignItems: "center",
             justifyContent: "center",
             background: "#3D348B",
-            borderRadius:"10px"
+            borderRadius: "10px",
           }}
         >
           <Typography
@@ -131,9 +130,10 @@ function SongListComponent({ playlist }) {
                         {playlist.label}
                       </Typography>
                       <br />
-                      {song.album}
+                      {song.album}  -  {song.time}
                     </React.Fragment>
                   }
+                  
                 />
               </ListItem>
               <Divider

@@ -15,22 +15,21 @@ function AllPlayListsComponent({ playlists, setValue }) {
   //const handleOpen = () => setValue(playlists);
 
   const [loading, setLoading] = useState(false);
-  const [userPlaylists, setUserPlaylists] = useState([])
+  const [userPlaylists, setUserPlaylists] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     setLoading(true);
     const ferchUserPlayLists = () => {
       setTimeout(() => {
-        setUserPlaylists(playlists)
+        setUserPlaylists(playlists);
         setLoading(false);
-      }, 3000)
+      }, 3000);
     };
     ferchUserPlayLists();
-  },[playlists])
-
+  }, [playlists]);
 
   if (loading) {
-    return(
+    return (
       <>
         <Box
           sx={{
@@ -39,10 +38,9 @@ function AllPlayListsComponent({ playlists, setValue }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            
           }}
         >
-          <CircularProgress sx={{color:"#F7B801", margin:"10px"}}/>
+          <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
           <Typography
             variant="h5"
             noWrap
@@ -56,10 +54,8 @@ function AllPlayListsComponent({ playlists, setValue }) {
           </Typography>
         </Box>
       </>
-    )
+    );
   }
-
-
 
   if (!userPlaylists || userPlaylists.length === 0) {
     return (
@@ -116,18 +112,17 @@ function AllPlayListsComponent({ playlists, setValue }) {
         {playlists.map((playList) => (
           <Grid size={{ xs: 6, sm: 4, md: 3 }} key={playList.id}>
             <Card
-              onClick={() => setValue(playList)}
+              onClick={() => {
+                setValue(playList);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               key={playList.id}
               sx={{
                 height: "100%",
                 width: "100%",
               }}
             >
-              <CardActionArea
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              >
+              <CardActionArea>
                 <CardMedia
                   component="img"
                   height="140"
