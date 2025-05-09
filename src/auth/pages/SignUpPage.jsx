@@ -4,6 +4,7 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
+import CustomButton from "../components/CustomButton";
 
 //  TODO: Change naming to buttons
 const providers = [
@@ -95,22 +96,6 @@ export const SignUpPage = () => {
     );
   }
 
-  function CustomButton() {
-    return (
-      <Button
-        type="submit"
-        variant="outlined"
-        color="info"
-        size="small"
-        disableElevation
-        fullWidth
-        sx={{ my: 1 }}
-      >
-        Sign Up
-      </Button>
-    );
-  }
-
   function Subtitle() {
     return (
       <div
@@ -129,12 +114,10 @@ export const SignUpPage = () => {
     <>
       <AppProvider theme={theme}>
         <div
-          style={{
-            backgroundImage: "url('../../../public/background-login.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "100vh",
-          }}
+         style={{
+          background: "var(--color-blue)",
+          height: "100vh",
+        }}
         >
           <SignInPage
             signIn={(provider, formData) =>
@@ -151,7 +134,7 @@ export const SignUpPage = () => {
               signUpLink: SignInLink,
               title: Title,
               passwordField: PasswordField,
-              submitButton: CustomButton,
+              submitButton: ({ onClick }) => <CustomButton text={'Sign Up'} onClick={onClick} />,
               subtitle: Subtitle,
               rememberMe: () => null,
             }}

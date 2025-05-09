@@ -7,6 +7,7 @@ import { SignInPage } from "@toolpad/core/SignInPage";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "@mui/material";
 import { useState } from "react";
+import CustomButton from "../components/CustomButton";
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
@@ -21,32 +22,28 @@ export const LoginPage = () => {
   const [error, setError] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
-    
-
     if (provider === "Email and Password") {
-
       const isLogged = await login({ email, password });
 
       console.log("logged?", isLogged);
 
-      if(!isLogged){
+      if (!isLogged) {
         setError(true);
-      }else{
-        navigate('/', {replace: true});
+      } else {
+        navigate("/", { replace: true });
       }
     } else if (provider === "Spotify") {
       console.log("entra");
     } else if (provider === "Facebook") {
       console.log("entra");
     } else if (provider === "Google") {
+      const isLogged = await loginGoogle();
 
-        const isLogged = await loginGoogle();
-    
-        if(!isLogged) {
-          setError(true);
-        }else{
-          navigate('/', {replace: true});
-        }
+      if (!isLogged) {
+        setError(true);
+      } else {
+        navigate("/", { replace: true });
+      }
     } else if (provider === "Web API") {
       console.log("entra");
     }
@@ -60,45 +57,50 @@ export const LoginPage = () => {
     );
   }
 
- 
   return (
     <>
       <AppProvider theme={theme}>
-      <div
+        <div
           style={{
-            backgroundImage: "url('../../../public/background-login.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            background: "var(--color-blue)",
             height: "100vh",
           }}
         >
-        <SignInPage
-          signIn={(provider, formData) =>
-            onLoginUser(
-              formData?.get("email"),
-              formData?.get("password"),
-              provider.name
-            )
-          }
-          slotProps={{
-            emailField: { variant: "standard", autoFocus: false },
-            passwordField: { variant: "standard" },
-            rememberMe: {
-              control: (
-                <Checkbox
-                  name="tandc"
-                  value="true"
-                  color="primary"
-                  sx={{ padding: 0.5, "& .MuiSvgIcon-root": { fontSize: 20 } }}
-                />
+          <SignInPage
+          
+            signIn={(provider, formData) =>
+              onLoginUser(
+                formData?.get("email"),
+                formData?.get("password"),
+                provider.name
+              )
+            }
+            slotProps={{
+              
+              emailField: { variant: "standard", autoFocus: false },
+              passwordField: { variant: "standard" },
+              rememberMe: {
+                control: (
+                  <Checkbox
+                    name="tandc"
+                    value="true"
+                    color="primary"
+                    sx={{
+                      padding: 0.5,
+                      "& .MuiSvgIcon-root": { fontSize: 20 },
+                    }}
+                  />
+                ),
+              },
+            }}
+            slots={{
+              signUpLink: SignUpLink,
+              submitButton: ({ onClick }) => (
+                <CustomButton text={"Sign In"} onClick={onClick} />
               ),
-            },
-          }}
-          slots={{
-            signUpLink: SignUpLink,
-          }}
-          providers={providers}
-        />
+            }}
+            providers={providers}
+          />
         </div>
       </AppProvider>
     </>

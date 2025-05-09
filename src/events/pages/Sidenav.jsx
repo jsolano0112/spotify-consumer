@@ -30,7 +30,6 @@ import { useNavigate } from "react-router-dom";
 import { GrConfigure } from "react-icons/gr";
 import ConfigurationPage from "./ConfigurationPage";
 
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -123,7 +122,7 @@ const listItems = [
   {
     text: "Configuration",
     link: <ConfigurationPage />,
-    icon: <GrConfigure />    ,
+    icon: <GrConfigure />,
   },
 ];
 export default function Sidenav() {
@@ -149,11 +148,13 @@ export default function Sidenav() {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
-        <Toolbar   sx={{
-    backgroundColor: 'var(--color-blue)',
-    color: 'var(--color-yellow)',
-  }}>
+      <AppBar position="fixed" open={open}>
+        <Toolbar
+          sx={{
+            backgroundColor: "var(--color-blue)",
+            color: "var(--color-yellow)",
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -178,11 +179,11 @@ export default function Sidenav() {
         open={open}
         PaperProps={{
           sx: {
-            backgroundColor: 'var(--color-blue)',
+            backgroundColor: "var(--color-blue)",
           },
         }}
       >
-        <DrawerHeader >
+        <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -233,6 +234,7 @@ export default function Sidenav() {
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
+                  color="text.secondary"
                   primary={item.text}
                   sx={[
                     open
@@ -288,6 +290,7 @@ export default function Sidenav() {
                 <RiLogoutBoxFill />
               </ListItemIcon>
               <ListItemText
+                color="text.secondary"
                 primary="Logout"
                 sx={[
                   open
@@ -303,7 +306,10 @@ export default function Sidenav() {
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3,  backgroundColor: 'var(--color-dark-blue)'}}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, backgroundColor: "var(--color-dark-blue)" }}
+      >
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfilePage />}
         {menu === "Configuration" && <ConfigurationPage />}
