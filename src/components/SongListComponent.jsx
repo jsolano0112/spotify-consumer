@@ -14,9 +14,17 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Fragment } from "react";
+import { useState, useEffect } from "react";
+import { CircularProgress } from "@mui/material";
 
 function SongListComponent({ playlist }) {
-  console.log("PLAYLIST: ", playlist);
+
+  const [loading, setLoading] = useState(false)
+  const [userPlaylists, setUserPlaylists] = useState([])
+
+
+
+  //console.log("PLAYLIST: ", playlist);
   if (
     !playlist ||
     !playlist.songs ||

@@ -6,14 +6,62 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import Box from "@mui/material/Box";
+import { CircularProgress } from "@mui/material";
 
 function AllPlayListsComponent({ playlists, setValue }) {
   //const handleOpen = () => setValue(playlists);
 
-  if (!playlists || playlists.length === 0) {
+  const [loading, setLoading] = useState(false);
+  const [userPlaylists, setUserPlaylists] = useState([])
+
+  useEffect(() =>{
+    setLoading(true);
+    const ferchUserPlayLists = () => {
+      setTimeout(() => {
+        setUserPlaylists(playlists)
+        setLoading(false);
+      }, 3000)
+    };
+    ferchUserPlayLists();
+  },[playlists])
+
+
+  if (loading) {
+    return(
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#3D348B",
+          }}
+        >
+          <CircularProgress sx={{color:"#F7B801", margin:"10px"}}/>
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            Loading...
+          </Typography>
+        </Box>
+      </>
+    )
+  }
+
+
+
+  if (!userPlaylists || userPlaylists.length === 0) {
     return (
       <>
         <Box
