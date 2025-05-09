@@ -1,19 +1,19 @@
 import React from 'react';
 import '../styles/style.css'
-import { cards } from '../../components/PlayListComponent';
-import { Box, Button, Card, CardMedia, CardContent, CardActions, Container, Grid, Typography } from '@mui/material';
+import { cards } from '../../mockdata/cards';
+import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea } from '@mui/material';
 
 export default function EditButton() {
 
   return (
-    <Box sx={{borderRadius: '1%', backgroundColor: '#F7B801', py: 5, minHeight: '100vh' }}>
+    <Box sx={{borderRadius: '1%', backgroundColor: '#3D348B', py: 5, minHeight: '100vh' }}>
       <Container>
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item lg={9} xl={7}>
+          <Grid >
             <Card>
               <Box
                 sx={{
-                  backgroundColor: '#000',
+                  backgroundColor: '#7678ED',
                   height: 200,
                   color: 'white',
                   display: 'flex',
@@ -44,7 +44,7 @@ export default function EditButton() {
                     }}
                   />
                   <Button variant="outlined" color="primary" sx={{ height: 36 }}>
-                    Edit profile
+                    Edit Playlist
                   </Button>
                 </Box>
                 <Box sx={{ ml: 3, mt: 'auto', mb: 2 }}>
@@ -54,7 +54,7 @@ export default function EditButton() {
               </Box>
               <Box sx={{ backgroundColor: '#f8f9fa', p: 2 }}>
                 <Grid container justifyContent="end" textAlign="center">
-                  <Grid item>
+                  <Grid>
                     <Typography variant="h6">1026</Typography>
                     <Typography variant="body2" color="text.secondary">
                       Followers
@@ -89,28 +89,35 @@ export default function EditButton() {
                 </Box>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
-                    Favorite Playlist
-                  </Typography>
-                  <Grid container spacing={2}>
-                    {cards.slice(0, 4).map((card) => (
-                      <Grid item xs={6} key={card.id}>
-                        <CardMedia
-                          component="img"
-                          image={card.image}
-                          alt={card.title}
-                          sx={{
-                            borderRadius: 3,
-                            height: 150,
-                            objectFit: "cover",
-                          }}
-                        />
-                        <Typography variant="body1" textAlign="center" mt={1}>
-                          {card.title}
-                        </Typography>
-                      </Grid>
-                    ))}
-                  </Grid>
-              </CardContent>
+                    Albums
+                  </Typography> 
+                    <Grid container spacing={2}>
+                      {cards.slice(0, 4).map((card) => (
+                        <Grid  key={card.id}>
+                          <Card sx={{ width: 150, height: 200, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                image={card.image}
+                                alt={card.title}
+                                sx={{
+                                  borderRadius: 3,
+                                  width: '100%',
+                                  height: 120, // Altura fija para la imagen
+                                  objectFit: 'cover',
+                                }}
+                              />
+                              <CardContent sx={{ textAlign: 'center', padding: 1 }}>
+                                <Typography variant="body1" noWrap>
+                                  {card.title}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                </CardContent>
               </CardContent>
             </Card>
           </Grid>
