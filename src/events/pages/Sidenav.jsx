@@ -31,6 +31,7 @@ import { useNavigate } from "react-router-dom";
 import { GrConfigure } from "react-icons/gr";
 import ConfigurationPage from "./ConfigurationPage";
 import PlayListPage from "./PlayListPage";
+import ProfileUserPage from "../../profile/pages/ProfileUserPage";
 
 
 const openedMixin = (theme) => ({
@@ -312,7 +313,7 @@ export default function Sidenav() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3,  backgroundColor: 'var(--color-dark-blue)'}}>
         {menu === "Home" && <HomePage />}
-        {menu === "Profile" && <ProfilePage />}
+        {menu === "Profile" && <ProfileUserPage />}
         {menu === "Configuration" && <ConfigurationPage />}
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}
