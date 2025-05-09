@@ -6,8 +6,8 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { Button } from "@mui/material";
-
+import CustomButton from "../auth/components/CustomButton";
+import Link from "@mui/material/Link";
 const style = {
   position: "absolute",
   top: "50%",
@@ -15,11 +15,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
   p: 4,
 };
-export default function CarouselCard({ card, cardsPerPage }) {
+export default function CarouselCard({ card, setMenu }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,13 +28,17 @@ export default function CarouselCard({ card, cardsPerPage }) {
         key={card.id}
         sx={{
           width: {
-            xs: "80%",
-            sm: "45%",
-            md: `calc(100% / ${cardsPerPage} - 16px)`,
+            xs: "50%",
+            sm: "40%",
+            md: "80%",
           },
 
-          backgroundColor: "rgba(118, 120, 237, 0.9)",
-          aspectRatio: "2 / 3", 
+          backgroundColor: "rgba(255, 255, 255, 0.4)",
+          aspectRatio: "2 / 3",
+          transition: "background-color 0.3s ease",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+          },
         }}
       >
         <CardActionArea sx={{ height: "100%" }}>
@@ -64,7 +66,7 @@ export default function CarouselCard({ card, cardsPerPage }) {
             />
             <Typography
               variant="caption"
-              color="white"
+              color="text.primary"
               align="center"
               fontWeight="bold"
               sx={{ mt: 1 }}
@@ -73,7 +75,7 @@ export default function CarouselCard({ card, cardsPerPage }) {
             </Typography>
             <Typography
               variant="caption"
-              color="white"
+              color="text.primary"
               align="center"
               sx={{
                 overflow: "hidden",
@@ -100,11 +102,18 @@ export default function CarouselCard({ card, cardsPerPage }) {
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
             {card.title}
           </Typography>
+          <Link href="#" variant="body2"  onClick={() => {
+                setMenu("PlayLists"); 
+                handleClose();
+              }}>
+              {"See playlist"}
+            </Link>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             Spotify - {card.songsCount} songs saved, {card.totalTime}
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            by {card.by} <Button>Follow</Button>
+            by {card.by}
+            <CustomButton text="Follow" />
           </Typography>
         </Box>
       </Modal>

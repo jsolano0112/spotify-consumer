@@ -3,18 +3,43 @@ import Box from "@mui/material/Box";
 import CarouselComponent from "./CarouselComponent";
 import Typography from "@mui/material/Typography";
 import { cards } from "../mockdata/cards";
-//TODO: call to bringing users playlists
+import { useEffect } from "react";
+import { useState } from "react";
+import { CircularProgress } from "@mui/material";
 
+export default function PlayList({ setMenu }) {
+  const [playlists, setPlaylists] = useState([]);
+  const [userPlaylists, setUserPlaylists] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-export default function PlayList() {
-  const shuffled1 = [...cards].sort(() => 0.5 - Math.random());
-  const shuffled2 = [...cards].sort(() => 0.5 - Math.random());
+  useEffect(() => {
+    setLoading(true);
+    const fetchUserPlaylists = () => {
+      setTimeout(() => {
+        setUserPlaylists(cards);
+      }, 3000 );
+    };
+
+    const fetchPlaylists = () => {
+      setTimeout(() => {
+        setPlaylists(cards);
+        setLoading(false);
+      }, 2000 );
+    };
+
+    fetchUserPlaylists();
+    fetchPlaylists();
+  }, []);
+
+  const shuffled1 = [...userPlaylists].sort(() => 0.5 - Math.random());
+  const shuffled2 = [...playlists].sort(() => 0.5 - Math.random());
 
   const subtitleStyle = {
     textAlign: "left",
     ml: 2,
     fontWeight: "bold",
-    color: "var(--color-yellow)",
+    color: "#FFFFFF",
+    
   };
 
   return (
@@ -23,40 +48,63 @@ export default function PlayList() {
         width: "100%",
         flexGrow: 1,
         display: "flex",
-        // alignItems: "center",
         flexDirection: "column",
         minHeight: "300px",
       }}
     >
-      {cards.length === 0 ? (
-        <>
+      {loading ? (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
+          <CircularProgress sx={{ color: "#FFFFFF" }} />
           <Typography
-            variant="overline"
-            component="div"
-            sx={{
-              textAlign: "center",
-              fontSize: "2rem",
-              color: "var(--color-yellow)",
-            }}
+            variant="body1"
+            sx={{ mt: 2, color: "#FFFFFF" }}
           >
-            No playlists to display
+            Loading playlists...
           </Typography>
-        </>
+        </Box>
       ) : (
         <>
-          <Typography variant="h5" sx={subtitleStyle}>
+          <Typography variant="h6" sx={subtitleStyle}>
             Your Playlists
           </Typography>
-          <Box>
-            <CarouselComponent cards={shuffled1} />
-          </Box>
+          {shuffled1.length === 0 ? (
+            <Typography
+              variant="overline"
+              component="div"
+              sx={{
+                textAlign: "center",
+                fontSize: "1rem",
+                color: "var(--color-yellow)",
+              }}
+            >
+              No playlists to display
+            </Typography>
+          ) : (
+            <Box>
+              <CarouselComponent cards={shuffled1} setMenu={setMenu}/>
+            </Box>
+          )}
 
-          <Typography variant="h5" sx={subtitleStyle}>
+          <Typography variant="h6" sx={subtitleStyle}>
             Lists you'd like to try
           </Typography>
-          <Box>
-            <CarouselComponent cards={shuffled2} />
-          </Box>
+          {shuffled2.length === 0 ? (
+            <Typography
+              variant="overline"
+              component="div"
+              sx={{
+                textAlign: "center",
+                fontSize: "1rem",
+                color: "var(--color-yellow)",
+              }}
+            >
+              No playlists to display
+            </Typography>
+          ) : (
+            <Box>
+              <CarouselComponent cards={shuffled2} setMenu={setMenu}/>
+            </Box>
+          )}
         </>
       )}
     </Box>

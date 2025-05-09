@@ -4,6 +4,8 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
+import CustomButton from "../components/CustomButton";
+import { Title } from "../components/CustomTitle";
 
 //  TODO: Change naming to buttons
 const providers = [
@@ -37,20 +39,6 @@ export const SignUpPage = () => {
     );
   }
 
-  function Title() {
-    return (
-      <h1
-        style={{
-          marginBottom: 4,
-          fontSize: "1.5rem",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        Sign Up
-      </h1>
-    );
-  }
 
   //TODO: create a component to handling this Text field
   function PasswordField() {
@@ -95,22 +83,6 @@ export const SignUpPage = () => {
     );
   }
 
-  function CustomButton() {
-    return (
-      <Button
-        type="submit"
-        variant="outlined"
-        color="info"
-        size="small"
-        disableElevation
-        fullWidth
-        sx={{ my: 1 }}
-      >
-        Sign Up With Email And Password
-      </Button>
-    );
-  }
-
   function Subtitle() {
     return (
       <div
@@ -130,9 +102,7 @@ export const SignUpPage = () => {
       <AppProvider theme={theme}>
         <div
           style={{
-            backgroundImage: "url('../../../public/background-login.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            background: "var(--color-dark-blue)",
             height: "100vh",
           }}
         >
@@ -151,7 +121,9 @@ export const SignUpPage = () => {
               signUpLink: SignInLink,
               title: Title,
               passwordField: PasswordField,
-              submitButton: CustomButton,
+              submitButton: ({ onClick }) => (
+                <CustomButton text={"Sign Up"} onClick={onClick} />
+              ),
               subtitle: Subtitle,
               rememberMe: () => null,
             }}

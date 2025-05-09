@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/style.css';
 import { cards } from '../../mockdata/cards';
 import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea } from '@mui/material';
+import CustomButton from '../../auth/components/CustomButton';
 
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);

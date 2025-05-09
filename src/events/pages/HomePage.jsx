@@ -2,17 +2,11 @@ import Box from "@mui/material/Box";
 import CardToReproduce from "../../components/CardToReproduceComponent";
 import PlayList from "../../components/PlayListComponent";
 import useMediaQuery from '@mui/material/useMediaQuery';
+import SongsCardComponent from "../../components/SongsCardComponent";
 
-export const HomePage = () => {
+export const HomePage = ({ setMenu }) => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const isMediumScreen = useMediaQuery('(min-width: 0px)');
-
-  const columnBoxStyle = {
-    flex: 1,
-    borderRadius: "8px",
-    padding: 2,
-  };
-
   return (
     <>
       <Box height={50} />
@@ -26,7 +20,6 @@ export const HomePage = () => {
       >
         <Box
           sx={[
-            columnBoxStyle,
             {
               minHeight: "500px",
               width: isSmallScreen ? '100%' : 'auto',
@@ -35,22 +28,21 @@ export const HomePage = () => {
           ]}
         >
           <div style={{ flexGrow: 1, overflow: 'hidden' }}>
-            <PlayList />
+            <PlayList setMenu={setMenu}/>
           </div>
         </Box>
 
         <Box
           sx={[
-            columnBoxStyle,
             {
-              marginTop: "45px",
-              height: "200px",
+              marginTop: "50px",
               width: isSmallScreen ? '100%' : 'auto',
               flex: isMediumScreen ? 1 : (isSmallScreen ? 1 : 0.5),
             },
           ]}
         >
           <CardToReproduce />
+          <SongsCardComponent/>
         </Box>
       </Box>
     </>
