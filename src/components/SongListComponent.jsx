@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { CircularProgress } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
 function SongListComponent({ playlist }) {
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,7 @@ function SongListComponent({ playlist }) {
             borderRadius: "10px",
           }}
         >
+          {/* 
           <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
           <Typography
             variant="h5"
@@ -57,6 +59,12 @@ function SongListComponent({ playlist }) {
           >
             Loading...
           </Typography>
+              */}
+        <Box sx={{ width: 300 }}>
+          <Skeleton />
+          <Skeleton animation="wave" />
+          <Skeleton animation={false} />
+        </Box>
         </Box>
       </>
     );
@@ -109,7 +117,9 @@ function SongListComponent({ playlist }) {
                 secondaryAction={
                   <>
                     <IconButton edge="end" aria-label="play">
-                      <PlayArrowIcon />
+                      <PlayArrowIcon
+                        sx={{ color: "black", marginRight: "10px" }}
+                      />
                     </IconButton>
                   </>
                 }
@@ -130,18 +140,12 @@ function SongListComponent({ playlist }) {
                         {playlist.label}
                       </Typography>
                       <br />
-                      {song.album}  -  {song.time}
+                      {song.album} - {song.time}
                     </React.Fragment>
                   }
-                  
                 />
               </ListItem>
-              <Divider
-                variant="inset"
-                component="li"
-                color="black"
-                sx={{ background: "black" }}
-              />
+              <Divider component="li" sx={{ background: "black" }} />
             </Fragment>
           </>
         ))}
