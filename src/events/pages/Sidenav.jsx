@@ -21,15 +21,16 @@ import { FcDataConfiguration } from "react-icons/fc";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
-import PlayListPage from "./ConfigurationPage";
+//import PlayListPage from "./ConfigurationPage";
 import ProfilePage from "./ProfilePage";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
 import { GrConfigure } from "react-icons/gr";
 import ConfigurationPage from "./ConfigurationPage";
-import ProfileUserPage from "../../profile/pages/ProfileUserPage";
+import PlayListPage from "./PlayListPage";
 
 
 const openedMixin = (theme) => ({
@@ -125,6 +126,11 @@ const listItems = [
     text: "Configuration",
     link: <ConfigurationPage />,
     icon: <GrConfigure />    ,
+  },
+  {
+    text: "PlayLists",
+    link: <PlayListPage />,
+    icon: <MdOutlinePlaylistPlay/>    ,
   },
 ];
 export default function Sidenav() {
@@ -308,6 +314,7 @@ export default function Sidenav() {
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfileUserPage />}
         {menu === "Configuration" && <ConfigurationPage />}
+        {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}
       </Box>
     </Box>
