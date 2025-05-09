@@ -24,15 +24,12 @@ function AllPlayListsComponent({ playlists, setValue }) {
           alignItems: "center",
           justifyContent: "center",
           paddingBottom: 30,
-          color: "yellow",
+          color: "#F7B801",
         }}
       >
         Lists you'd like to try 
       </Typography> 
-      <Box  sx={{display: "flex", alignItems: "center", justifyContent:"center"}}>
-
-      <CiFilter/>
-      </Box>
+      
 
       <Grid
         container

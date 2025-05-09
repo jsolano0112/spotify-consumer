@@ -144,34 +144,6 @@ export default function PlayListPage() {
           flexDirection: isSmallScreen ? "column-reverse" : "row",
         }}
       >
-        {/* 
-        <Box
-          sx={[
-            columnBoxStyle,
-            {
-              minHeight: "500px",
-              width: isSmallScreen ? "100%" : "auto",
-              flex: isMediumScreen ? 1 : 1,
-            },
-          ]}
-        >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            Lists you'd like to try
-          </Typography>
-          <div style={{ flexGrow: 1, overflow: "hidden" }}>
-            <PlayList />
-          </div>
-        </Box>
-          */}
       </Box>
     </>
   );
