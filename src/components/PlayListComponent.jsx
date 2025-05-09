@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 
-export default function PlayList() {
+export default function PlayList({ setMenu }) {
   const [playlists, setPlaylists] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ export default function PlayList() {
         </Box>
       ) : (
         <>
-          <Typography variant="h5" sx={subtitleStyle}>
+          <Typography variant="h6" sx={subtitleStyle}>
             Your Playlists
           </Typography>
           {shuffled1.length === 0 ? (
@@ -81,11 +81,11 @@ export default function PlayList() {
             </Typography>
           ) : (
             <Box>
-              <CarouselComponent cards={shuffled1} />
+              <CarouselComponent cards={shuffled1} setMenu={setMenu}/>
             </Box>
           )}
 
-          <Typography variant="h5" sx={subtitleStyle}>
+          <Typography variant="h6" sx={subtitleStyle}>
             Lists you'd like to try
           </Typography>
           {shuffled2.length === 0 ? (
@@ -102,7 +102,7 @@ export default function PlayList() {
             </Typography>
           ) : (
             <Box>
-              <CarouselComponent cards={shuffled2} />
+              <CarouselComponent cards={shuffled2} setMenu={setMenu}/>
             </Box>
           )}
         </>

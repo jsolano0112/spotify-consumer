@@ -316,7 +316,7 @@ export default function Sidenav() {
         component="main"
         sx={{ flexGrow: 1, p: 3, backgroundColor: "var(--color-blue)" }}
       >
-        {menu === "Home" && <HomePage />}
+        {menu === "Home" && <HomePage setMenu={setMenu}/>}
         {menu === "Profile" && <ProfileUserPage />}
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}

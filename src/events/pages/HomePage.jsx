@@ -3,12 +3,10 @@ import CardToReproduce from "../../components/CardToReproduceComponent";
 import PlayList from "../../components/PlayListComponent";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SongsCardComponent from "../../components/SongsCardComponent";
-export const HomePage = () => {
+
+export const HomePage = ({ setMenu }) => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const isMediumScreen = useMediaQuery('(min-width: 0px)');
-
-
-
   return (
     <>
       <Box height={50} />
@@ -30,7 +28,7 @@ export const HomePage = () => {
           ]}
         >
           <div style={{ flexGrow: 1, overflow: 'hidden' }}>
-            <PlayList />
+            <PlayList setMenu={setMenu}/>
           </div>
         </Box>
 

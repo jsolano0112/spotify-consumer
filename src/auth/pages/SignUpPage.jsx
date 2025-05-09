@@ -5,6 +5,7 @@ import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
 import CustomButton from "../components/CustomButton";
+import { Title } from "../components/CustomTitle";
 
 //  TODO: Change naming to buttons
 const providers = [
@@ -38,20 +39,6 @@ export const SignUpPage = () => {
     );
   }
 
-  function Title() {
-    return (
-      <h1
-        style={{
-          marginBottom: 4,
-          fontSize: "1.5rem",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        Sign Up
-      </h1>
-    );
-  }
 
   //TODO: create a component to handling this Text field
   function PasswordField() {
@@ -114,10 +101,10 @@ export const SignUpPage = () => {
     <>
       <AppProvider theme={theme}>
         <div
-         style={{
-          background: "var(--color-dark-blue)",
-          height: "100vh",
-        }}
+          style={{
+            background: "var(--color-dark-blue)",
+            height: "100vh",
+          }}
         >
           <SignInPage
             signIn={(provider, formData) =>
@@ -134,7 +121,9 @@ export const SignUpPage = () => {
               signUpLink: SignInLink,
               title: Title,
               passwordField: PasswordField,
-              submitButton: ({ onClick }) => <CustomButton text={'Sign Up'} onClick={onClick} />,
+              submitButton: ({ onClick }) => (
+                <CustomButton text={"Sign Up"} onClick={onClick} />
+              ),
               subtitle: Subtitle,
               rememberMe: () => null,
             }}

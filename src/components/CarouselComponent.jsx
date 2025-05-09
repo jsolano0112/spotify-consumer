@@ -6,7 +6,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { motion } from "framer-motion";
 
-export default function CarouselComponent({ cards }) {
+export default function CarouselComponent({ cards, setMenu }) {
   const theme = useTheme();
   const isSmallOrMedium = useMediaQuery(theme.breakpoints.down("md"));
   const cardsToShow = isSmallOrMedium ? 1 : 2;
@@ -76,7 +76,7 @@ export default function CarouselComponent({ cards }) {
                 flex: `0 0 ${100 / cardsToShow}%`,
               }}
             >
-              <CarouselCard card={card} cardsPerPage={cardsToShow} />
+              <CarouselCard card={card} cardsPerPage={cardsToShow} setMenu={setMenu}/>
             </Box>
           ))}
         </motion.div>

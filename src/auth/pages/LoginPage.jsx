@@ -8,6 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import { Link } from "@mui/material";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
+import { Title } from "../components/CustomTitle";
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
@@ -76,7 +77,6 @@ export const LoginPage = () => {
               )
             }
             slotProps={{
-              
               emailField: { variant: "standard", autoFocus: false },
               passwordField: { variant: "standard" },
               rememberMe: {
@@ -94,6 +94,7 @@ export const LoginPage = () => {
               },
             }}
             slots={{
+              title: Title,
               signUpLink: SignUpLink,
               submitButton: ({ onClick }) => (
                 <CustomButton text={"Sign In"} onClick={onClick} />
