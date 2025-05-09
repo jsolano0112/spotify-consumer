@@ -39,7 +39,7 @@ function AllPlayListsComponent({ playlists, setValue }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "#3D348B",
+            
           }}
         >
           <CircularProgress sx={{color:"#F7B801", margin:"10px"}}/>

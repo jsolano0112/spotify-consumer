@@ -18,19 +18,53 @@ import { useState, useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 
 function SongListComponent({ playlist }) {
+  const [loading, setLoading] = useState(false);
+  const [playListsSongs, setPlayListsSongs] = useState([]);
 
-  const [loading, setLoading] = useState(false)
-  const [userPlaylists, setUserPlaylists] = useState([])
+  useEffect(() => {
+    setLoading(true);
+    const ferchUserPlayLists = () => {
+      setTimeout(() => {
+        setPlayListsSongs(playlist.songs);
+        setLoading(false);
+      }, 3000);
+    };
+    ferchUserPlayLists();
+  }, [playlist.songs]);
 
-
+  if (loading) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius:"10px"
+            
+          }}
+        >
+          <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            Loading...
+          </Typography>
+        </Box>
+      </>
+    );
+  }
 
   //console.log("PLAYLIST: ", playlist);
-  if (
-    !playlist ||
-    !playlist.songs ||
-    playlist.songs.length === 0 ||
-    !Array.isArray(playlist.songs)
-  ) {
+  if (!playListsSongs || playListsSongs.length === 0) {
     return (
       <>
         <Box
@@ -41,6 +75,7 @@ function SongListComponent({ playlist }) {
             alignItems: "center",
             justifyContent: "center",
             background: "#3D348B",
+            borderRadius:"10px"
           }}
         >
           <Typography
@@ -52,7 +87,7 @@ function SongListComponent({ playlist }) {
             }}
             fontWeight="bold"
           >
-            No Songs Saved
+            No Songs Saved Yet!
           </Typography>
         </Box>
       </>

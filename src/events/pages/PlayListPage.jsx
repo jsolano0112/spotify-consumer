@@ -45,7 +45,7 @@ export default function PlayListPage() {
         <Autocomplete
           disablePortal
           options={allPlayLists}
-          sx={{ width: 300, background: "#F7B801", borderRadius: "10px"  }}
+          sx={{ width: 300, background: "white", borderRadius: "10px"  }}
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
