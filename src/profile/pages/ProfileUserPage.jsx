@@ -2,18 +2,19 @@ import React from 'react';
 import '../styles/style.css'
 import { cards } from '../../mockdata/cards';
 import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea } from '@mui/material';
+import CustomButton from '../../auth/components/CustomButton';
 
 export default function ProfileUserPage() {
 
   return (
-    <Box sx={{borderRadius: '1%', backgroundColor: '#3D348B', py: 5, minHeight: '100vh' }}>
+    <Box sx={{borderRadius: '1%', py: 5, minHeight: '100vh' }}>
       <Container>
         <Grid container justifyContent="center" alignItems="center">
           <Grid >
-            <Card>
+            <Card sx={{padding: '8px', marginTop: '10px'}}>
               <Box
                 sx={{
-                  backgroundColor: '#7678ED',
+                  backgroundColor: 'var(--color-dark-blue)',
                   height: 200,
                   color: 'white',
                   display: 'flex',
@@ -43,9 +44,7 @@ export default function ProfileUserPage() {
                       marginBottom: '16px',
                     }}
                   />
-                  <Button variant="outlined" color="primary" sx={{ height: 36 }}>
-                    Edit Playlist
-                  </Button>
+                  <CustomButton text='Edit Playlist'/>
                 </Box>
                 <Box sx={{ ml: 3, mt: 'auto', mb: 2 }}>
                   <Typography variant="h5">Wilson </Typography>
