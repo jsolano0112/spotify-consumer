@@ -35,8 +35,12 @@ export default function CarouselCard({ card }) {
             md: "80%",
           },
 
-          backgroundColor: "rgba(118, 120, 237, 0.9)",
+          backgroundColor: "rgba(255, 255, 255, 0.4)",
           aspectRatio: "2 / 3", 
+          transition: "background-color 0.3s ease",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+          },
         }}
       >
         <CardActionArea sx={{ height: "100%" }}>
@@ -64,7 +68,7 @@ export default function CarouselCard({ card }) {
             />
             <Typography
               variant="caption"
-              color="white"
+              color="text.primary"
               align="center"
               fontWeight="bold"
               sx={{ mt: 1 }}
@@ -73,7 +77,7 @@ export default function CarouselCard({ card }) {
             </Typography>
             <Typography
               variant="caption"
-              color="white"
+              color="text.primary"
               align="center"
               sx={{
                 overflow: "hidden",

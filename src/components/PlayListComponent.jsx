@@ -38,7 +38,8 @@ export default function PlayList() {
     textAlign: "left",
     ml: 2,
     fontWeight: "bold",
-    color: "var(--color-yellow)",
+    color: "#FFFFFF",
+    
   };
 
   return (
@@ -53,10 +54,10 @@ export default function PlayList() {
     >
       {loading ? (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
-          <CircularProgress sx={{ color: "var(--color-yellow)" }} />
+          <CircularProgress sx={{ color: "#FFFFFF" }} />
           <Typography
             variant="body1"
-            sx={{ mt: 2, color: "var(--color-yellow)" }}
+            sx={{ mt: 2, color: "#FFFFFF" }}
           >
             Loading playlists...
           </Typography>

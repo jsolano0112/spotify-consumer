@@ -16,7 +16,7 @@ function AllPlayListsComponent({ playlists, setValue }) {
   return (
     <>
       <Typography
-        variant="h6"
+        variant="h5"
         noWrap
         component="div"
         style={{
@@ -24,8 +24,9 @@ function AllPlayListsComponent({ playlists, setValue }) {
           alignItems: "center",
           justifyContent: "center",
           paddingBottom: 30,
-          color: "#F7B801",
+          color: "white",
         }}
+        fontWeight='bold'
       >
         Lists you'd like to try 
       </Typography> 

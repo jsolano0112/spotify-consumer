@@ -62,7 +62,7 @@ export const LoginPage = () => {
       <AppProvider theme={theme}>
         <div
           style={{
-            background: "var(--color-blue)",
+            background: "var(--color-dark-blue)",
             height: "100vh",
           }}
         >

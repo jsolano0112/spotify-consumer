@@ -6,14 +6,14 @@ import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography,
 export default function ProfileUserPage() {
 
   return (
-    <Box sx={{borderRadius: '1%', backgroundColor: '#3D348B', py: 5, minHeight: '100vh' }}>
+    <Box sx={{borderRadius: '1%', py: 5, minHeight: '100vh' }}>
       <Container>
         <Grid container justifyContent="center" alignItems="center">
           <Grid >
-            <Card>
+            <Card sx={{padding: '8px', marginTop: '10px'}}>
               <Box
                 sx={{
-                  backgroundColor: '#7678ED',
+                  backgroundColor: 'var(--color-dark-blue)',
                   height: 200,
                   color: 'white',
                   display: 'flex',

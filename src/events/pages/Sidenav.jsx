@@ -17,14 +17,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { FcDataConfiguration } from "react-icons/fc";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
-//import PlayListPage from "./ConfigurationPage";
 import ProfilePage from "./ProfilePage";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
@@ -32,6 +30,7 @@ import { GrConfigure } from "react-icons/gr";
 import ConfigurationPage from "./ConfigurationPage";
 import PlayListPage from "./PlayListPage";
 import ProfileUserPage from "../../profile/pages/ProfileUserPage";
+import { color } from "framer-motion";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -115,22 +114,17 @@ const listItems = [
   {
     text: "Home",
     link: <HomePage />,
-    icon: <IoMdHome />,
+    icon: <IoMdHome style={{ color: "#FFFFFF" }} />,
   },
   {
     text: "Profile",
     link: <ProfilePage />,
-    icon: <FaPerson />,
-  },
-  {
-    text: "Configuration",
-    link: <ConfigurationPage />,
-    icon: <GrConfigure />,
+    icon: <FaPerson style={{ color: "#FFFFFF" }}/>,
   },
   {
     text: "PlayLists",
     link: <PlayListPage />,
-    icon: <MdOutlinePlaylistPlay/>    ,
+    icon: <MdOutlinePlaylistPlay style={{ color: "#FFFFFF" }}/>,
   },
 ];
 export default function Sidenav() {
@@ -159,8 +153,8 @@ export default function Sidenav() {
       <AppBar position="fixed" open={open}>
         <Toolbar
           sx={{
-            backgroundColor: "var(--color-blue)",
-            color: "var(--color-yellow)",
+            backgroundColor: "var(--color-dark-blue)",
+            color: "#FFFFFF",
           }}
         >
           <IconButton
@@ -173,11 +167,14 @@ export default function Sidenav() {
                 marginRight: 5,
               },
               open && { display: "none" },
+              {
+                color: "#FFFFFF" 
+              }
             ]}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" fontWeight="bold" >
             Spotify Consumer
           </Typography>
         </Toolbar>
@@ -187,7 +184,7 @@ export default function Sidenav() {
         open={open}
         PaperProps={{
           sx: {
-            backgroundColor: "var(--color-blue)",
+            backgroundColor: "var(--color-dark-blue)",
           },
         }}
       >
@@ -206,7 +203,7 @@ export default function Sidenav() {
             <ListItem
               key={item.text}
               disablePadding
-              sx={{ display: "block" }}
+              sx={{ display: "block", color: "#FFFFFF" }}
               onClick={() => setMenu(item.text)}
             >
               <ListItemButton
@@ -222,6 +219,7 @@ export default function Sidenav() {
                     : {
                         justifyContent: "center",
                       },
+                      
                 ]}
               >
                 <ListItemIcon
@@ -262,7 +260,7 @@ export default function Sidenav() {
         <List>
           <ListItem
             disablePadding
-            sx={{ display: "block" }}
+            sx={{ display: "block",  color: "#FFFFFF"  }}
             onClick={() => setMenu("Logout")}
           >
             <ListItemButton
@@ -295,7 +293,7 @@ export default function Sidenav() {
                       },
                 ]}
               >
-                <RiLogoutBoxFill />
+                <RiLogoutBoxFill style={{ color: "#FFFFFF" }} />
               </ListItemIcon>
               <ListItemText
                 color="text.secondary"
@@ -316,11 +314,10 @@ export default function Sidenav() {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, backgroundColor: "var(--color-dark-blue)" }}
+        sx={{ flexGrow: 1, p: 3, backgroundColor: "var(--color-blue)" }}
       >
         {menu === "Home" && <HomePage />}
         {menu === "Profile" && <ProfileUserPage />}
-        {menu === "Configuration" && <ConfigurationPage />}
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}
       </Box>
