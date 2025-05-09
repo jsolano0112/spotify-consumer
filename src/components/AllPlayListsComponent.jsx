@@ -13,6 +13,35 @@ import Box from "@mui/material/Box";
 function AllPlayListsComponent({ playlists, setValue }) {
   //const handleOpen = () => setValue(playlists);
 
+  if (!playlists || playlists.length === 0) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#3D348B",
+          }}
+        >
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            No PlaysLists Saved Yet!!
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
   return (
     <>
       <Typography
@@ -26,11 +55,10 @@ function AllPlayListsComponent({ playlists, setValue }) {
           paddingBottom: 30,
           color: "white",
         }}
-        fontWeight='bold'
+        fontWeight="bold"
       >
-        Lists you'd like to try 
-      </Typography> 
-      
+        Lists you'd like to try
+      </Typography>
 
       <Grid
         container
@@ -38,18 +66,20 @@ function AllPlayListsComponent({ playlists, setValue }) {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {playlists.map((playList) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={playList.id}>
-
-            
+          <Grid size={{ xs: 6, sm: 4, md: 3 }} key={playList.id}>
             <Card
-              onClick={()=>setValue(playList)}
+              onClick={() => setValue(playList)}
               key={playList.id}
               sx={{
                 height: "100%",
                 width: "100%",
               }}
             >
-              <CardActionArea>
+              <CardActionArea
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
                 <CardMedia
                   component="img"
                   height="140"
@@ -74,9 +104,6 @@ function AllPlayListsComponent({ playlists, setValue }) {
                 </CardContent>
               </CardActionArea>
             </Card>
-
-
-
           </Grid>
         ))}
       </Grid>

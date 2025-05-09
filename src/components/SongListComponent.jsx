@@ -17,10 +17,36 @@ import { Fragment } from "react";
 
 function SongListComponent({ playlist }) {
   console.log("PLAYLIST: ", playlist);
-  if (!playlist || !playlist.songs || !Array.isArray(playlist.songs)) {
+  if (
+    !playlist ||
+    !playlist.songs ||
+    playlist.songs.length === 0 ||
+    !Array.isArray(playlist.songs)
+  ) {
     return (
       <>
-        <div>No songs</div>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#3D348B",
+          }}
+        >
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              color: "#F7B801",
+            }}
+            fontWeight="bold"
+          >
+            No Songs Saved
+          </Typography>
+        </Box>
       </>
     );
   }
