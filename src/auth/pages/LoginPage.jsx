@@ -8,6 +8,9 @@ import { useTheme } from "@mui/material/styles";
 import { Link } from "@mui/material";
 import { useState } from "react";
 import { loginWithSpotify } from "../../api/providerapi";
+import { Title } from "../components/CustomTitle";
+import CustomButton  from "../components/CustomButton";
+
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
