@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import PlayList from "../../components/PlayListComponent";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import SongListComponent from "../../components/SongListComponent";
 
-import CarouselCard from "../../components/CarouselCardComponent";
+import {CarouselCard} from "../../components/CarouselCardComponent";
 
 import { allPlayLists } from "../../mockdata/allPlayList";
 
@@ -17,8 +16,6 @@ import { Card, CardActionArea } from "@mui/material";
 import AllPlayListsComponent from "../../components/AllPlayListsComponent";
 
 export default function PlayListPage() {
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(min-width: 0px)");
 
   const columnBoxStyle = {
     flex: 1,

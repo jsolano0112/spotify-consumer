@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/style.css";
 import { cards } from "../../mockdata/cards";
+import { user } from "../../mockdata/user";
 import {
   Box,
   Button,
@@ -12,45 +13,26 @@ import {
   Typography,
   CardActionArea,
 } from "@mui/material";
-import CustomButton from "../../auth/components/CustomButton";
+import ModeNightIcon from "@mui/icons-material/ModeNight";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
-
-  const user = {
-    name: "Wilson",
-    country: "CO",
-    playlists: 12,
-    followers: 1026,
-    topArtists: ["Artist A", "Artist B", "Artist C"],
-    favoriteGenres: ["Techno", "Jazz", "Rock"],
-    recentHistory: ["Song 1", "Song 2", "Song 3"],
-    profileImage:
-      "https://i.scdn.co/image/ab67616d00001e0241a05491b02cb2f0b841068f",
-  };
-
+  // TODO: darkmode
+  const [darkMode, setDarkMode] = useState(false);
   const handleConnectSpotify = (e) => {
-    e.preventDefault(); // <-- Agrega esto
+    e.preventDefault();
     window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
   return (
-    <Box sx={{ borderRadius: "1%", py: 5, minHeight: "100vh" }}>
-      <Container>
-        <Grid container justifyContent="center" alignItems="center">
-          <Grid>
-            <Card sx={{ marginTop: "10px" }}>
-              {/* Profile Section */}
-              <Box
-                sx={{
-                  backgroundColor: "var(--color-dark-blue)",
-                  height: 200,
-                  color: "white",
-                  display: "flex",
-                  flexDirection: "row",
-                  borderRadius: "4px 4px 0 0",
-                }}
-              >
+    <Container className="profiler-container">
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid>
+          <Card sx={{ marginTop: "10px" }}>
+            {/* Profile Section */}
+            <Box className="image-container">
+              <Box className="profile-container">
                 <Box
                   sx={{
                     ml: 2,
@@ -79,109 +61,138 @@ export default function ProfileUserPage() {
                   <Typography variant="body2">({user.country})</Typography>
                 </Box>
               </Box>
-
-              <Box></Box>
-
+              <Box className="mode-container">
+                <Button variant="secondary" size="small">
+                  {darkMode ? <ModeNightIcon /> : <WbSunnyIcon />}
+                </Button>
+              </Box>
               {/* Spotify Connection Section */}
-              <Box
-                sx={{
-                  display: "flex",
-                  backgroundColor: "#f8f9fa",
-                  p: 2,
-                  justifyContent: "space-between",
-                }}
-              >
-                <div style={{ width: "180px" }}>
-                  <CustomButton text="Edit Playlist" />
-                </div>
-
-                {/* <Typography variant="body1" color="text.secondary" gutterBottom>
-                    Connect your Spotify account.
-                  </Typography> */}
+              {/* TODO: change color buttons */}
+              <Box className="buttons-container">
+                <Button variant="outlined" size="small">
+                  Edit Playlist
+                </Button>
                 {!isSpotifyConnected && (
-                  <div style={{ width: "180px" }}>
-                    <Button
-                      type="submit"
-                      variant="outlined"
-                      color="text.secondary"
-                      size="small"
-                      disableElevation
-                      fullWidth
-                      onClick={(e) => handleConnectSpotify(e)}
-                      sx={{ my: 1, background: "var(--color-yellow)" }}
-                    >
-                      Connect Spotify
-                    </Button>
-                  </div>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={(e) => handleConnectSpotify(e)}
+                  >
+                    Connect Spotify
+                  </Button>
                 )}
               </Box>
+            </Box>
 
-              <Box sx={{ backgroundColor: "#f8f9fa", p: 2 }}>
-                <Grid
-                  container
-                  justifyContent="space-around"
-                  textAlign="center"
-                >
-                  <Grid>
-                    <Typography variant="h6">{user.followers}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Followers
-                    </Typography>
-                  </Grid>
-                  <Grid>
-                    <Typography variant="h6">{user.playlists}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Playlists
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
+            <Box></Box>
 
-              {/* Content Section */}
-              <CardContent>
+            <Grid
+              container
+              justifyContent="space-around"
+              textAlign="center"
+              className="followers-container"
+            >
+              <Grid>
+                <Typography variant="h6">{user.followers}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Followers
+                </Typography>
+              </Grid>
+              <Grid>
+                <Typography variant="h6">{user.playlists}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Playlists
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {/* Content Section */}
+            <CardContent className="info-container">
+              <Box
+                sx={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 1,
+                  bgcolor: "var(--card-background)",
+                  "&:hover": {
+                    bgcolor: "var(--highlight-color)",
+                  },
+                }}
+                className="artists"
+              >
                 <Typography variant="h6" gutterBottom>
                   Top Artists
                 </Typography>
-                <Box sx={{ backgroundColor: "#f8f9fa", p: 2, borderRadius: 2 }}>
-                  {user.topArtists.map((artist, index) => (
+                <Box>
+                  {user.topArtists.slice(0, 3).map((artist, index) => (
                     <Typography key={index} variant="body1" gutterBottom>
                       {artist}
                     </Typography>
                   ))}
                 </Box>
-
-                <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                  Favorite Genres
-                </Typography>
-                <Box sx={{ backgroundColor: "#f8f9fa", p: 2, borderRadius: 2 }}>
-                  {user.favoriteGenres.map((genre, index) => (
+              </Box>
+              <Box
+                sx={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 1,
+                  bgcolor: "var(--card-background)",
+                  "&:hover": {
+                    bgcolor: "var(--highlight-color)",
+                  },
+                }}
+                className="genres"
+              >
+                <Typography variant="h6">Favorite Genres</Typography>
+                <Box>
+                  {user.favoriteGenres.slice(0, 3).map((genre, index) => (
                     <Typography key={index} variant="body1" gutterBottom>
                       {genre}
                     </Typography>
                   ))}
                 </Box>
-
-                <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                  Recent History
-                </Typography>
-                <Box sx={{ backgroundColor: "#f8f9fa", p: 2, borderRadius: 2 }}>
-                  {user.recentHistory.map((song, index) => (
+              </Box>
+              <Box
+                sx={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 1,
+                  bgcolor: "var(--card-background)",
+                  "&:hover": {
+                    bgcolor: "var(--highlight-color)",
+                  },
+                }}
+                className="history"
+              >
+                <Typography variant="h6">Recent History</Typography>
+                <Box>
+                  {user.recentHistory.slice(0, 3).map((song, index) => (
                     <Typography key={index} variant="body1" gutterBottom>
                       {song}
                     </Typography>
                   ))}
                 </Box>
-
-                <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-                  Albums
-                </Typography>
-                <Grid container spacing={2}>
+              </Box>
+              <Box
+                sx={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 1,
+                  bgcolor: "var(--card-background)",
+                  "&:hover": {
+                    bgcolor: "var(--highlight-color)",
+                  },
+                }}
+                className="albums"
+              >
+                <Typography variant="h6">Albums</Typography>
+                <Box className="info-container2">
                   {cards.slice(0, 4).map((card) => (
-                    <Grid key={card.id}>
+                    <Grid item xs={6} key={card.id}>
                       <Card
                         sx={{
-                          width: 150,
-                          height: 200,
+                          width: 50,
+                          height: 50,
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
@@ -208,12 +219,12 @@ export default function ProfileUserPage() {
                       </Card>
                     </Grid>
                   ))}
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
         </Grid>
-      </Container>
-    </Box>
+      </Grid>
+    </Container>
   );
 }

@@ -1,9 +1,18 @@
-import { Box, List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import React, { useEffect, useState, Fragment } from "react";
 import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
 
-export default function SongsCardComponent() {
+export const SongsCardComponent = () => {
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allSongs, setAllSongs] = useState([]);
@@ -41,8 +50,8 @@ export default function SongsCardComponent() {
   };
 
   const playButtonStyle = {
-    opacity: 0.6, 
-    '&:hover': {
+    opacity: 0.6,
+    "&:hover": {
       opacity: 1,
     },
   };
@@ -53,7 +62,11 @@ export default function SongsCardComponent() {
         The last 5 songs you listened to...
       </Typography>
       {loading ? (
-        <Typography variant="body1" component="div" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="body1"
+          component="div"
+          sx={{ color: "text.secondary" }}
+        >
           Loading songs...
         </Typography>
       ) : allSongs.length === 0 ? (
@@ -69,14 +82,14 @@ export default function SongsCardComponent() {
           No Songs to display
         </Typography>
       ) : (
-        <List sx={{ width: '100%' }}>
+        <List sx={{ width: "100%" }}>
           {allSongs.map((song) => (
             <ListItem
               key={song.id}
               alignItems="flex-start"
               sx={{
-                '&:hover': {
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.08)",
                 },
               }}
             >
@@ -87,7 +100,7 @@ export default function SongsCardComponent() {
                     <Typography
                       component="span"
                       variant="body2"
-                      sx={{ color: 'text.primary', display: 'inline' }}
+                      sx={{ color: "text.primary", display: "inline" }}
                     >
                       {song.artist}
                     </Typography>
@@ -108,4 +121,4 @@ export default function SongsCardComponent() {
       )}
     </Box>
   );
-}
+};

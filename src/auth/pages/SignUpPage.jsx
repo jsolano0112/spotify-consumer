@@ -4,7 +4,7 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
-import CustomButton from "../components/CustomButton";
+import {CustomButton} from "../components/CustomButton";
 import { Title } from "../components/CustomTitle";
 
 //  TODO: Change naming to buttons

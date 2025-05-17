@@ -1,112 +1,47 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import CarouselComponent from "./CarouselComponent";
+import { CarouselComponent } from "./CarouselComponent";
 import Typography from "@mui/material/Typography";
 import { cards } from "../mockdata/cards";
 import { useEffect } from "react";
 import { useState } from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgressComponent } from "./CircularProgressComponent";
 
-export default function PlayList({ setMenu }) {
+export const PlayList = ({ setMenu, userLogged }) => {
   const [playlists, setPlaylists] = useState([]);
-  const [userPlaylists, setUserPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    const fetchUserPlaylists = () => {
-      setTimeout(() => {
-        setUserPlaylists(cards);
-      }, 3000 );
-    };
 
     const fetchPlaylists = () => {
       setTimeout(() => {
         setPlaylists(cards);
         setLoading(false);
-      }, 3000 );
+      }, 3000);
     };
 
-    fetchUserPlaylists();
     fetchPlaylists();
   }, []);
 
-  const shuffled1 = [...userPlaylists].sort(() => 0.5 - Math.random());
-  const shuffled2 = [...playlists].sort(() => 0.5 - Math.random());
-
-  const subtitleStyle = {
-    textAlign: "left",
-    ml: 2,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    
-  };
+  const shuffled =  [...playlists].sort(() => 0.5 - Math.random());
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        flexGrow: 1,
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "300px",
-      }}
-    >
+    <Box>
       {loading ? (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
-          <CircularProgress sx={{ color: "#FFFFFF" }} />
-          <Typography
-            variant="body1"
-            sx={{ mt: 2, color: "#FFFFFF" }}
-          >
-            Loading playlists...
-          </Typography>
-        </Box>
+        <CircularProgressComponent />
       ) : (
         <>
-          <Typography variant="h6" sx={subtitleStyle}>
-            Your Playlists
-          </Typography>
-          {shuffled1.length === 0 ? (
-            <Typography
-              variant="overline"
-              component="div"
-              sx={{
-                textAlign: "center",
-                fontSize: "1rem",
-                color: "var(--color-yellow)",
-              }}
-            >
+          {shuffled.length === 0 ? (
+            <Typography variant="overline" component="div" className="progress">
               No playlists to display
             </Typography>
           ) : (
             <Box>
-              <CarouselComponent cards={shuffled1} setMenu={setMenu}/>
-            </Box>
-          )}
-
-          <Typography variant="h6" sx={subtitleStyle}>
-            Lists you'd like to try
-          </Typography>
-          {shuffled2.length === 0 ? (
-            <Typography
-              variant="overline"
-              component="div"
-              sx={{
-                textAlign: "center",
-                fontSize: "1rem",
-                color: "var(--color-yellow)",
-              }}
-            >
-              No playlists to display
-            </Typography>
-          ) : (
-            <Box>
-              <CarouselComponent cards={shuffled2} setMenu={setMenu}/>
+              <CarouselComponent cards={shuffled} setMenu={setMenu} />
             </Box>
           )}
         </>
       )}
     </Box>
   );
-}
+};
