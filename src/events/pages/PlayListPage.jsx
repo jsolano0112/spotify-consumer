@@ -3,80 +3,65 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import SongListComponent from "../../components/SongListComponent";
-
-import {CarouselCard} from "../../components/CarouselCardComponent";
-
 import { allPlayLists } from "../../mockdata/allPlayList";
-
-import { Card, CardActionArea } from "@mui/material";
+import { Card, CardActionArea, Drawer, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { SongsCardComponent } from "../../components/SongsCardComponent";
 import AllPlayListsComponent from "../../components/AllPlayListsComponent";
 
 export default function PlayListPage() {
-
-  const columnBoxStyle = {
-    flex: 1,
-    background: "var(--color-yellow)",
-    borderRadius: "8px",
-    padding: 2,
-  };
-
   const [value, setValue] = useState(null);
+
+  const handleClose = () => setValue(null);
 
   return (
     <>
-      <Box height={100} />
+    {/* TODO: Improve color field */}
+      <div className="box">
+        <Box className="search-bar">
+          <Autocomplete
+            freeSolo
+            className="field"
+            disablePortal
+            options={allPlayLists}
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Playlist"
+                variant="filled"
+                sx={{ borderRadius: "10px" }}
+              />
+            )}
+          />
+        </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 2,
-        }}
-      >
-        <Autocomplete
-          disablePortal
-          options={allPlayLists}
-          sx={{ width: 300, background: "white", borderRadius: "10px" }}
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Playlist"
-              variant="filled"
-              sx={{ borderRadius: "10px" }}
-              color="warning"
-            />
-          )}
-        />
-      </Box>
+        <AllPlayListsComponent playlists={allPlayLists} setValue={setValue} />
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 2,
-        }}
-      >
-        {value && (
-          <>
-            <Box>
-              <Box sx={{}}>
-                <Card sx={{ borderRadius: "10px" }}>
+        {/* Modal Drawer a la derecha */}
+        <Drawer anchor="right" open={!!value} onClose={handleClose}>
+          <Box sx={{ width: 450, padding: 2 }}>
+            <IconButton
+              onClick={handleClose}
+              sx={{ position: "absolute", right: 8, top: 8 }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            {value && (
+              <>
+                <Card sx={{ borderRadius: "10px", mt: 4 }}>
                   <CardContent
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      background: "#7678ED",
+                      background: "var(--accent-color)",
                     }}
                   >
                     <CardMedia
@@ -118,33 +103,15 @@ export default function PlayListPage() {
                     </Typography>
                   </CardContent>
                 </Card>
-              </Box>
 
-              <Box
-                sx={{
-                  padding: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <SongListComponent playlist={value} />
-              </Box>
-            </Box>
-          </>
-        )}
-      </Box>
-
-      <AllPlayListsComponent playlists={allPlayLists} setValue={setValue} />
-
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1,
-          padding: 2,
-          flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}
-      ></Box>
+                <Box sx={{ padding: 2 }}>
+                  <SongsCardComponent background={"var(--accent-color)"} />
+                </Box>
+              </>
+            )}
+          </Box>
+        </Drawer>
+      </div>
     </>
   );
 }

@@ -12,12 +12,13 @@ import { CircularProgress } from "@mui/material";
 import  Pagination  from '@mui/material/Pagination';
 
 import usePagination from "../hooks/usePagination";
+import { CircularProgressComponent } from "./CircularProgressComponent";
 
 function AllPlayListsComponent({ playlists, setValue }) {
   //const handleOpen = () => setValue(playlists);
 
   let [page, setPage] = useState(1);
-  const PER_PAGE = 4;
+  const PER_PAGE = 20;
 
   const count = Math.ceil(playlists.length / PER_PAGE)
   const _DATA = usePagination(playlists, PER_PAGE)
@@ -44,28 +45,7 @@ function AllPlayListsComponent({ playlists, setValue }) {
   if (loading) {
     return (
       <>
-        <Box
-          sx={{
-            height: "10vh",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress sx={{ color: "#F7B801", margin: "10px" }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{
-              color: "#F7B801",
-            }}
-            fontWeight="bold"
-          >
-            Loading...
-          </Typography>
-        </Box>
+        <CircularProgressComponent/>
       </>
     );
   }
@@ -84,15 +64,11 @@ function AllPlayListsComponent({ playlists, setValue }) {
           }}
         >
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="div"
-            sx={{
-              color: "#F7B801",
-            }}
-            fontWeight="bold"
           >
-            No PlaysLists Saved Yet!!
+            No PlaysLists Saved Yet!
           </Typography>
         </Box>
       </>
@@ -101,23 +77,9 @@ function AllPlayListsComponent({ playlists, setValue }) {
 
   return (
     <>
-      <Typography
-        variant="h5"
-        noWrap
-        component="div"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: 30,
-          color: "white",
-        }}
-        fontWeight="bold"
-      >
-        Lists you'd like to try
-      </Typography>
 
       <Grid
+      padding={{ xs: 3}}
         container
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}

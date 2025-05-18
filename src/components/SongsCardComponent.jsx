@@ -11,8 +11,9 @@ import {
 import React, { useEffect, useState, Fragment } from "react";
 import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
+import Skeleton from "@mui/material/Skeleton";
 
-export const SongsCardComponent = () => {
+export const SongsCardComponent = ({ background, url }) => {
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allSongs, setAllSongs] = useState([]);
@@ -46,7 +47,7 @@ export const SongsCardComponent = () => {
     flex: 1,
     borderRadius: "8px",
     padding: 2,
-    background: "var(--color-yellow)",
+    background: background,
   };
 
   const playButtonStyle = {
@@ -56,19 +57,47 @@ export const SongsCardComponent = () => {
     },
   };
 
+  if ((!userPlaylists || userPlaylists.length === 0) && !loading) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "var(--accent-color)",
+            borderRadius: "10px",
+          }}
+        >
+          <Typography variant="h5" noWrap component="div" fontWeight="bold">
+            No Songs Saved Yet!
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
   return (
     <Box sx={boxStyle}>
-      <Typography variant="h6" component="div" sx={{ color: "text.secondary" }}>
-        The last 5 songs you listened to...
-      </Typography>
       {loading ? (
-        <Typography
-          variant="body1"
-          component="div"
-          sx={{ color: "text.secondary" }}
+        <Box
+          sx={{
+            height: "10vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "10px",
+          }}
         >
-          Loading songs...
-        </Typography>
+          <Box sx={{ width: 300 }}>
+            <Skeleton />
+            <Skeleton animation="wave" />
+            <Skeleton animation={false} />
+          </Box>
+        </Box>
       ) : allSongs.length === 0 ? (
         <Typography
           variant="overline"
@@ -93,6 +122,9 @@ export const SongsCardComponent = () => {
                 },
               }}
             >
+              <ListItemAvatar>
+                <Avatar alt={song.title} src={song.image} />
+              </ListItemAvatar>
               <ListItemText
                 primary={song.title}
                 secondary={

@@ -6,7 +6,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import {CustomButton} from "../auth/components/CustomButton";
+import { Button } from "@mui/material";
 import Link from "@mui/material/Link";
 const style = {
   position: "absolute",
@@ -111,7 +111,9 @@ export const CarouselCard = ({ card, setMenu }) => {
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             by {card.by}
-            <CustomButton text="Follow" />
+            <Button variant="contained" color="success" size="small" sx={{marginLeft: 1}}>
+              Follow
+            </Button>
           </Typography>
         </Box>
       </Modal>

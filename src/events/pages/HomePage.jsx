@@ -1,10 +1,9 @@
-import {CardToReproduce} from "../../components/CardToReproduceComponent";
-import {PlayList} from "../../components/PlayListComponent";
-import {SongsCardComponent} from "../../components/SongsCardComponent";
+import { CardToReproduce } from "../../components/CardToReproduceComponent";
+import { PlayList } from "../../components/PlayListComponent";
+import { SongsCardComponent } from "../../components/SongsCardComponent";
 import { Typography } from "@mui/material";
 
 export const HomePage = ({ setMenu }) => {
-
   return (
     <div className="home-container box">
       <div className="first-playlist">
@@ -16,7 +15,17 @@ export const HomePage = ({ setMenu }) => {
 
       <div className="songs">
         <CardToReproduce />
-        <SongsCardComponent />
+        <div>
+          {/* <Typography
+            variant="h6"
+            component="div"
+            sx={{ color: "text.secondary" }}
+          >
+            The last 5 songs you listened to...
+          </Typography> */}
+
+          <SongsCardComponent  background={'var(--card-background)'}/>
+        </div>
       </div>
 
       <div className="second-playlist">
