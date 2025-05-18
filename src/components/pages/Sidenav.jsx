@@ -26,7 +26,7 @@ import { UserContext } from "../../auth/contexts/UserContext";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
 import PlayListPage from "./PlayListPage";
-import ProfileUserPage from "../../profile/pages/ProfileUserPage";
+import ProfileUserPage from "./ProfileUserPage";
 import { color } from "framer-motion";
 
 const openedMixin = (theme) => ({
@@ -286,7 +286,7 @@ export const Sidenav = () => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3 }}
+        sx={{ flexGrow: 1, p: 3, background: 'var(--background-color)'}}
       >
         {menu === "Home" && <HomePage setMenu={setMenu} />}
         {menu === "Profile" && <ProfileUserPage />}

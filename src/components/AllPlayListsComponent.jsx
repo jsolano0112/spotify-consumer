@@ -8,25 +8,23 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { CircularProgress } from "@mui/material";
-import  Pagination  from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 
 import usePagination from "../hooks/usePagination";
 import { CircularProgressComponent } from "./CircularProgressComponent";
 
 function AllPlayListsComponent({ playlists, setValue }) {
-  //const handleOpen = () => setValue(playlists);
 
   let [page, setPage] = useState(1);
   const PER_PAGE = 20;
 
-  const count = Math.ceil(playlists.length / PER_PAGE)
-  const _DATA = usePagination(playlists, PER_PAGE)
+  const count = Math.ceil(playlists.length / PER_PAGE);
+  const _DATA = usePagination(playlists, PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
-    _DATA.jump(p)
-  }
+    _DATA.jump(p);
+  };
 
   const [loading, setLoading] = useState(false);
   const [userPlaylists, setUserPlaylists] = useState([]);
@@ -45,7 +43,7 @@ function AllPlayListsComponent({ playlists, setValue }) {
   if (loading) {
     return (
       <>
-        <CircularProgressComponent/>
+        <CircularProgressComponent />
       </>
     );
   }
@@ -67,6 +65,9 @@ function AllPlayListsComponent({ playlists, setValue }) {
             variant="h6"
             noWrap
             component="div"
+            sx={{
+              color: "var(--secondary-text-color)",
+            }}
           >
             No PlaysLists Saved Yet!
           </Typography>
@@ -77,15 +78,13 @@ function AllPlayListsComponent({ playlists, setValue }) {
 
   return (
     <>
-
       <Grid
-      padding={{ xs: 3}}
+        padding={{ xs: 3 }}
         container
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {_DATA.currentData().map((playList) => (
-          
           <Grid size={{ xs: 6, sm: 4, md: 3 }} key={playList.id}>
             <Card
               onClick={() => {
@@ -127,9 +126,27 @@ function AllPlayListsComponent({ playlists, setValue }) {
         ))}
       </Grid>
 
-      <Pagination count={count} size="large"  page={page} onChange={handleChange} sx={{display:"flex", alignContent:"center", justifyContent:"center", marginTop:"30px"}}/>
-      <Typography sx={{display:"flex", alignContent:"center", justifyContent:"center",}}>Page: {page}</Typography>
-
+      <Pagination
+        count={count}
+        size="large"
+        page={page}
+        onChange={handleChange}
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          marginTop: "30px",
+        }}
+      />
+      <Typography
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
+        Page: {page}
+      </Typography>
     </>
   );
 }

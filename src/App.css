@@ -1,25 +1,24 @@
 :root {
   --background-color: #fff3e2;
---card-background: rgba(255, 224, 181, 0.6);
+  --card-background: rgba(255, 224, 181, 0.6);
   --primary-text-color: #000000;
-  --secondary-text-color: #4a4a4a;
+  --secondary-text-color: #000000;
   --accent-color: #ffb84c;
   --highlight-color: #ffd93d;
 }
 
 .dark-mode {
-  --background-color: #121212;
-  --card-background: #1e1e1e;
-  --primary-text-color: #ffffff;
+  --background-color: #505050;
+  --card-background: #868181;
+  --primary-text-color: #ffb84c;
   --secondary-text-color: #b0b0b0;
-  --accent-color: #ffb84c;
+  --accent-color: #121212;
   --highlight-color: #ffd93d;
 }
 
 body {
   font-family: "Playfair Display", serif;
   background-color: var(--background-color);
-  color: var(--primary-text-color);
   margin: 0px;
 }
 
@@ -27,9 +26,10 @@ body {
   padding: 10px;
   background-color: var(--accent-color);
   border-radius: 10px;
-
+  color: var(--secondary-text-color);
   h5 {
     font-weight: bold;
+    color: var(--primary-text-color);
   }
 }
 
@@ -117,12 +117,10 @@ body {
 
 .followers-container {
   background-color: var(--accent-color);
-  margin-top: 10px;
 }
 
 .info-container,
 .info-container2 {
-  margin-top: 10px;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);

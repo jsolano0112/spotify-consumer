@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../styles/style.css";
 import { cards } from "../../mockdata/cards";
 import { user } from "../../mockdata/user";
 import {
@@ -16,24 +15,21 @@ import {
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useEffect } from "react";
-
+import { useDispatch } from "react-redux";
+import { toggleMode } from "../../slices/slice";
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
-  // TODO: darkmode
   const [darkMode, setDarkMode] = useState(false);
+  const dispatch = useDispatch();
   const handleConnectSpotify = (e) => {
     e.preventDefault();
     window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
   useEffect(() => {
-     const body = document.body;
-  if (darkMode) {
-    body.classList.add("dark-mode");
-  } else {
-    body.classList.remove("dark-mode");
-  }
+    dispatch(toggleMode());
   }, [darkMode]);
+
   return (
     <Container className="profiler-container">
       <Grid container justifyContent="center" alignItems="center">
@@ -65,7 +61,14 @@ export default function ProfileUserPage() {
                     }}
                   />
                 </Box>
-                <Box sx={{ ml: 3, mt: "auto", mb: 2 }}>
+                <Box
+                  sx={{
+                    ml: 3,
+                    mt: "auto",
+                    mb: 2,
+                    color: "var(--secondary-text-color)",
+                  }}
+                >
                   <Typography variant="h5">{user.name}</Typography>
                   <Typography variant="body2">({user.country})</Typography>
                 </Box>
@@ -76,7 +79,7 @@ export default function ProfileUserPage() {
                   size="small"
                   onClick={() => setDarkMode(!darkMode)}
                 >
-                  {darkMode ? <ModeNightIcon /> : <WbSunnyIcon />}
+                  {darkMode ? <ModeNightIcon/> : <WbSunnyIcon  sx={{ color: 'white' }} />}
                 </Button>
               </Box>
               {/* Spotify Connection Section */}
@@ -106,14 +109,38 @@ export default function ProfileUserPage() {
               className="followers-container"
             >
               <Grid>
-                <Typography variant="h6">{user.followers}</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "var(--secondary-text-color)",
+                  }}
+                >
+                  {user.followers}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "var(--secondary-text-color)",
+                  }}
+                >
                   Followers
                 </Typography>
               </Grid>
               <Grid>
-                <Typography variant="h6">{user.playlists}</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "var(--secondary-text-color)",
+                  }}
+                >
+                  {user.playlists}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "var(--secondary-text-color)",
+                  }}
+                >
                   Playlists
                 </Typography>
               </Grid>
