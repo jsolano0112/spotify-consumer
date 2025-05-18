@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import { useEffect } from "react";
 
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
@@ -25,6 +26,14 @@ export default function ProfileUserPage() {
     window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
+  useEffect(() => {
+     const body = document.body;
+  if (darkMode) {
+    body.classList.add("dark-mode");
+  } else {
+    body.classList.remove("dark-mode");
+  }
+  }, [darkMode]);
   return (
     <Container className="profiler-container">
       <Grid container justifyContent="center" alignItems="center">
@@ -62,7 +71,11 @@ export default function ProfileUserPage() {
                 </Box>
               </Box>
               <Box className="mode-container">
-                <Button variant="secondary" size="small">
+                <Button
+                  variant="secondary"
+                  size="small"
+                  onClick={() => setDarkMode(!darkMode)}
+                >
                   {darkMode ? <ModeNightIcon /> : <WbSunnyIcon />}
                 </Button>
               </Box>
