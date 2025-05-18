@@ -111,20 +111,20 @@ const listItems = [
   {
     text: "Home",
     link: <HomePage />,
-    icon: <IoMdHome style={{ color: "#FFFFFF" }} />,
+    icon: <IoMdHome />,
   },
   {
     text: "Profile",
     link: <ProfileUserPage />,
-    icon: <FaPerson style={{ color: "#FFFFFF" }}/>,
+    icon: <FaPerson />,
   },
   {
     text: "PlayLists",
     link: <PlayListPage />,
-    icon: <MdOutlinePlaylistPlay style={{ color: "#FFFFFF" }}/>,
+    icon: <MdOutlinePlaylistPlay />,
   },
 ];
-export default function Sidenav() {
+export const Sidenav = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState("Home");
@@ -147,52 +147,28 @@ export default function Sidenav() {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar
-          sx={{
-            backgroundColor: "var(--color-dark-blue)",
-            color: "#FFFFFF",
-          }}
-        >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-              {
-                color: "#FFFFFF" 
-              }
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" fontWeight="bold" >
-            Spotify Consumer
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Drawer
         variant="permanent"
         open={open}
-        PaperProps={{
-          sx: {
-            backgroundColor: "var(--color-dark-blue)",
-          },
-        }}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
+          {open ? (
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          ) : (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
         </DrawerHeader>
         <Divider />
         <List>
@@ -200,7 +176,7 @@ export default function Sidenav() {
             <ListItem
               key={item.text}
               disablePadding
-              sx={{ display: "block", color: "#FFFFFF" }}
+              sx={{ display: "block" }}
               onClick={() => setMenu(item.text)}
             >
               <ListItemButton
@@ -216,7 +192,6 @@ export default function Sidenav() {
                     : {
                         justifyContent: "center",
                       },
-                      
                 ]}
               >
                 <ListItemIcon
@@ -257,7 +232,7 @@ export default function Sidenav() {
         <List>
           <ListItem
             disablePadding
-            sx={{ display: "block",  color: "#FFFFFF"  }}
+            sx={{ display: "block"}}
             onClick={() => setMenu("Logout")}
           >
             <ListItemButton
@@ -290,7 +265,7 @@ export default function Sidenav() {
                       },
                 ]}
               >
-                <RiLogoutBoxFill style={{ color: "#FFFFFF" }} />
+                <RiLogoutBoxFill />
               </ListItemIcon>
               <ListItemText
                 color="text.secondary"
@@ -311,9 +286,9 @@ export default function Sidenav() {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, backgroundColor: "var(--color-blue)" }}
+        sx={{ flexGrow: 1, p: 3 }}
       >
-        {menu === "Home" && <HomePage setMenu={setMenu}/>}
+        {menu === "Home" && <HomePage setMenu={setMenu} />}
         {menu === "Profile" && <ProfileUserPage />}
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}

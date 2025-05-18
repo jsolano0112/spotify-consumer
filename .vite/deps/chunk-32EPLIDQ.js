@@ -9098,7 +9098,7 @@ function round(value) {
 var caseAllCaps = {
   textTransform: "uppercase"
 };
-var defaultFontFamily = '"Roboto", "Helvetica", "Arial", sans-serif';
+var defaultFontFamily = '"Playfair Display", serif';
 function createTypography(palette2, typography2) {
   const {
     fontFamily: fontFamily2 = defaultFontFamily,

@@ -6,7 +6,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import CustomButton from "../auth/components/CustomButton";
+import { Button } from "@mui/material";
 import Link from "@mui/material/Link";
 const style = {
   position: "absolute",
@@ -17,7 +17,7 @@ const style = {
   bgcolor: "background.paper",
   p: 4,
 };
-export default function CarouselCard({ card, setMenu }) {
+export const CarouselCard = ({ card, setMenu }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -27,12 +27,8 @@ export default function CarouselCard({ card, setMenu }) {
         onClick={handleOpen}
         key={card.id}
         sx={{
-          width: {
-            xs: "50%",
-            sm: "40%",
-            md: "80%",
-          },
-
+          maxWidth: "168px",
+          minWidth: "168px",
           backgroundColor: "rgba(255, 255, 255, 0.4)",
           aspectRatio: "2 / 3",
           transition: "background-color 0.3s ease",
@@ -47,7 +43,6 @@ export default function CarouselCard({ card, setMenu }) {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "space-between",
               height: "100%",
               p: 1,
             }}
@@ -90,8 +85,7 @@ export default function CarouselCard({ card, setMenu }) {
             </Typography>
           </CardContent>
         </CardActionArea>
-      </Card>
-      <Modal
+          <Modal
         keepMounted
         open={open}
         onClose={handleClose}
@@ -117,10 +111,14 @@ export default function CarouselCard({ card, setMenu }) {
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             by {card.by}
-            <CustomButton text="Follow" />
+            <Button variant="contained" color="success" size="small" sx={{marginLeft: 1}}>
+              Follow
+            </Button>
           </Typography>
         </Box>
       </Modal>
+      </Card>
+    
     </>
   );
 }
