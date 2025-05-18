@@ -18,7 +18,7 @@ export default function PlayListPage() {
 
   return (
     <>
-    {/* TODO: Improve color field */}
+      {/* TODO: Improve color field */}
       <div className="box">
         <Box className="search-bar">
           <Autocomplete
@@ -62,6 +62,7 @@ export default function PlayListPage() {
                       flexDirection: "column",
                       alignItems: "center",
                       background: "var(--accent-color)",
+                      color: "var(--secondary-text-color)",
                     }}
                   >
                     <CardMedia
@@ -71,41 +72,23 @@ export default function PlayListPage() {
                       alt={value.label}
                     />
 
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      align="center"
-                    >
+                    <Typography variant="body1" align="center">
                       {value.label}
                     </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      align="center"
-                    >
+                    <Typography variant="body2" align="center">
                       {value.description}
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      display="block"
-                      mt={1}
-                    >
+                    <Typography variant="caption" display="block" mt={1}>
                       {value.followers} Followers
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      display="block"
-                      mt={1}
-                    >
+                    <Typography variant="caption" display="block" mt={1}>
                       Created {value.createdDate} • Updated {value.updatedDate}
                     </Typography>
                   </CardContent>
                 </Card>
 
                 <Box sx={{ padding: 2 }}>
-                  <SongsCardComponent background={"var(--accent-color)"} />
+                  <SongsCardComponent background={"var(--accent-color)"} color="var(--secondary-text-color)"/>
                 </Box>
               </>
             )}

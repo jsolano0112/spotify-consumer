@@ -1,25 +1,16 @@
 import { AppRouter } from "./routers/AppRouter";
 import { UserProvider } from "./auth/contexts/UserProvider";
-import { createTheme } from "@mui/material";
-import { ThemeProvider } from "@emotion/react";
 import { useSelector } from "react-redux";
-import { lightMode, darkMode } from "./components/palette/palette";
+import { useEffect } from "react";
 export const EventApp = () => {
-  const { mode } = useSelector((state) => state.reducer);
-  console.log(mode);
-  const theme = createTheme({
-    palette: {
-      mode: mode,
-      ...(mode === "light" ? lightMode : darkMode),
-    },
-  });
-
+const mode = useSelector((state) => state.reducer.mode);
+ useEffect(() => {
+    document.body.classList.toggle("dark-mode", mode === "dark");
+  }, [mode]);
   return (
     <>
       <UserProvider>
-        <ThemeProvider theme={theme}>
           <AppRouter />
-        </ThemeProvider>
       </UserProvider>
     </>
   );

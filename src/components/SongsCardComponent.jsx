@@ -13,7 +13,7 @@ import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 
-export const SongsCardComponent = ({ background, url }) => {
+export const SongsCardComponent = ({ background, color, url }) => {
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allSongs, setAllSongs] = useState([]);
@@ -69,6 +69,7 @@ export const SongsCardComponent = ({ background, url }) => {
             justifyContent: "center",
             background: "var(--accent-color)",
             borderRadius: "10px",
+            color: color,
           }}
         >
           <Typography variant="h5" noWrap component="div" fontWeight="bold">
@@ -90,6 +91,7 @@ export const SongsCardComponent = ({ background, url }) => {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "10px",
+            color: color,
           }}
         >
           <Box sx={{ width: 300 }}>
@@ -105,7 +107,7 @@ export const SongsCardComponent = ({ background, url }) => {
           sx={{
             textAlign: "center",
             fontSize: "0.8rem",
-            color: "text.secondary",
+            color: color,
           }}
         >
           No Songs to display
@@ -117,6 +119,7 @@ export const SongsCardComponent = ({ background, url }) => {
               key={song.id}
               alignItems="flex-start"
               sx={{
+                color: color,
                 "&:hover": {
                   backgroundColor: "rgba(0, 0, 0, 0.08)",
                 },
@@ -132,11 +135,10 @@ export const SongsCardComponent = ({ background, url }) => {
                     <Typography
                       component="span"
                       variant="body2"
-                      sx={{ color: "text.primary", display: "inline" }}
+                      sx={{ display: "inline", color: color }}
                     >
-                      {song.artist}
+                      {`${song.artist} - ${song.album} (${song.time})`}
                     </Typography>
-                    {` - ${song.album} (${song.time})`}
                   </Fragment>
                 }
               />
