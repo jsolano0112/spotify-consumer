@@ -1,5 +1,7 @@
 export const authTypes = {
-    ligin: "[AUTH] login",
+    login: "[AUTH] login",
     logout: "[AUTH] logout",
-    errors: "[AUTH] errors"
+    errors: "[AUTH] errors",
+    signUp: "[AUTH] signUp"
+
 }
