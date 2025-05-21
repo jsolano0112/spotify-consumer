@@ -7,7 +7,7 @@ import {Sidenav} from "../components/pages/Sidenav";
 import '../App.css'; 
 export const AppRouter = () => {
   const {
-    userState: { logged },
+    userState: { logged }
   } = useContext(UserContext);
   if (!logged) {
     return (

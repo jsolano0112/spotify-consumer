@@ -1,24 +1,23 @@
 import { authTypes } from "../types/authTypes"
-import { loginUser, loginWithGoogle } from "../../firebase/provider"
-
+import { loginUser, loginWithGoogle, signUpWithEmailAndPassword } from "../../firebase/provider"
 export const useAuthenticate = (dispatch) => {
     //login
     //desarrollar la logica
     const login = async ({ email, password }) => {
 
-        const {ok, uid, photoURL, displayName, errorMessage} = await loginUser(email, password)
+        const { ok, uid, photoURL, displayName, errorMessage } = await loginUser(email, password)
 
-        if ( !ok ) {
+        if (!ok) {
             const action = {
-                type: authTypes.erros,
+                type: authTypes.errors,
                 payload: { errorMessage }
             }
-            dispatch( action );
+            dispatch(action);
 
             return false;
         }
 
-        const userPayload = { email, uid, displayName, photoURL}
+        const userPayload = { email, uid, displayName, photoURL }
 
         const action = {
             type: authTypes.login,
@@ -32,14 +31,14 @@ export const useAuthenticate = (dispatch) => {
         return true;
     };
 
-    const loginGoogle = async () =>{
+    const loginGoogle = async () => {
 
-        const {ok, uid, photoURL, displayName, errorMessage, email} = await loginWithGoogle();
+        const { ok, uid, photoURL, displayName, errorMessage, email } = await loginWithGoogle();
 
 
         if (!ok) {
             const action = {
-                type: authTypes.erros,
+                type: authTypes.errors,
                 payload: { errorMessage }
             };
             dispatch(action);
@@ -47,7 +46,7 @@ export const useAuthenticate = (dispatch) => {
             return false;
         }
 
-        const userPayload = {email, uid, displayName, photoURL}
+        const userPayload = { email, uid, displayName, photoURL }
 
         const action = {
             type: authTypes.login,
@@ -69,6 +68,27 @@ export const useAuthenticate = (dispatch) => {
         dispatch(action)
 
     }
-    return { login, logout, loginGoogle };
+
+    const signUpWithEmail = async ({ email, password }) => {
+        const { ok, errorMessage } = await signUpWithEmailAndPassword({ email, password })
+        if (!ok) {
+            const action = {
+                type: authTypes.errors,
+                payload: { errorMessage }
+            }
+            dispatch(action);
+
+            return false;
+        }
+        const action = {
+            type: authTypes.signUp,
+            payload: 'user registered',
+        };
+        dispatch(action)
+
+        return true;
+    }
+
+    return { login, logout, loginGoogle, signUpWithEmail };
 };
 

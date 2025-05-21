@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { Link, TextField, Button } from "@mui/material";
-import { useForm } from "../../hooks/useForm";
-import {CustomButton} from "../components/CustomButton";
 import { Title } from "../components/CustomTitle";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { Alert } from "@mui/material";
+import { AlertTitle } from "@mui/material";
 
 //  TODO: Change naming to buttons
+//  TODO: Improve size of the card
+//  TODO: Validate when the user already exists
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
@@ -16,17 +20,35 @@ const providers = [
   { id: "webapi", name: "Web API" },
 ];
 
-const initialForm = {
-  confirmPassword: "",
-  password: "",
-};
-
 export const SignUpPage = () => {
-  const { password, confirmPassword, onInputChange } = useForm(initialForm);
-  const onSignUpUser = (email, password, provider) => {
+  const { signUpWithEmail } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(false);
+
+  const onSignUpUser = async (email, password, provider, formData, event) => {
+    let isRegistered = false;
+    setSuccessMessage(false);
+    const confirmPassword = formData.get("confirmPassword");
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setErrorMessage("Passwords do not match!");
       return;
+    } else if (password.length < 6) {
+      setErrorMessage("The password should be at least 6 digits");
+      return;
+    }
+    setErrorMessage("");
+
+    // TODO: Register with the others providers
+    if (provider == "Email and Password") {
+      isRegistered = await signUpWithEmail({ email, password });
+    }
+    if (!isRegistered) {
+      setErrorMessage("An error has occurred");
+    } else {
+      setSuccessMessage(true);
+      if (event?.target?.reset) {
+        event.target.reset();
+      }
     }
   };
   const theme = useTheme();
@@ -39,22 +61,16 @@ export const SignUpPage = () => {
     );
   }
 
-
-  //TODO: create a component to handling this Text field
   function PasswordField() {
     return (
       <>
         <TextField
           required
           type="password"
-          id="password"
           name="password"
           label="Password"
           size="small"
           variant="standard"
-          fontSize="0.8rem"
-          value={password}
-          onChange={onInputChange}
           InputProps={{
             style: { fontSize: "0.9rem" },
           }}
@@ -65,13 +81,10 @@ export const SignUpPage = () => {
         <TextField
           required
           type="password"
-          id="confirmPassword"
           name="confirmPassword"
           label="Confirm Password"
           size="small"
           variant="standard"
-          value={confirmPassword}
-          onChange={onInputChange}
           InputProps={{
             style: { fontSize: "0.9rem" },
           }}
@@ -79,8 +92,28 @@ export const SignUpPage = () => {
             style: { fontSize: "0.9rem" },
           }}
         />
+        <ErrorAlert />
+        <SuccessAlert />;
       </>
     );
+  }
+
+  function ErrorAlert() {
+    return errorMessage != "" ? (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        {errorMessage}
+      </Alert>
+    ) : null;
+  }
+
+  function SuccessAlert() {
+    return successMessage ? (
+      <Alert severity="success">
+        <AlertTitle>Success</AlertTitle>
+        You have successfully registered
+      </Alert>
+    ) : null;
   }
 
   function Subtitle() {
@@ -102,7 +135,7 @@ export const SignUpPage = () => {
       <AppProvider theme={theme}>
         <div
           style={{
-            background: "var(--color-dark-blue)",
+            background: "var(--accent-color)",
             height: "100vh",
           }}
         >
@@ -111,7 +144,9 @@ export const SignUpPage = () => {
               onSignUpUser(
                 formData?.get("email"),
                 formData?.get("password"),
-                provider.id
+                provider.name,
+                formData,
+                event
               )
             }
             slotProps={{
@@ -122,7 +157,14 @@ export const SignUpPage = () => {
               title: Title,
               passwordField: PasswordField,
               submitButton: ({ onClick }) => (
-                <CustomButton text={"Sign Up"} onClick={onClick} />
+                <Button
+                  type="submit"
+                  onClick={onClick}
+                  variant="outlined"
+                  fullWidth
+                >
+                  Sign Up
+                </Button>
               ),
               subtitle: Subtitle,
               rememberMe: () => null,
