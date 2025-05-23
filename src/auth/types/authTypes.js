@@ -3,5 +3,4 @@ export const authTypes = {
     logout: "[AUTH] logout",
     errors: "[AUTH] errors",
     signUp: "[AUTH] signUp"
-
 }

@@ -2,9 +2,10 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 import { GoogleAuthProvider } from "firebase/auth"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { FacebookAuthProvider } from "firebase/auth";
 
 const GoogleProvider = new GoogleAuthProvider();
-
+const provider = new FacebookAuthProvider();
 export const loginUser = async (email, password) => {
     try {
 
@@ -72,3 +73,16 @@ export const signUpWithEmailAndPassword = async ({ email, password }) => {
     }
 }
 
+export const loginWithFacebook = async () => {
+    signInWithPopup(FirebaseAuth, provider).then((result)=>{
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      fetch(`https://graph.facebook.com/${result.user.providerData[0].uid}/picture?type=large&access_token=${accessToken}`)
+      .then((response)=>response.blob())
+      .then((blob)=>{
+        // setProfilePicture(URL.createObjectURL(blob));
+      })
+    }).catch((err)=>{
+      console.log(err.message);
+    })
+}

@@ -9,7 +9,7 @@ import { Button, Link } from "@mui/material";
 import { useState } from "react";
 import { loginWithSpotify } from "../../api/providerapi";
 import { Title } from "../components/CustomTitle";
-import {  TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Alert } from "@mui/material";
 import { AlertTitle } from "@mui/material";
 const providers = [
@@ -22,7 +22,7 @@ const providers = [
 export const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { login, loginGoogle } = useContext(UserContext);
+  const { login, loginGoogle, loginFacebook } = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
@@ -32,9 +32,9 @@ export const LoginPage = () => {
     if (provider === "Email and Password") {
       isLogged = await login({ email, password });
     } else if (provider === "Spotify") {
-      loginWithSpotify();
+      isLogged = await loginWithSpotify();
     } else if (provider === "Facebook") {
-      console.log("TODO");
+      isLogged = await loginFacebook();
     } else if (provider === "Google") {
       isLogged = await loginGoogle();
     } else if (provider === "Web API") {
@@ -43,7 +43,7 @@ export const LoginPage = () => {
     if (!isLogged) {
       // TODO: specify message
       setErrorMessage("An error has occurred");
-    }else{
+    } else {
       navigate("/", { replace: true });
     }
   };

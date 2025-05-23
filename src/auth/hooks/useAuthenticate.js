@@ -1,5 +1,5 @@
 import { authTypes } from "../types/authTypes"
-import { loginUser, loginWithGoogle, signUpWithEmailAndPassword } from "../../firebase/provider"
+import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook } from "../../firebase/provider"
 export const useAuthenticate = (dispatch) => {
     //login
     //desarrollar la logica
@@ -89,6 +89,33 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
-    return { login, logout, loginGoogle, signUpWithEmail };
-};
+const loginFacebook = async () => {
 
+    const result = await loginWithFacebook();
+    console.log(result)
+
+    // if (!ok) {
+    //     const action = {
+    //         type: authTypes.errors,
+    //         payload: { errorMessage }
+    //     };
+    //     dispatch(action);
+
+    //     return false;
+    // }
+
+    // const userPayload = { email, uid, displayName, photoURL }
+
+    // const action = {
+    //     type: authTypes.login,
+    //     payload: userPayload,
+    // };
+
+    // localStorage.setItem('user', JSON.stringify(userPayload));
+
+    // dispatch(action)
+
+    // return true;
+}
+    return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
+};

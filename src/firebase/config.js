@@ -8,12 +8,13 @@ import { getFirestore } from "firebase/firestore/lite";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBh3GhCWmSILAE44jlNLk3GSqtD4qjgkOo",
-  authDomain: "events-app-afa4c.firebaseapp.com",
-  projectId: "events-app-afa4c",
-  storageBucket: "events-app-afa4c.firebasestorage.app",
-  messagingSenderId: "852550725781",
-  appId: "1:852550725781:web:dba763a5774389ba6c2b9c"
+    apiKey: "AIzaSyBq4ulNM55P9-W37WKMkAYktiIIE2l2cA0",
+    authDomain: "spotify-consumer.firebaseapp.com",
+    projectId: "spotify-consumer",
+    storageBucket: "spotify-consumer.firebasestorage.app",
+    messagingSenderId: "801355769376",
+    appId: "1:801355769376:web:c622d3ad2ca0084435be45",
+    measurementId: "G-GBLDQ1L2RS"
 };
 
 
