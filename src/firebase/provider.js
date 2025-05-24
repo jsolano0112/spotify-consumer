@@ -1,8 +1,9 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { FirebaseAuth } from "./config";
+import { FirebaseAuth, FirebaseDB } from "./config";
 import { GoogleAuthProvider } from "firebase/auth"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { FacebookAuthProvider } from "firebase/auth";
+import { collection, doc, setDoc, getDoc } from 'firebase/firestore/lite'
 
 const GoogleProvider = new GoogleAuthProvider();
 const provider = new FacebookAuthProvider();
@@ -91,3 +92,24 @@ export const loginWithFacebook = async () => {
     }
 };
 
+export const getUserInfo = async (user) => {
+    const initialInfo = {
+        id: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        darkMode: false,
+        followers: 0,
+        following: 0,
+        isloggedWithSpotify: false
+    }
+
+    const uid = user.uid;
+    const detailDocRef = doc(FirebaseDB, `users/${uid}`);
+    const detailSnap = await getDoc(detailDocRef);
+
+    if (!detailSnap.exists()) {
+        await setDoc(detailDocRef, initialInfo);
+        return initialInfo; 
+    }
+    return detailSnap.data();
+}

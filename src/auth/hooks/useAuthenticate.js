@@ -1,6 +1,8 @@
 import { authTypes } from "../types/authTypes"
-import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook } from "../../firebase/provider"
+import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook, getUserInfo } from "../../firebase/provider"
+
 export const useAuthenticate = (dispatch) => {
+
 
     const login = async ({ email, password }) => {
 
@@ -22,9 +24,8 @@ export const useAuthenticate = (dispatch) => {
             type: authTypes.login,
             payload: userPayload,
         };
-
-        localStorage.setItem('user', JSON.stringify(userPayload));
-
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
         dispatch(action);
 
         return true;
@@ -52,7 +53,8 @@ export const useAuthenticate = (dispatch) => {
             payload: userPayload,
         };
 
-        localStorage.setItem('user', JSON.stringify(userPayload));
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action)
 
@@ -63,7 +65,7 @@ export const useAuthenticate = (dispatch) => {
         const action = {
             type: authTypes.logout,
         }
-        localStorage.setItem('user', JSON.stringify(null));
+        localStorage.clear();
         dispatch(action)
 
     }
@@ -107,12 +109,13 @@ export const useAuthenticate = (dispatch) => {
             type: authTypes.login,
             payload: userPayload,
         };
-
-        localStorage.setItem('user', JSON.stringify(userPayload));
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action);
 
         return true;
     }
+
     return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
 };
