@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { HomePage } from "./HomePage";
+import { HomePage } from "../../playlists/pages/HomePage";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,10 +23,8 @@ import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
-import PlayListPage from "./PlayListPage";
-import ProfileUserPage from "./ProfileUserPage";
-import { color } from "framer-motion";
-
+import PlayListPage from "../../playlists/pages/PlayListPage";
+import ProfileUserPage from "../../users/pages/ProfileUserPage";
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {

@@ -16,14 +16,6 @@ export const HomePage = ({ setMenu }) => {
       <div className="songs">
         <CardToReproduce />
         <div>
-          {/* <Typography
-            variant="h6"
-            component="div"
-            sx={{ color: "text.secondary" }}
-          >
-            The last 5 songs you listened to...
-          </Typography> */}
-
           <SongsCardComponent  background={'var(--card-background)'}/>
         </div>
       </div>

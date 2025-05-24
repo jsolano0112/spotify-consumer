@@ -16,7 +16,7 @@ import ModeNightIcon from "@mui/icons-material/ModeNight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { toggleMode } from "../../slices/slice";
+import { toggleMode } from "../../palette/slices/slice";
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
