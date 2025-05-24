@@ -111,17 +111,17 @@ const listItems = [
   {
     text: "Home",
     link: <HomePage />,
-    icon: <IoMdHome />,
+    icon: <IoMdHome color="black" />,
   },
   {
     text: "Profile",
     link: <ProfileUserPage />,
-    icon: <FaPerson />,
+    icon: <FaPerson color="black" />,
   },
   {
     text: "PlayLists",
     link: <PlayListPage />,
-    icon: <MdOutlinePlaylistPlay />,
+    icon: <MdOutlinePlaylistPlay color="black" />,
   },
 ];
 export const Sidenav = () => {
@@ -147,10 +147,7 @@ export const Sidenav = () => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <Drawer
-        variant="permanent"
-        open={open}
-      >
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           {open ? (
             <IconButton onClick={handleDrawerClose}>
@@ -232,7 +229,7 @@ export const Sidenav = () => {
         <List>
           <ListItem
             disablePadding
-            sx={{ display: "block"}}
+            sx={{ display: "block" }}
             onClick={() => setMenu("Logout")}
           >
             <ListItemButton
@@ -265,7 +262,7 @@ export const Sidenav = () => {
                       },
                 ]}
               >
-                <RiLogoutBoxFill />
+                <RiLogoutBoxFill color="black"/>
               </ListItemIcon>
               <ListItemText
                 color="text.secondary"
@@ -286,7 +283,7 @@ export const Sidenav = () => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, background: 'var(--background-color)'}}
+        sx={{ flexGrow: 1, p: 3, background: "var(--background-color)" }}
       >
         {menu === "Home" && <HomePage setMenu={setMenu} />}
         {menu === "Profile" && <ProfileUserPage />}
@@ -295,4 +292,4 @@ export const Sidenav = () => {
       </Box>
     </Box>
   );
-}
+};

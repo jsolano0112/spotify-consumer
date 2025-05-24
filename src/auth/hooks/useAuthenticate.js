@@ -1,8 +1,7 @@
 import { authTypes } from "../types/authTypes"
 import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook } from "../../firebase/provider"
 export const useAuthenticate = (dispatch) => {
-    //login
-    //desarrollar la logica
+
     const login = async ({ email, password }) => {
 
         const { ok, uid, photoURL, displayName, errorMessage } = await loginUser(email, password)
@@ -89,33 +88,31 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
-const loginFacebook = async () => {
+    const loginFacebook = async () => {
+        const { ok, uid, photoURL, displayName, errorMessage } = await loginWithFacebook();
+        console.log(ok)
+        if (!ok) {
+            const action = {
+                type: authTypes.errors,
+                payload: { errorMessage }
+            }
+            dispatch(action);
 
-    const result = await loginWithFacebook();
-    console.log(result)
+            return false;
+        }
 
-    // if (!ok) {
-    //     const action = {
-    //         type: authTypes.errors,
-    //         payload: { errorMessage }
-    //     };
-    //     dispatch(action);
+        const userPayload = { uid, displayName, photoURL }
 
-    //     return false;
-    // }
+        const action = {
+            type: authTypes.login,
+            payload: userPayload,
+        };
 
-    // const userPayload = { email, uid, displayName, photoURL }
+        localStorage.setItem('user', JSON.stringify(userPayload));
 
-    // const action = {
-    //     type: authTypes.login,
-    //     payload: userPayload,
-    // };
+        dispatch(action);
 
-    // localStorage.setItem('user', JSON.stringify(userPayload));
-
-    // dispatch(action)
-
-    // return true;
-}
+        return true;
+    }
     return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
 };

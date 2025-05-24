@@ -6,6 +6,7 @@ import { FacebookAuthProvider } from "firebase/auth";
 
 const GoogleProvider = new GoogleAuthProvider();
 const provider = new FacebookAuthProvider();
+
 export const loginUser = async (email, password) => {
     try {
 
@@ -21,8 +22,6 @@ export const loginUser = async (email, password) => {
             uid
         };
     } catch (error) {
-        console.log(error.message)
-
         return {
             ok: false,
             errorMessage: error.message,
@@ -60,8 +59,7 @@ export const loginWithGoogle = async () => {
 
 export const signUpWithEmailAndPassword = async ({ email, password }) => {
     try {
-        const result = await createUserWithEmailAndPassword(FirebaseAuth, email, password)
-        console.log(result)
+        await createUserWithEmailAndPassword(FirebaseAuth, email, password)
         return {
             ok: true
         }
@@ -74,15 +72,22 @@ export const signUpWithEmailAndPassword = async ({ email, password }) => {
 }
 
 export const loginWithFacebook = async () => {
-    signInWithPopup(FirebaseAuth, provider).then((result)=>{
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      const accessToken = credential.accessToken;
-      fetch(`https://graph.facebook.com/${result.user.providerData[0].uid}/picture?type=large&access_token=${accessToken}`)
-      .then((response)=>response.blob())
-      .then((blob)=>{
-        // setProfilePicture(URL.createObjectURL(blob));
-      })
-    }).catch((err)=>{
-      console.log(err.message);
-    })
-}
+    try {
+        const result = await signInWithPopup(FirebaseAuth, provider);
+        const { uid, photoURL, displayName, email } = result.user;
+
+        return {
+            ok: true,
+            displayName,
+            photoURL,
+            email,
+            uid
+        };
+    } catch (error) {
+        return {
+            ok: false,
+            errorMessage: error.message
+        };
+    }
+};
+
