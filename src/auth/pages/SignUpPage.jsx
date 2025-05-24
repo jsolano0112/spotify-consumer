@@ -135,7 +135,7 @@ export const SignUpPage = () => {
       <AppProvider theme={theme}>
         <div
           style={{
-            background: "var(--accent-color)",
+            background: "#ffb84c",
             height: "100vh",
           }}
         >

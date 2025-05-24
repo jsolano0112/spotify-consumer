@@ -3,7 +3,7 @@ import { FirebaseAuth, FirebaseDB } from "./config";
 import { GoogleAuthProvider } from "firebase/auth"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { FacebookAuthProvider } from "firebase/auth";
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore/lite'
+import { collection, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore/lite'
 
 const GoogleProvider = new GoogleAuthProvider();
 const provider = new FacebookAuthProvider();
@@ -100,7 +100,8 @@ export const getUserInfo = async (user) => {
         darkMode: false,
         followers: 0,
         following: 0,
-        isloggedWithSpotify: false
+        isloggedWithSpotify: false,
+        country: null
     }
 
     const uid = user.uid;
@@ -109,7 +110,18 @@ export const getUserInfo = async (user) => {
 
     if (!detailSnap.exists()) {
         await setDoc(detailDocRef, initialInfo);
-        return initialInfo; 
+        return initialInfo;
     }
     return detailSnap.data();
 }
+
+
+export const updateUserInfo = async (userUid, updatedFields) => {
+    const userDocRef = doc(FirebaseDB, `users/${userUid}`);
+    try {
+        await updateDoc(userDocRef, updatedFields);
+    } catch (error) {
+        console.error("Error updating user info:", error);
+        throw error;
+    }
+};

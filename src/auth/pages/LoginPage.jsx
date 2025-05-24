@@ -92,7 +92,7 @@ export const LoginPage = () => {
       <AppProvider theme={theme}>
         <div
           style={{
-            background: "var(--accent-color)",
+            background: "#ffb84c",
             height: "100vh",
           }}
         >

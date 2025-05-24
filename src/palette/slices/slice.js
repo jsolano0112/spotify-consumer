@@ -1,7 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getInitialMode = () => {
+    try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user?.darkMode === true) return 'dark';
+    } catch {
+        return 'light';
+
+    }
+};
+
+
 const initialState = {
-    mode: 'light',
+    mode: getInitialMode(),
 };
 
 export const slice = createSlice({
@@ -10,6 +21,12 @@ export const slice = createSlice({
     reducers: {
         toggleMode: (state) => {
             state.mode = state.mode === 'light' ? 'dark' : 'light';
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user) {
+                user.darkMode = state.mode === 'dark';
+                localStorage.setItem("user", JSON.stringify(user));
+            }
+
         },
         setMode: (state, action) => {
             state.mode = action.payload;

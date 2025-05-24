@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { cards } from "../../mockdata/cards";
-import { user } from "../../mockdata/user";
 import {
   Box,
   Button,
@@ -17,9 +16,40 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMode } from "../../palette/slices/slice";
+import { Skeleton } from "@mui/material";
+import { updateUserInfo } from "../../firebase/provider";
+
+function SkeletonProgress() {
+  return (
+    <Box
+      sx={{
+        height: "10vh",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "10px",
+      }}
+    >
+      <Box sx={{ width: 70 }}>
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+      </Box>
+    </Box>
+  );
+}
+
 export default function ProfileUserPage() {
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] = useState(null);
+  const [playlist, setPlaylist] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const dispatch = useDispatch();
   const handleConnectSpotify = (e) => {
     e.preventDefault();
@@ -27,8 +57,36 @@ export default function ProfileUserPage() {
   };
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setIsSpotifyConnected(parsedUser.isloggedWithSpotify);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = () => {
+      setTimeout(() => {
+        setHistory([]);
+        setPlaylist([]);
+        setArtists([]);
+        setGenres([]);
+        setLoading(false);
+      }, 3000);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleToggleDarkMode = async () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
     dispatch(toggleMode());
-  }, [darkMode]);
+    if (user?.id) {
+      await updateUserInfo(user.id, { darkMode: newDarkMode });
+    }
+  };
 
   return (
     <Container className="profiler-container">
@@ -50,7 +108,7 @@ export default function ProfileUserPage() {
                 >
                   <CardMedia
                     component="img"
-                    image={user.profileImage}
+                    image={user?.photoURL}
                     alt="Profile"
                     sx={{
                       width: 150,
@@ -69,17 +127,21 @@ export default function ProfileUserPage() {
                     color: "var(--secondary-text-color)",
                   }}
                 >
-                  <Typography variant="h5">{user.name}</Typography>
-                  <Typography variant="body2">({user.country})</Typography>
+                  <Typography variant="h5">{user?.displayName}</Typography>
+                  <Typography variant="body2">({user?.country})</Typography>
                 </Box>
               </Box>
               <Box className="mode-container">
                 <Button
                   variant="secondary"
                   size="small"
-                  onClick={() => setDarkMode(!darkMode)}
+                  onClick={handleToggleDarkMode}
                 >
-                  {darkMode ? <ModeNightIcon/> : <WbSunnyIcon  sx={{ color: 'white' }} />}
+                  {darkMode ? (
+                    <ModeNightIcon />
+                  ) : (
+                    <WbSunnyIcon sx={{ color: "white" }} />
+                  )}
                 </Button>
               </Box>
               {/* Spotify Connection Section */}
@@ -115,7 +177,7 @@ export default function ProfileUserPage() {
                     color: "var(--secondary-text-color)",
                   }}
                 >
-                  {user.followers}
+                  {user?.followers}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -133,7 +195,7 @@ export default function ProfileUserPage() {
                     color: "var(--secondary-text-color)",
                   }}
                 >
-                  {user.playlists}
+                  {playlist}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -164,11 +226,19 @@ export default function ProfileUserPage() {
                   Top Artists
                 </Typography>
                 <Box>
-                  {user.topArtists.slice(0, 3).map((artist, index) => (
-                    <Typography key={index} variant="body1" gutterBottom>
-                      {artist}
-                    </Typography>
-                  ))}
+                  {loading ? (
+                    <Box className="progress">
+                      <SkeletonProgress />
+                    </Box>
+                  ) : artists.length === 0 ? (
+                    <Typography>No listened artists.</Typography>
+                  ) : (
+                    artists.slice(0, 3).map((artist, index) => (
+                      <Typography key={index} variant="body1" gutterBottom>
+                        {artist}
+                      </Typography>
+                    ))
+                  )}
                 </Box>
               </Box>
               <Box
@@ -185,11 +255,19 @@ export default function ProfileUserPage() {
               >
                 <Typography variant="h6">Favorite Genres</Typography>
                 <Box>
-                  {user.favoriteGenres.slice(0, 3).map((genre, index) => (
-                    <Typography key={index} variant="body1" gutterBottom>
-                      {genre}
-                    </Typography>
-                  ))}
+                  {loading ? (
+                    <Box className="progress">
+                      <SkeletonProgress />
+                    </Box>
+                  ) : genres.length === 0 ? (
+                    <Typography>No listened genres.</Typography>
+                  ) : (
+                    genres.slice(0, 3).map((genre, index) => (
+                      <Typography key={index} variant="body1" gutterBottom>
+                        {genre}
+                      </Typography>
+                    ))
+                  )}
                 </Box>
               </Box>
               <Box
@@ -206,11 +284,19 @@ export default function ProfileUserPage() {
               >
                 <Typography variant="h6">Recent History</Typography>
                 <Box>
-                  {user.recentHistory.slice(0, 3).map((song, index) => (
-                    <Typography key={index} variant="body1" gutterBottom>
-                      {song}
-                    </Typography>
-                  ))}
+                  {loading ? (
+                    <Box className="progress">
+                      <SkeletonProgress />
+                    </Box>
+                  ) : history.length === 0 ? (
+                    <Typography>No recent history.</Typography>
+                  ) : (
+                    history.slice(0, 3).map((song, index) => (
+                      <Typography key={index} variant="body1" gutterBottom>
+                        {song}
+                      </Typography>
+                    ))
+                  )}
                 </Box>
               </Box>
               <Box
@@ -227,38 +313,48 @@ export default function ProfileUserPage() {
               >
                 <Typography variant="h6">Albums</Typography>
                 <Box className="info-container2">
-                  {cards.slice(0, 4).map((card) => (
-                    <Grid item xs={6} key={card.id}>
-                      <Card
-                        sx={{
-                          width: 50,
-                          height: 50,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            image={card.image}
-                            alt={card.title}
-                            sx={{
-                              borderRadius: 3,
-                              width: "100%",
-                              height: 120,
-                              objectFit: "cover",
-                            }}
-                          />
-                          <CardContent sx={{ textAlign: "center", padding: 1 }}>
-                            <Typography variant="body1" noWrap>
-                              {card.title}
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
+                  {loading ? (
+                    <Box className="progress">
+                      <SkeletonProgress />
+                    </Box>
+                  ) : cards.length === 0 ? (
+                    <Typography>No albums.</Typography>
+                  ) : (
+                    cards.slice(0, 4).map((card) => (
+                      <Grid item xs={6} key={card.id}>
+                        <Card
+                          sx={{
+                            width: 50,
+                            height: 50,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              image={card.image}
+                              alt={card.title}
+                              sx={{
+                                borderRadius: 3,
+                                width: "100%",
+                                height: 120,
+                                objectFit: "cover",
+                              }}
+                            />
+                            <CardContent
+                              sx={{ textAlign: "center", padding: 1 }}
+                            >
+                              <Typography variant="body1" noWrap>
+                                {card.title}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
+                    ))
+                  )}
                 </Box>
               </Box>
             </CardContent>
