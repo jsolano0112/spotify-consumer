@@ -1,8 +1,9 @@
 import { authTypes } from "../types/authTypes"
-import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook } from "../../firebase/provider"
+import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook, getUserInfo } from "../../firebase/provider"
+
 export const useAuthenticate = (dispatch) => {
-    //login
-    //desarrollar la logica
+
+
     const login = async ({ email, password }) => {
 
         const { ok, uid, photoURL, displayName, errorMessage } = await loginUser(email, password)
@@ -23,9 +24,8 @@ export const useAuthenticate = (dispatch) => {
             type: authTypes.login,
             payload: userPayload,
         };
-
-        localStorage.setItem('user', JSON.stringify(userPayload));
-
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
         dispatch(action);
 
         return true;
@@ -53,7 +53,8 @@ export const useAuthenticate = (dispatch) => {
             payload: userPayload,
         };
 
-        localStorage.setItem('user', JSON.stringify(userPayload));
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action)
 
@@ -64,7 +65,7 @@ export const useAuthenticate = (dispatch) => {
         const action = {
             type: authTypes.logout,
         }
-        localStorage.setItem('user', JSON.stringify(null));
+        localStorage.clear();
         dispatch(action)
 
     }
@@ -89,33 +90,32 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
-const loginFacebook = async () => {
+    const loginFacebook = async () => {
+        const { ok, uid, photoURL, displayName, errorMessage } = await loginWithFacebook();
+        console.log(ok)
+        if (!ok) {
+            const action = {
+                type: authTypes.errors,
+                payload: { errorMessage }
+            }
+            dispatch(action);
 
-    const result = await loginWithFacebook();
-    console.log(result)
+            return false;
+        }
 
-    // if (!ok) {
-    //     const action = {
-    //         type: authTypes.errors,
-    //         payload: { errorMessage }
-    //     };
-    //     dispatch(action);
+        const userPayload = { uid, displayName, photoURL }
 
-    //     return false;
-    // }
+        const action = {
+            type: authTypes.login,
+            payload: userPayload,
+        };
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
 
-    // const userPayload = { email, uid, displayName, photoURL }
+        dispatch(action);
 
-    // const action = {
-    //     type: authTypes.login,
-    //     payload: userPayload,
-    // };
+        return true;
+    }
 
-    // localStorage.setItem('user', JSON.stringify(userPayload));
-
-    // dispatch(action)
-
-    // return true;
-}
     return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
 };

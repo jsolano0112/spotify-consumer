@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { HomePage } from "./HomePage";
+import { HomePage } from "../../playlists/pages/HomePage";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,10 +23,8 @@ import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
-import PlayListPage from "./PlayListPage";
-import ProfileUserPage from "./ProfileUserPage";
-import { color } from "framer-motion";
-
+import PlayListPage from "../../playlists/pages/PlayListPage";
+import ProfileUserPage from "../../users/pages/ProfileUserPage";
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -111,17 +107,17 @@ const listItems = [
   {
     text: "Home",
     link: <HomePage />,
-    icon: <IoMdHome />,
+    icon: <IoMdHome color="black" />,
   },
   {
     text: "Profile",
     link: <ProfileUserPage />,
-    icon: <FaPerson />,
+    icon: <FaPerson color="black" />,
   },
   {
     text: "PlayLists",
     link: <PlayListPage />,
-    icon: <MdOutlinePlaylistPlay />,
+    icon: <MdOutlinePlaylistPlay color="black" />,
   },
 ];
 export const Sidenav = () => {
@@ -147,10 +143,7 @@ export const Sidenav = () => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <Drawer
-        variant="permanent"
-        open={open}
-      >
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           {open ? (
             <IconButton onClick={handleDrawerClose}>
@@ -232,7 +225,7 @@ export const Sidenav = () => {
         <List>
           <ListItem
             disablePadding
-            sx={{ display: "block"}}
+            sx={{ display: "block" }}
             onClick={() => setMenu("Logout")}
           >
             <ListItemButton
@@ -265,7 +258,7 @@ export const Sidenav = () => {
                       },
                 ]}
               >
-                <RiLogoutBoxFill />
+                <RiLogoutBoxFill color="black"/>
               </ListItemIcon>
               <ListItemText
                 color="text.secondary"
@@ -286,7 +279,7 @@ export const Sidenav = () => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, background: 'var(--background-color)'}}
+        sx={{ flexGrow: 1, p: 3, background: "var(--background-color)" }}
       >
         {menu === "Home" && <HomePage setMenu={setMenu} />}
         {menu === "Profile" && <ProfileUserPage />}
@@ -295,4 +288,4 @@ export const Sidenav = () => {
       </Box>
     </Box>
   );
-}
+};
