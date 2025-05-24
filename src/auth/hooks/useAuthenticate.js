@@ -1,8 +1,9 @@
 import { authTypes } from "../types/authTypes"
 import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook, getUserInfo } from "../../firebase/provider"
-
+import { useDispatch } from "react-redux";
+import { setMode } from "../../palette/slices/slice";
 export const useAuthenticate = (dispatch) => {
-
+    const reduxDispatch = useDispatch();
 
     const login = async ({ email, password }) => {
 
@@ -25,6 +26,7 @@ export const useAuthenticate = (dispatch) => {
             payload: userPayload,
         };
         const userInfo = await getUserInfo(userPayload);
+        reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
         localStorage.setItem('user', JSON.stringify(userInfo));
         dispatch(action);
 
@@ -54,6 +56,8 @@ export const useAuthenticate = (dispatch) => {
         };
 
         const userInfo = await getUserInfo(userPayload);
+        reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
+
         localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action)
@@ -92,7 +96,6 @@ export const useAuthenticate = (dispatch) => {
 
     const loginFacebook = async () => {
         const { ok, uid, photoURL, displayName, errorMessage } = await loginWithFacebook();
-        console.log(ok)
         if (!ok) {
             const action = {
                 type: authTypes.errors,
@@ -110,6 +113,8 @@ export const useAuthenticate = (dispatch) => {
             payload: userPayload,
         };
         const userInfo = await getUserInfo(userPayload);
+        reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
+
         localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action);
