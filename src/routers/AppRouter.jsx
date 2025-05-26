@@ -4,11 +4,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { SignUpPage } from "../auth/pages/SignUpPage";
 import {Sidenav} from "../components/pages/Sidenav";
+import {SpotifyCallbackPage} from "../auth/components/SpotifyCallbackPage"
 import '../App.css'; 
 export const AppRouter = () => {
-  const {
-    userState: { logged }
-  } = useContext(UserContext);
+  const {userState: { logged }} = useContext(UserContext);
   if (!logged) {
     return (
       <>
@@ -16,6 +15,7 @@ export const AppRouter = () => {
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/SignUp" element={<SignUpPage />} />
           <Route path="/*" element={<Navigate to="/Login" />} />
+          <Route path="/callback" element={<SpotifyCallbackPage />}/>
         </Routes>
       </>
     );

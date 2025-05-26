@@ -122,5 +122,7 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
+    
+
     return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
 };

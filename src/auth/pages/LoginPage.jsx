@@ -17,12 +17,11 @@ const providers = [
   { id: "google", name: "Google" },
   { id: "facebook", name: "Facebook" },
   { id: "spotify", name: "Spotify" },
-  { id: "webapi", name: "Web API" },
 ];
 export const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { login, loginGoogle, loginFacebook } = useContext(UserContext);
+  const { login, loginGoogle, loginFacebook} = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
@@ -30,15 +29,13 @@ export const LoginPage = () => {
     let isLogged = false;
 
     if (provider === "Email and Password") {
-      isLogged = await login({ email, password });
+      isLogged = await login({ email, password });      
     } else if (provider === "Spotify") {
       isLogged = await loginWithSpotify();
     } else if (provider === "Facebook") {
       isLogged = await loginFacebook();
     } else if (provider === "Google") {
       isLogged = await loginGoogle();
-    } else if (provider === "Web API") {
-      console.log("TODO");
     }
     if (!isLogged) {
       // TODO: specify message

@@ -7,6 +7,7 @@ const mode = useSelector((state) => state.reducer.mode);
  useEffect(() => {
     document.body.classList.toggle("dark-mode", mode === "dark");
   }, [mode]);
+  
   return (
     <>
       <UserProvider>
