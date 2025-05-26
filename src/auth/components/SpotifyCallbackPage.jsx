@@ -1,45 +1,43 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef } from "react";
 import { getSpotifyToken } from "../../api/providerapi";
+import { UserContext } from "../contexts/UserContext";
 
 export const SpotifyCallbackPage = () => {
-  const navigate = useNavigate();
+  const hasRun = useRef(false);
+  const { loginSpotify } = useContext(UserContext);
 
   useEffect(() => {
     const handleSpotifyCallback = async () => {
-      const existingToken = localStorage.getItem("spotifyToken");
-      
-      if (existingToken) {
-        navigate("/", { replace: true });
-        return;
-      }
+      if (hasRun.current) return;
+      hasRun.current = true;
 
       try {
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
 
         if (!code) {
-          navigate("/error", { replace: true });
+          console.log("error spo code");
           return;
         }
 
         const tokenData = await getSpotifyToken(code);
-
-        if (tokenData && tokenData.access_token) {
+        const accessToken = tokenData.access_token;
+        if (accessToken) {
           localStorage.setItem("spotifyToken", JSON.stringify(tokenData));
-          navigate("/", { replace: true });
+
+          const success = await loginSpotify(accessToken);
+          console.log('success', success)
+          if (!success) {
+            console.log("user error");
+          }
         } else {
-          console.error("Failed to retrieve token data");
-          navigate("/error", { replace: true });
+          console.log("missing Token");
         }
       } catch (error) {
-        console.error("Error handling Spotify callback:", error);
-        navigate("/error", { replace: true });
+        console.error("Error callback:", error);
       }
     };
 
     handleSpotifyCallback();
-  }, [navigate]);
-
-  return <div>Processing Spotify login...</div>;
+  }, []);
 };

@@ -122,7 +122,47 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
-    
+    const loginSpotify = async (tokenData) => {
+        const userResponse = await fetch("https://api.spotify.com/v1/me", {
+            method: "GET", headers: { Authorization: `Bearer ${tokenData}` }
+        });
+        const userSpotify = await userResponse.json();
+        console.log(userResponse)
+        if (!userResponse.ok) {
+            const { userResponse: { statusText } } = userResponse;
 
-    return { login, logout, loginGoogle, signUpWithEmail, loginFacebook };
+            const action = {
+                type: authTypes.errors,
+                payload: { statusText }
+            }
+            dispatch(action);
+
+            return false;
+        }
+
+        const userPayload = {
+            uid: userSpotify.id,
+            displayName: userSpotify.display_name,
+            photoURL: userSpotify.images?.[0]?.url || null,
+            // email: userSpotify.email,
+            country: userSpotify.country,
+            followers: userSpotify.followers,
+            isLogged: true
+        };
+
+        const action = {
+            type: authTypes.login,
+            payload: userPayload,
+        };
+
+        const userInfo = await getUserInfo(userPayload);
+        reduxDispatch(setMode(userInfo.darkMode ? "dark" : "light"));
+        localStorage.setItem("user", JSON.stringify(userInfo));
+        dispatch(action);
+
+        return true;
+    };
+
+
+    return { login, logout, loginGoogle, signUpWithEmail, loginFacebook, loginSpotify };
 };

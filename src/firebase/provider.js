@@ -98,10 +98,10 @@ export const getUserInfo = async (user) => {
         displayName: user.displayName,
         photoURL: user.photoURL,
         darkMode: false,
-        followers: 0,
-        following: 0,
-        isloggedWithSpotify: false,
-        country: null
+        followers: user?.followers?.total ?? 0,
+        following: user?.following ?? 0,
+        isloggedWithSpotify: user?.isLogged ?? false,
+        country: user?.country ?? ''
     }
 
     const uid = user.uid;
