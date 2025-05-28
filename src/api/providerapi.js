@@ -4,10 +4,14 @@ const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const SPOTIFY_TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const CLIENT_ID = "086acdbbdcef4ba8a564bba64a216325";
 const CLIENT_SECRET = "a94745069e4b42fe8fa283dd3458664a";
-const REDIRECT_URI = "https://g3hb5g5x-5173.use.devtunnels.ms/callback";
+const REDIRECT_URI = "https://7hdlxt3b-5173.use2.devtunnels.ms/callback";
 const SCOPES = [
+  "user-follow-read", // Permiso necesario para obtener los artistas seguidos
+  "playlist-read-private", // Ejemplo de otro permiso que podrías necesitar
   "user-read-email",
   "user-read-private",
+  "user-top-read",
+  "user-read-recently-played"
 ];
 
 export const loginWithSpotify = () => {

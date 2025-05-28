@@ -2,6 +2,7 @@ import { authTypes } from "../types/authTypes"
 import { loginUser, loginWithGoogle, signUpWithEmailAndPassword, loginWithFacebook, getUserInfo } from "../../firebase/provider"
 import { useDispatch } from "react-redux";
 import { setMode } from "../../palette/slices/slice";
+
 export const useAuthenticate = (dispatch) => {
     const reduxDispatch = useDispatch();
 

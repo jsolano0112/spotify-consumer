@@ -1,22 +1,12 @@
 import React, { useState } from "react";
 import { cards } from "../../mockdata/cards";
-import {
-  Box,
-  Button,
-  Card,
-  CardMedia,
-  CardContent,
-  Container,
-  Grid,
-  Typography,
-  CardActionArea,
-} from "@mui/material";
+import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea, } from "@mui/material";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMode } from "../../palette/slices/slice";
-import { Skeleton } from "@mui/material";
+import { Skeleton, List, ListItem } from "@mui/material";
 import { updateUserInfo } from "../../firebase/provider";
 
 function SkeletonProgress() {
@@ -57,21 +47,53 @@ export default function ProfileUserPage() {
   };
 
   useEffect(() => {
+    // Recuperar playlists
+    const storedPlaylists = localStorage.getItem("nameplaylist");
+    if (storedPlaylists) {
+      const parsedPlaylists = JSON.parse(storedPlaylists);
+      const playlistNames = parsedPlaylists.map((item) => item.name);
+      setPlaylist(playlistNames);
+    }
+
+    // Recuperar detalles de artistas
+    const storedArtists = localStorage.getItem("artistDetails");
+    if (storedArtists) {
+      const parsedArtists = JSON.parse(storedArtists);
+      setArtists(parsedArtists);
+    }
+
+    // Recuperar usuario
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setIsSpotifyConnected(parsedUser.isloggedWithSpotify);
     }
+
+    // Recuperar Generos
+    const storedGenres = localStorage.getItem("listGenres");
+    if (storedGenres) {
+      const parsedGenres = JSON.parse(storedGenres);
+      setGenres(parsedGenres);
+    }
+
+    // Recuperar ultimas canciones y albunes
+    const storedLastPlayers = localStorage.getItem("playerRecently");
+    if (storedLastPlayers) {
+      const parsedLastPlayers = JSON.parse(storedLastPlayers);
+
+      setHistory(parsedLastPlayers);
+    }
+
   }, []);
 
   useEffect(() => {
     const fetchData = () => {
       setTimeout(() => {
-        setHistory([]);
-        setPlaylist([]);
-        setArtists([]);
-        setGenres([]);
+        // setHistory([]);
+        // setPlaylist([]);
+        // setArtists([]);
+        // setGenres([]);
         setLoading(false);
       }, 3000);
     };
@@ -195,16 +217,15 @@ export default function ProfileUserPage() {
                     color: "var(--secondary-text-color)",
                   }}
                 >
-                  {playlist}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "var(--secondary-text-color)",
-                  }}
-                >
                   Playlists
                 </Typography>
+                <List>
+                  {playlist.map((item, index) => (
+                    <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.9rem"}}>
+                      - {item}
+                    </ListItem>
+                  ))}
+                </List>
               </Grid>
             </Grid>
 
@@ -222,21 +243,57 @@ export default function ProfileUserPage() {
                 }}
                 className="artists"
               >
-                <Typography variant="h6" gutterBottom>
-                  Top Artists
-                </Typography>
-                <Box>
+                <Typography variant="h6" textAlign={"center"}>Top Artists</Typography>
+                <Box className="info-container2">
                   {loading ? (
                     <Box className="progress">
                       <SkeletonProgress />
                     </Box>
                   ) : artists.length === 0 ? (
-                    <Typography>No listened artists.</Typography>
+                    <Typography>No Artists.</Typography>
                   ) : (
-                    artists.slice(0, 3).map((artist, index) => (
-                      <Typography key={index} variant="body1" gutterBottom>
-                        {artist}
-                      </Typography>
+                    artists.slice(0, 4).map((item) => (
+                      <Grid key={item.id}>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            textAlign: "center",
+                            fontSize: "0.7rem",
+                            fontWeight: "bold",
+                            padding: "0.1rem 0",
+                          }}
+                        >
+                          {item.name}
+                        </Typography>
+                        <Card
+                          sx={{
+                            width: 50,
+                            height: 50,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              image={item.image}
+                              alt={item.name}
+                              title={item.name}
+                              sx={{
+                                borderRadius: 3,
+                                width: "100%",
+                                height: 50,
+                                objectFit: "cover",
+                              }}
+                            />
+                            <CardContent sx={{ textAlign: "center", padding: 1 }}>
+                              {/* <Typography variant="body1" noWrap> {item.name} </Typography> */}
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
                     ))
                   )}
                 </Box>
@@ -259,16 +316,19 @@ export default function ProfileUserPage() {
                     <Box className="progress">
                       <SkeletonProgress />
                     </Box>
-                  ) : genres.length === 0 ? (
+                  ) : !Array.isArray(genres) || genres.length === 0 ? (
                     <Typography>No listened genres.</Typography>
                   ) : (
-                    genres.slice(0, 3).map((genre, index) => (
-                      <Typography key={index} variant="body1" gutterBottom>
-                        {genre}
-                      </Typography>
-                    ))
+                    <List>
+                      {genres.map((item, index) => (
+                        <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0 }}>
+                          {item}
+                        </ListItem>
+                      ))}
+                    </List>
                   )}
                 </Box>
+
               </Box>
               <Box
                 sx={{
@@ -291,11 +351,13 @@ export default function ProfileUserPage() {
                   ) : history.length === 0 ? (
                     <Typography>No recent history.</Typography>
                   ) : (
-                    history.slice(0, 3).map((song, index) => (
-                      <Typography key={index} variant="body1" gutterBottom>
-                        {song}
-                      </Typography>
-                    ))
+                  <List>
+                  {history.map(({name, artist, id}) => (
+                    <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
+                      - {name} - {artist}
+                    </ListItem>
+                  ))}
+                </List>
                   )}
                 </Box>
               </Box>
@@ -311,17 +373,28 @@ export default function ProfileUserPage() {
                 }}
                 className="albums"
               >
-                <Typography variant="h6">Albums</Typography>
+                <Typography variant="h6" textAlign={"center"}>Albums</Typography>
                 <Box className="info-container2">
                   {loading ? (
                     <Box className="progress">
                       <SkeletonProgress />
                     </Box>
-                  ) : cards.length === 0 ? (
-                    <Typography>No albums.</Typography>
+                  ) : history.length === 0 ? (
+                    <Typography>No Albums.</Typography>
                   ) : (
-                    cards.slice(0, 4).map((card) => (
-                      <Grid item xs={6} key={card.id}>
+                    history.slice(0, 4).map((item) => (
+                      <Grid key={item.id}>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            textAlign: "center",
+                            fontSize: "0.7rem",
+                            fontWeight: "bold",
+                            padding: "0.1rem 0",
+                          }}
+                        >
+                          {item.albumName}
+                        </Typography>
                         <Card
                           sx={{
                             width: 50,
@@ -331,24 +404,22 @@ export default function ProfileUserPage() {
                             alignItems: "center",
                           }}
                         >
+
                           <CardActionArea>
                             <CardMedia
                               component="img"
-                              image={card.image}
-                              alt={card.title}
+                              image={item.albumImage}
+                              alt={item.name}
+                              title={item.name}
                               sx={{
                                 borderRadius: 3,
                                 width: "100%",
-                                height: 120,
+                                height: 50,
                                 objectFit: "cover",
                               }}
                             />
-                            <CardContent
-                              sx={{ textAlign: "center", padding: 1 }}
-                            >
-                              <Typography variant="body1" noWrap>
-                                {card.title}
-                              </Typography>
+                            <CardContent sx={{ textAlign: "center", padding: 1 }}>
+                              {/* <Typography variant="body1" noWrap> {item.name} </Typography> */}
                             </CardContent>
                           </CardActionArea>
                         </Card>
