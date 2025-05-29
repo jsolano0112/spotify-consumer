@@ -21,8 +21,8 @@ const providers = [
 export const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { login, loginGoogle, loginFacebook} = useContext(UserContext);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { login, loginGoogle, loginFacebook, userState: {errorMessage}} = useContext(UserContext);
+  const [error, setErrorMessage] = useState("");
 
   const onLoginUser = async (email, password, provider) => {
     setErrorMessage("");
@@ -39,7 +39,7 @@ export const LoginPage = () => {
     }
     if (!isLogged) {
       // TODO: specify message
-      setErrorMessage("An error has occurred");
+      setErrorMessage("An error has occurred: "+ errorMessage);
     } else {
       navigate("/", { replace: true });
     }
@@ -76,10 +76,10 @@ export const LoginPage = () => {
   }
 
   function ErrorAlert() {
-    return errorMessage != "" ? (
+    return error != "" ? (
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        {errorMessage}
+        {error}
       </Alert>
     ) : null;
   }

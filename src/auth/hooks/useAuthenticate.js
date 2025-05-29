@@ -77,9 +77,8 @@ export const useAuthenticate = (dispatch) => {
 
     const signUpWithEmail = async ({ email, password, country, fullname }) => {
         const { ok, errorMessage, uid } = await signUpWithEmailAndPassword({ email, password })
-        console.log(uid)
         if (!ok) {
-            const action = {
+             const action = {
                 type: authTypes.errors,
                 payload: { errorMessage }
             }
@@ -138,7 +137,6 @@ export const useAuthenticate = (dispatch) => {
             method: "GET", headers: { Authorization: `Bearer ${tokenData}` }
         });
         const userSpotify = await userResponse.json();
-        console.log(userResponse)
         if (!userResponse.ok) {
             const { userResponse: { statusText } } = userResponse;
 
@@ -155,7 +153,6 @@ export const useAuthenticate = (dispatch) => {
             uid: userSpotify.id,
             displayName: userSpotify.display_name,
             photoURL: userSpotify.images?.[0]?.url || null,
-            // email: userSpotify.email,
             country: userSpotify.country,
             followers: userSpotify.followers,
             isLogged: true

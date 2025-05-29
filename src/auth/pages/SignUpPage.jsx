@@ -13,20 +13,23 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-//  TODO: Change naming to buttons
+import { loginWithSpotify } from "../../api/providerapi";
 //  TODO: Improve size of the card
-//  TODO: Validate when the user already exists
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
   { id: "facebook", name: "Facebook" },
   { id: "spotify", name: "Spotify" },
-  { id: "webapi", name: "Web API" },
 ];
 
 export const SignUpPage = () => {
-  const { signUpWithEmail } = useContext(UserContext);
-  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    signUpWithEmail,
+    userState: { errorMessage },
+    loginGoogle,
+    loginFacebook,
+  } = useContext(UserContext);
+  const [error, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
 
   const onSignUpUser = async (
@@ -56,9 +59,15 @@ export const SignUpPage = () => {
         country,
         fullname,
       });
+    } else if (provider === "Spotify") {
+      isRegistered = await loginWithSpotify();
+    } else if (provider === "Facebook") {
+      isRegistered = await loginFacebook();
+    } else if (provider === "Google") {
+      isRegistered = await loginGoogle();
     }
     if (!isRegistered) {
-      setErrorMessage("An error has occurred");
+      setErrorMessage("An error has occurred: " + errorMessage);
     } else {
       setSuccessMessage(true);
       if (event?.target?.reset) {
@@ -146,10 +155,10 @@ export const SignUpPage = () => {
   }
 
   function ErrorAlert() {
-    return errorMessage != "" ? (
+    return error != "" ? (
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        {errorMessage}
+        {error}
       </Alert>
     ) : null;
   }
