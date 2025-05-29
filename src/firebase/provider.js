@@ -7,6 +7,7 @@ import { collection, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore/l
 
 const GoogleProvider = new GoogleAuthProvider();
 const provider = new FacebookAuthProvider();
+const profileImage = 'https://media.istockphoto.com/id/1495088043/es/vector/icono-de-perfil-de-usuario-avatar-o-icono-de-persona-foto-de-perfil-s%C3%ADmbolo-de-retrato.jpg?s=612x612&w=0&k=20&c=mY3gnj2lU7khgLhV6dQBNqomEGj3ayWH-xtpYuCXrzk=';
 
 export const loginUser = async (email, password) => {
     try {
@@ -60,9 +61,10 @@ export const loginWithGoogle = async () => {
 
 export const signUpWithEmailAndPassword = async ({ email, password }) => {
     try {
-        await createUserWithEmailAndPassword(FirebaseAuth, email, password)
+        const { user } = await createUserWithEmailAndPassword(FirebaseAuth, email, password)
         return {
-            ok: true
+            ok: true,
+            uid: user.uid
         }
     } catch (error) {
         return {
@@ -96,7 +98,7 @@ export const getUserInfo = async (user) => {
     const initialInfo = {
         id: user.uid,
         displayName: user.displayName,
-        photoURL: user.photoURL,
+        photoURL: user?.photoURL ?? profileImage,
         country: user.country,
         darkMode: false,
         followers: user?.followers?.total ?? 0,
@@ -104,7 +106,6 @@ export const getUserInfo = async (user) => {
         isloggedWithSpotify: user?.isLogged ?? false,
         
     }
-
     const uid = user.uid;
     const detailDocRef = doc(FirebaseDB, `users/${uid}`);
     const detailSnap = await getDoc(detailDocRef);

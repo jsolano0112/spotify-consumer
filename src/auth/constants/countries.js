@@ -1,0 +1,22 @@
+export const countries = [
+  { "country": "Colombia", "id": "CO" },
+  { "country": "Argentina", "id": "AR" },
+  { "country": "Brasil", "id": "BR" },
+  { "country": "Chile", "id": "CL" },
+  { "country": "México", "id": "MX" },
+  { "country": "España", "id": "ES" },
+  { "country": "Estados Unidos", "id": "US" },
+  { "country": "Canadá", "id": "CA" },
+  { "country": "Alemania", "id": "DE" },
+  { "country": "Francia", "id": "FR" },
+  { "country": "Italia", "id": "IT" },
+  { "country": "Reino Unido", "id": "GB" },
+  { "country": "Japón", "id": "JP" },
+  { "country": "China", "id": "CN" },
+  { "country": "India", "id": "IN" },
+  { "country": "Australia", "id": "AU" },
+  { "country": "Perú", "id": "PE" },
+  { "country": "Ecuador", "id": "EC" },
+  { "country": "Venezuela", "id": "VE" },
+  { "country": "Uruguay", "id": "UY" }
+]

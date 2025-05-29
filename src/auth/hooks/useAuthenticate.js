@@ -75,8 +75,9 @@ export const useAuthenticate = (dispatch) => {
 
     }
 
-    const signUpWithEmail = async ({ email, password }) => {
-        const { ok, errorMessage } = await signUpWithEmailAndPassword({ email, password })
+    const signUpWithEmail = async ({ email, password, country, fullname }) => {
+        const { ok, errorMessage, uid } = await signUpWithEmailAndPassword({ email, password })
+        console.log(uid)
         if (!ok) {
             const action = {
                 type: authTypes.errors,
@@ -86,10 +87,19 @@ export const useAuthenticate = (dispatch) => {
 
             return false;
         }
+
+        const userPayload = {
+            uid: uid,
+            country: country,
+            displayName: fullname,
+        }
         const action = {
-            type: authTypes.signUp,
+            type: authTypes.login,
             payload: 'user registered',
         };
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+
         dispatch(action)
 
         return true;
