@@ -12,7 +12,6 @@ import React, { useEffect, useState, Fragment } from "react";
 //import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
-import SongItem from "./SongItem";
 
 export const SongsCardComponent = ({
   background,
@@ -78,11 +77,9 @@ export const SongsCardComponent = ({
 
   const handlePlaySong = (previewUrl, trackUrl) => {
     if (previewUrl) {
-      // Reproduce el preview si está disponible
       const audio = new Audio(previewUrl);
       audio.play();
     } else {
-      // Si no hay preview, redirige a la página de Spotify para la canción
       window.open(trackUrl, "_blank");
     }
   };
