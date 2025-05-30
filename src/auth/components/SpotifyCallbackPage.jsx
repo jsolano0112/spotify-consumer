@@ -15,34 +15,42 @@ export const SpotifyCallbackPage = () => {
 
       try {
         const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
         const code = params.get("code");
 
+        if (error) {
+          console.log(`Spotify authorization error: ${error}`);
+          navigate("/login", { replace: false });
+          return;
+        }
+
         if (!code) {
-          console.log("error spo code");
+          console.log("Missing code from Spotify callback");
           return;
         }
 
         const tokenData = await getSpotifyToken(code);
-        
         const accessToken = tokenData.access_token;
+
         if (accessToken) {
           let userLogged = false;
           const user = JSON.parse(localStorage.getItem("user"));
-          if(user) 
-            userLogged = true;
+          if (user) userLogged = true;
+
           localStorage.setItem("spotifyToken", JSON.stringify(tokenData));
           const success = await loginSpotify(accessToken, user?.id, userLogged);
+
           if (success) {
             navigate("/", { replace: true });
             return;
           } else {
-            console.log("user error");
+            console.log("User login error");
           }
         } else {
-          console.log("missing Token");
+          console.log("Missing token");
         }
       } catch (error) {
-        console.error("Error callback:", error);
+        console.error("Error handling Spotify callback:", error);
       }
     };
 
