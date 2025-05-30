@@ -111,7 +111,7 @@ export const getUserInfo = async (user, userLogged) => {
     const detailDocRef = doc(FirebaseDB, `users/${uid}`);
     const detailSnap = await getDoc(detailDocRef);
 
-    if (detailSnap.exists() && userLogged){
+    if (detailSnap.exists() && userLogged) {
         const existingData = detailSnap.data();
         const updates = {};
         if (initialInfo.spotifyId !== existingData.spotifyId) {
@@ -120,7 +120,7 @@ export const getUserInfo = async (user, userLogged) => {
         if (initialInfo.isloggedWithSpotify !== existingData.isloggedWithSpotify) {
             updates.isloggedWithSpotify = initialInfo.isloggedWithSpotify;
         }
-        console.log('updates',updates)
+        console.log('updates', updates)
 
         if (Object.keys(updates).length > 0) {
             await updateDoc(detailDocRef, updates);
@@ -128,8 +128,8 @@ export const getUserInfo = async (user, userLogged) => {
 
         return { ...existingData, ...updates };
     }
-    else if(!detailSnap.exists() && !userLogged){
-                console.log('usuario a crear')
+    else if (!detailSnap.exists() && !userLogged) {
+        console.log('usuario a crear')
         await setDoc(detailDocRef, initialInfo);
         return initialInfo;
     }
@@ -146,3 +146,20 @@ export const updateUserInfo = async (userUid, updatedFields) => {
         throw error;
     }
 };
+
+
+export const saveCurrentUserPlaylists = async (playlists, userId) => {
+    try {
+        const detailDocRef = doc(FirebaseDB, `playlists/${userId}`);
+        const detailSnap = await getDoc(detailDocRef);
+        if (!detailSnap.exists()) {
+            await setDoc(detailDocRef, {
+                playlists: playlists
+            });
+            return { ok: true };
+        }
+        //TODO: to update playlist
+    } catch (error) {
+        console.error("Error saving playlists in firestore:", error);
+    }
+}

@@ -56,7 +56,7 @@ export const CarouselCard = ({ card, setMenu }) => {
                 flexGrow: 1,
                 objectFit: "cover",
               }}
-              image={card.image}
+              image={card.images.url}
               alt={card.title}
             />
             <Typography
@@ -66,7 +66,7 @@ export const CarouselCard = ({ card, setMenu }) => {
               fontWeight="bold"
               sx={{ mt: 1 }}
             >
-              {card.title}
+              {card.name}
             </Typography>
             <Typography
               variant="caption"
@@ -94,7 +94,7 @@ export const CarouselCard = ({ card, setMenu }) => {
       >
         <Box sx={style}>
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            {card.title}
+            {card.name}
           </Typography>
           <Link
             href="#"
@@ -107,7 +107,7 @@ export const CarouselCard = ({ card, setMenu }) => {
             {"See playlist"}
           </Link>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            {card.songsCount} songs saved, {card.totalTime}
+            {card.songs} songs saved.
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             by {card.by}
