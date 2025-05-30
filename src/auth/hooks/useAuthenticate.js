@@ -26,7 +26,7 @@ export const useAuthenticate = (dispatch) => {
             type: authTypes.login,
             payload: userPayload,
         };
-        const userInfo = await getUserInfo(userPayload);
+        const userInfo = await getUserInfo(userPayload, false);
         reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
         localStorage.setItem('user', JSON.stringify(userInfo));
         dispatch(action);
@@ -38,14 +38,8 @@ export const useAuthenticate = (dispatch) => {
 
         const { ok, uid, photoURL, displayName, errorMessage, email } = await loginWithGoogle();
 
-
         if (!ok) {
-            const action = {
-                type: authTypes.errors,
-                payload: { errorMessage }
-            };
-            dispatch(action);
-
+            sendErrorAction(errorMessage)
             return false;
         }
 
@@ -56,7 +50,7 @@ export const useAuthenticate = (dispatch) => {
             payload: userPayload,
         };
 
-        const userInfo = await getUserInfo(userPayload);
+        const userInfo = await getUserInfo(userPayload, false);
         reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
 
         localStorage.setItem('user', JSON.stringify(userInfo));
@@ -78,12 +72,7 @@ export const useAuthenticate = (dispatch) => {
     const signUpWithEmail = async ({ email, password, country, fullname }) => {
         const { ok, errorMessage, uid } = await signUpWithEmailAndPassword({ email, password })
         if (!ok) {
-             const action = {
-                type: authTypes.errors,
-                payload: { errorMessage }
-            }
-            dispatch(action);
-
+            sendErrorAction(errorMessage)
             return false;
         }
 
@@ -94,9 +83,9 @@ export const useAuthenticate = (dispatch) => {
         }
         const action = {
             type: authTypes.login,
-            payload: 'user registered',
+            payload: userPayload,
         };
-        const userInfo = await getUserInfo(userPayload);
+        const userInfo = await getUserInfo(userPayload, false);
         localStorage.setItem('user', JSON.stringify(userInfo));
 
         dispatch(action)
@@ -107,12 +96,7 @@ export const useAuthenticate = (dispatch) => {
     const loginFacebook = async () => {
         const { ok, uid, photoURL, displayName, errorMessage } = await loginWithFacebook();
         if (!ok) {
-            const action = {
-                type: authTypes.errors,
-                payload: { errorMessage }
-            }
-            dispatch(action);
-
+            sendErrorAction(errorMessage)
             return false;
         }
 
@@ -122,7 +106,7 @@ export const useAuthenticate = (dispatch) => {
             type: authTypes.login,
             payload: userPayload,
         };
-        const userInfo = await getUserInfo(userPayload);
+        const userInfo = await getUserInfo(userPayload, false);
         reduxDispatch(setMode(userInfo.darkMode ? 'dark' : 'light'));
 
         localStorage.setItem('user', JSON.stringify(userInfo));
@@ -132,38 +116,38 @@ export const useAuthenticate = (dispatch) => {
         return true;
     }
 
-    const loginSpotify = async (tokenData) => {
+    const loginSpotify = async (tokenData, userId, userLogged) => {
+        console.log('userId', userId)
+
+        let action = {
+            type: authTypes.logout,
+        }
+        dispatch(action)
+
         const userResponse = await fetch("https://api.spotify.com/v1/me", {
             method: "GET", headers: { Authorization: `Bearer ${tokenData}` }
         });
         const userSpotify = await userResponse.json();
         if (!userResponse.ok) {
             const { userResponse: { statusText } } = userResponse;
-
-            const action = {
-                type: authTypes.errors,
-                payload: { statusText }
-            }
-            dispatch(action);
-
+            sendErrorAction(statusText)
             return false;
         }
 
         const userPayload = {
-            uid: userSpotify.id,
+            uid: userId ? userId : userSpotify.id,
+            spotifyId: userSpotify.id,
             displayName: userSpotify.display_name,
             photoURL: userSpotify.images?.[0]?.url || null,
             country: userSpotify.country,
-            followers: userSpotify.followers,
-            isLogged: true
+            followers: userSpotify.followers.total,
+            isloggedWithSpotify: true
         };
-
-        const action = {
+        action = {
             type: authTypes.login,
             payload: userPayload,
         };
-
-        const userInfo = await getUserInfo(userPayload);
+        const userInfo = await getUserInfo(userPayload, userLogged);
         reduxDispatch(setMode(userInfo.darkMode ? "dark" : "light"));
         localStorage.setItem("user", JSON.stringify(userInfo));
         dispatch(action);
@@ -171,6 +155,14 @@ export const useAuthenticate = (dispatch) => {
         return true;
     };
 
+    const sendErrorAction = (errorMessage) => {
+        const action = {
+            type: authTypes.errors,
+            payload: { errorMessage }
+        }
+        dispatch(action);
+
+    }
 
     return { login, logout, loginGoogle, signUpWithEmail, loginFacebook, loginSpotify };
 };

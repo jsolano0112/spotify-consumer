@@ -1,8 +1,10 @@
 import { useContext, useEffect, useRef } from "react";
 import { getSpotifyToken } from "../../api/providerapi";
 import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const SpotifyCallbackPage = () => {
+  const navigate = useNavigate();
   const hasRun = useRef(false);
   const { loginSpotify } = useContext(UserContext);
 
@@ -24,12 +26,16 @@ export const SpotifyCallbackPage = () => {
         
         const accessToken = tokenData.access_token;
         if (accessToken) {
+          let userLogged = false;
+          const user = JSON.parse(localStorage.getItem("user"));
+          if(user) 
+            userLogged = true;
           localStorage.setItem("spotifyToken", JSON.stringify(tokenData));
-
-          const success = await loginSpotify(accessToken);
-          console.log('success', success)
+          const success = await loginSpotify(accessToken, user?.id, userLogged);
           if (success) {
-          }else{
+            navigate("/", { replace: true });
+            return;
+          } else {
             console.log("user error");
           }
         } else {
