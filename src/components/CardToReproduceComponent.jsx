@@ -45,9 +45,7 @@ export const CardToReproduce = () => {
   }
 
   const handlePlay = async (id) => {
-    console.log(id)
     const detail = await getSong(id);
-    console.log(detail)
     if (detail.previewURL) {
       const audio = new Audio(detail.previewURL);
       audio.play();
@@ -94,12 +92,28 @@ export const CardToReproduce = () => {
           </IconButton>
         </Box>
       </Box>
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image={song?.albumImage}
-        alt="Live from space album cover"
-      />
+      {song?.albumImage ? (
+        <CardMedia
+          component="img"
+          sx={{ width: 151 }}
+          image={song.albumImage}
+          alt="Album cover"
+        />
+      ) : (
+        <div
+          style={{
+            width: 151,
+            height: 151,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#f0f0f0",
+            fontStyle: "italic",
+          }}
+        >
+          Listen to your first song!
+        </div>
+      )}
     </Card>
   );
 };
