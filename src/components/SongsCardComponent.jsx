@@ -92,7 +92,7 @@ export const SongsCardComponent = ({ background, color, userLogged }) => {
             <Skeleton animation={false} />
           </Box>
         </Box>
-      ) : allSongs.length === 0 ? (
+      ) : allSongs.length === 0 && userLogged? (
         <Typography
           variant="overline"
           component="div"

@@ -4,7 +4,7 @@ import { PlaylistContext } from "./PlaylistContext";
 import { playListReducer } from "../reducers/playListReducer";
 
 const authInitialState = {
-  playlist: [], 
+  playlist: [],
   errorMessage: null,
 };
 
@@ -20,11 +20,24 @@ const init = () => {
 };
 
 export const PlaylistProvider = ({ children }) => {
-  const [userState, dispatch] = useReducer(playListReducer, authInitialState, init);
-  const { getUserPlaylist, getAllPlaylists, getPlayedTracks} = usePlaylist(dispatch);
+  const [userState, dispatch] = useReducer(
+    playListReducer,
+    authInitialState,
+    init
+  );
+  const { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong } =
+    usePlaylist(dispatch);
 
   return (
-    <PlaylistContext.Provider value={{ userState, getUserPlaylist, getAllPlaylists, getPlayedTracks }}>
+    <PlaylistContext.Provider
+      value={{
+        userState,
+        getUserPlaylist,
+        getAllPlaylists,
+        getPlayedTracks,
+        getSong,
+      }}
+    >
       {children}
     </PlaylistContext.Provider>
   );

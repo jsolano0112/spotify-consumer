@@ -50,14 +50,14 @@ export const getPlayList = async () => {
   const { access_token: token } = JSON.parse(tokenStorage);
 
   try {
-    const userResponse = await fetch("https://api.spotify.com/v1/me/playlists", {
+    const playlistsReponse = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const userPlaylist = await userResponse.json();
+    const userPlaylist = await playlistsReponse.json();
     return userPlaylist;
 
   } catch (error) {
@@ -73,16 +73,16 @@ export const getArtist = async () => {
 
     const { access_token: token } = JSON.parse(tokenStorage);
 
-    const Response = await fetch("https://api.spotify.com/v1/me/following?type=artist", {
+    const artistsResponse = await fetch("https://api.spotify.com/v1/me/following?type=artist", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const data = await Response.json();
+    const data = await artistsResponse.json();
     return data;
 
   } catch (error) {
-    console.error("No artist found");
+    console.error("No artists found: " + error.message);
     return [];
   }
 
@@ -95,16 +95,16 @@ export const getSongsAlbums = async () => {
 
   const { access_token: token } = JSON.parse(tokenStorage);
   try {
-    const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", {
+    const songsResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const songsAlbums = await userResponse.json();
+    const songsAlbums = await songsResponse.json();
     return songsAlbums;
 
   } catch (error) {
-    console.error("No found");
+    console.error("No songsAlbum found: " + error.message);
     return [];
 
   }
@@ -117,16 +117,16 @@ export const getGenres = async () => {
 
   const { access_token: token } = JSON.parse(tokenStorage);
   try {
-    const userResponse = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4", {
+    const genresResponse = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const genres = await userResponse.json();
+    const genres = await genresResponse.json();
     return genres;
 
   } catch (error) {
-    console.error("No genres found");
+    console.error("No genres found: " + error.message);
     return [];
 
   }
@@ -140,17 +140,39 @@ export const getRecentlyPlayedTracks = async () => {
 
   const { access_token: token } = JSON.parse(tokenStorage);
   try {
-    const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played", {
+    const tracksResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return await userResponse.json();
+    return await tracksResponse.json();
 
   } catch (error) {
-    console.error("No tracks found");
+    console.error("No tracks found: " + error.message);
     return [];
 
   }
 
+
 };
+
+
+export const getTrack = async (id) => {
+  const tokenStorage = localStorage.getItem("spotifyToken");
+
+  const { access_token: token } = JSON.parse(tokenStorage);
+  try {
+    const trackResponse = await fetch("https://api.spotify.com/v1/tracks/" + id, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return await trackResponse.json();
+
+  } catch (error) {
+    console.error("No track found: " + error.message);
+    return [];
+
+  }
+
+}

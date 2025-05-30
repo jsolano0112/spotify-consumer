@@ -1,4 +1,4 @@
-import { getPlayList, getRecentlyPlayedTracks } from "../../api/providerapi";
+import { getPlayList, getRecentlyPlayedTracks, getTrack } from "../../api/providerapi";
 import { getPlaylists, saveCurrentUserPlaylists } from "../../firebase/provider";
 import { playListTypes } from "../types/playlistTypes";
 
@@ -58,21 +58,54 @@ export const usePlaylist = (dispatch) => {
 
   const getPlayedTracks = async () => {
     const tracks = await getRecentlyPlayedTracks();
-    const tracksDetails = tracks.items.map((item) => ({
-      name: item.track.name,
-      id: item.track.id,
-      album: item.track.album?.name,
-      artist: item.track.artists?.[0]?.name || "Unknown Artist",
-      albumImage: item.track.album?.images?.[0]?.url || "",
-      time: formatDuration(item.track.duration_ms) || 0,
-    }));
+    if (tracks.items) {
+      const tracksDetails = tracks.items.map((item) => ({
+        name: item.track.name,
+        id: item.track.id,
+        album: item.track.album?.name,
+        artist: item.track.artists?.[0]?.name || "Unknown Artist",
+        albumImage: item.track.album?.images?.[0]?.url || "",
+        time: formatDuration(item.track.duration_ms) || 0,
+      }));
+      const action = {
+        type: playListTypes.getRecentlyPlayedTracks,
+        payload: tracksDetails
+      }
+      dispatch(action);
+      return tracksDetails.slice(-5);
+    }
     const action = {
-      type: playListTypes.getRecentlyPlayedTracks,
-      payload: tracksDetails
+      type: playListTypes.errors,
+      payload: {}
     }
     dispatch(action);
-    return tracksDetails.slice(-5);
+    return [];
   };
+
+  const getSong = async (id) => {
+    const track = await getTrack(id);
+    if (track.name) {
+      const detail = {
+        name: track.name,
+        artist: track.artists[0].name,
+        previewURL: track.preview_url
+      }
+      const action = {
+        type: playListTypes.getRecentlyPlayedTracks,
+        payload: detail
+      }
+      dispatch(action);
+      return detail
+    }
+    const action = {
+      type: playListTypes.errors,
+      payload: {}
+    }
+    dispatch(action);
+    return [];
+
+  }
+
 
   const formatDuration = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
@@ -80,6 +113,6 @@ export const usePlaylist = (dispatch) => {
     const seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
-  return { getUserPlaylist, getAllPlaylists, getPlayedTracks };
+  return { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong };
 };
 
