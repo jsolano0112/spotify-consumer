@@ -14,10 +14,15 @@ import { usePlayListInfo } from "../hooks/useAllPlayListInfo";
 
 export default function PlayListPage() {
   const [value, setValue] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   const { loading, playlists, error } = usePlayListInfo();
 
   const handleClose = () => setValue(null);
+
+  const filteredPlaylists = playlists.filter(
+    (playlist) => playlist.name.toLowerCase().includes(searchText.toLowerCase()) // Filtramos por nombre
+  );
 
   if (loading) {
     return (
@@ -46,24 +51,30 @@ export default function PlayListPage() {
             freeSolo
             className="field"
             disablePortal
-            options={playlists}
+            options={filteredPlaylists}
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
+              setSearchText(newValue ? newValue.name : "");
+            }}
+            getOptionLabel={(option) => option.name}
+            onInputChange={(event, newInputValue) => {
+              setSearchText(newInputValue);
             }}
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Playlist"
+                label="Search Playlist"
                 variant="filled"
                 sx={{ borderRadius: "10px" }}
+                
               />
             )}
           />
         </Box>
 
         <AllPlayListsComponent
-          playlists={playlists}
+          playlists={filteredPlaylists}
           setValue={setValue}
         />
 
