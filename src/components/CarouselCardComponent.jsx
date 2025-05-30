@@ -28,7 +28,6 @@ export const CarouselCard = ({ card, setMenu }) => {
   } = useContext(UserContext);
 
   const handleFollow = (spotifyUserId) => {
-    console.log(spotifyUserId);
     const url = `https://open.spotify.com/user/${spotifyUserId}`;
     window.open(url, "_blank");
   };

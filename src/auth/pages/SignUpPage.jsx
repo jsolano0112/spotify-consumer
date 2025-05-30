@@ -43,11 +43,11 @@ export const SignUpPage = () => {
   ) => {
     let isRegistered = false;
     setSuccessMessage(false);
-    const confirmPassword = formData.get("confirmPassword");
+    const confirmPassword = formData?.get("confirmPassword");
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match!");
       return;
-    } else if (password.length < 6) {
+    } else if (password?.length < 6) {
       setErrorMessage("The password should be at least 6 digits");
       return;
     }
@@ -201,7 +201,7 @@ export const SignUpPage = () => {
                 formData?.get("email"),
                 formData?.get("password"),
                 formData?.get("fullname"),
-                formData.get("country"),
+                formData?.get("country"),
 
                 provider.name,
                 formData,

@@ -39,7 +39,6 @@ export const loginWithGoogle = async () => {
     try {
 
         const result = await signInWithPopup(FirebaseAuth, GoogleProvider);
-
         const { uid, photoURL, displayName, email } = result.user;
 
         return {
@@ -152,7 +151,7 @@ export const saveCurrentUserPlaylists = async (playlists, userId) => {
     try {
         const detailDocRef = doc(FirebaseDB, `playlists/${userId}`);
         const detailSnap = await getDoc(detailDocRef);
-        if (!detailSnap.exists()) {
+        if (!detailSnap.exists() && playlists) {
             await setDoc(detailDocRef, {
                 playlists: playlists
             });

@@ -32,7 +32,6 @@ export const useSongsAlbums = (dispatch) => {
      const getUserGenres = async () => {
         try {
             const userGenres = await getGenres();
-            console.log(userGenres)
             if (userGenres.items) {
                 const listGenres = userGenres.items.map((item) => ({
                     id: item.id,

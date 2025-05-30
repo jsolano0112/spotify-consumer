@@ -36,14 +36,22 @@ export const useAuthenticate = (dispatch) => {
 
     const loginGoogle = async () => {
 
-        const { ok, uid, photoURL, displayName, errorMessage, email } = await loginWithGoogle();
+        const { ok, uid, photoURL, displayName, errorMessage } = await loginWithGoogle();
 
         if (!ok) {
             sendErrorAction(errorMessage)
             return false;
         }
 
-        const userPayload = { email, uid, displayName, photoURL }
+        const userPayload = {
+            uid: uid,
+            spotifyId: null,
+            displayName: displayName,
+            photoURL: photoURL,
+            country: 'CO',
+            followers: 0,
+            isloggedWithSpotify: false
+        };
 
         const action = {
             type: authTypes.login,
@@ -100,7 +108,15 @@ export const useAuthenticate = (dispatch) => {
             return false;
         }
 
-        const userPayload = { uid, displayName, photoURL }
+        const userPayload = {
+            uid: uid,
+            spotifyId: null,
+            displayName: displayName,
+            photoURL: photoURL,
+            country: 'CO',
+            followers: 0,
+            isloggedWithSpotify: false
+        };
 
         const action = {
             type: authTypes.login,
@@ -117,7 +133,6 @@ export const useAuthenticate = (dispatch) => {
     }
 
     const loginSpotify = async (tokenData, userId, userLogged) => {
-        console.log('userId', userId)
 
         let action = {
             type: authTypes.logout,

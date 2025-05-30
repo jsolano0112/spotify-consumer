@@ -7,7 +7,7 @@ export const usePlaylist = (dispatch) => {
     try {
       const userPlaylist = await getPlayList();
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (userPlaylist.items) {
+      if (userPlaylist?.items && storedUser.spotifyId) {
         const playlistDetails = userPlaylist.items.map((item) => ({
           name: item.name,
           id: item.id,
