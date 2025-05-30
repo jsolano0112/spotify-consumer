@@ -1,10 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
 import { getSpotifyToken } from "../../api/providerapi";
 import { UserContext } from "../contexts/UserContext";
-import {GetPlaylist} from "../../users/hooks/GetPlaylist"
-import { GetTopArtist } from "../../users/hooks/GetTopArtist";
-import { GetGenres } from "../../users/hooks/GetGenres";
-import { GetLastSong } from "../../users/hooks/GetLastSong";
 
 export const SpotifyCallbackPage = () => {
   const hasRun = useRef(false);
@@ -25,6 +21,7 @@ export const SpotifyCallbackPage = () => {
         }
 
         const tokenData = await getSpotifyToken(code);
+        
         const accessToken = tokenData.access_token;
         if (accessToken) {
           localStorage.setItem("spotifyToken", JSON.stringify(tokenData));
@@ -32,10 +29,6 @@ export const SpotifyCallbackPage = () => {
           const success = await loginSpotify(accessToken);
           console.log('success', success)
           if (success) {
-            await GetPlaylist(accessToken)
-            await GetTopArtist(accessToken)
-            await GetGenres(accessToken)
-            await GetLastSong(accessToken)
           }else{
             console.log("user error");
           }
