@@ -20,6 +20,7 @@ import { updateUserInfo } from "../../firebase/provider";
 import { PlaylistContext } from "../../playlists/context/PlaylistContext";
 import { ArtistContext } from "../../artist/context/ArtistContext";
 import { SongsAlbumnContext } from "../../songsAlbums/context/SongsAlbumContext";
+import { loginWithSpotify } from "../../api/providerapi";
 
 function SkeletonProgress() {
   return (
@@ -124,7 +125,8 @@ export default function ProfileUserPage() {
   const dispatch = useDispatch();
   const handleConnectSpotify = (e) => {
     e.preventDefault();
-    window.location.href = "https://accounts.spotify.com/authorize?...";
+    loginWithSpotify()
+    // window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
   useEffect(() => {
@@ -133,6 +135,9 @@ export default function ProfileUserPage() {
     loadSongsAlbums();
     loadGenres();
     const storedUser = localStorage.getItem("user");
+
+    console.log("storedUser",storedUser);
+    
 
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
