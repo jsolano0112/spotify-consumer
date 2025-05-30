@@ -152,7 +152,8 @@ export default function ProfileUserPage() {
   }, []);
 
   const handleToggleDarkMode = async () => {
-    const newDarkMode = !darkMode;
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const newDarkMode = !storedUser.darkMode;
     setDarkMode(newDarkMode);
     dispatch(toggleMode());
     if (user?.id) {

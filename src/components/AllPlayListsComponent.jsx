@@ -35,16 +35,13 @@ function AllPlayListsComponent({ playlists, setValue }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "#3D348B",
+            background: "var(--accent-color)",
           }}
         >
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{
-              color: "var(--secondary-text-color)",
-            }}
           >
             No PlaysLists Saved Yet!
           </Typography>
