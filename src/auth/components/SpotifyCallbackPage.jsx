@@ -1,11 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import { getSpotifyToken } from "../../api/providerapi";
 import { UserContext } from "../contexts/UserContext";
-import { GetPlaylist } from "../../users/hooks/GetPlaylist";
-import { GetTopArtist } from "../../users/hooks/GetTopArtist";
-import { GetGenres } from "../../users/hooks/GetGenres";
-import { GetLastSong } from "../../users/hooks/GetLastSong";
 import { useNavigate } from "react-router-dom";
+
 export const SpotifyCallbackPage = () => {
   const navigate = useNavigate();
   const hasRun = useRef(false);
@@ -26,6 +23,7 @@ export const SpotifyCallbackPage = () => {
         }
 
         const tokenData = await getSpotifyToken(code);
+        
         const accessToken = tokenData.access_token;
         if (accessToken) {
           let userLogged = false;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { cards } from "../../mockdata/cards";
 import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea, } from "@mui/material";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import { toggleMode } from "../../palette/slices/slice";
 import { Skeleton, List, ListItem } from "@mui/material";
 import { updateUserInfo } from "../../firebase/provider";
+import { PlaylistContext } from "../../playlists/context/PlaylistContext";
+import { ArtistContext } from "../../artist/context/ArtistContext";
+import { SongsAlbumnContext } from "../../songsAlbums/context/SongsAlbumContext";
 
 function SkeletonProgress() {
   return (
@@ -40,49 +43,96 @@ export default function ProfileUserPage() {
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
 
+   const { getUserPlaylist } = useContext(PlaylistContext);
+   const {getUserArtist} = useContext(ArtistContext);
+   const {getUserSongsAlbums, getUserGenres} = useContext(SongsAlbumnContext)
+
+  async function loadPlaylists() {
+    try {
+      const storedPlaylists = await getUserPlaylist();
+
+      if (storedPlaylists) {
+        const playlistCount = storedPlaylists.length;
+        setPlaylist(playlistCount);
+      } else {
+        console.warn("No playlists found");
+        setPlaylist([]);
+      }
+    } catch (error) {
+      console.error("Error loading playlists:", error);
+      setPlaylist([]);
+    }
+  }
+
+  async function loadArtist() {
+    try {
+      const storedPlaylists = await getUserArtist();
+
+      if (storedPlaylists) {
+        setArtists(storedPlaylists);
+      } else {
+        console.warn("No Artist found");
+        setArtists([]);
+      }
+    } catch (error) {
+      console.error("Error loading Artist:", error);
+      setArtists([]);
+    }
+  }
+
+  async function loadSongsAlbums() {
+    try {
+      const storedSongAlbums = await getUserSongsAlbums();
+      
+      if (storedSongAlbums) {
+        setHistory(storedSongAlbums);
+      } else {
+        console.warn("No found");
+        setHistory([]);
+      }
+    } catch (error) {
+      console.error("Error loading:", error);
+      setHistory([]);
+    }
+  }
+
+  async function loadGenres() {
+    try {
+      const storedGenres = await getUserGenres();
+      
+      if (storedGenres) {
+        setGenres(storedGenres);
+      } else {
+        console.warn("No found");
+        setGenres([]);
+      }
+    } catch (error) {
+      console.error("Error loading:", error);
+      setGenres([]);
+    }
+  }
+
   const dispatch = useDispatch();
   const handleConnectSpotify = (e) => {
     e.preventDefault();
     window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
-  useEffect(() => {
-    // Recuperar playlists
-    const storedPlaylists = localStorage.getItem("nameplaylist");
-    if (storedPlaylists) {
-      const parsedPlaylists = JSON.parse(storedPlaylists);
-      const playlistNames = parsedPlaylists.map((item) => item.name);
-      setPlaylist(playlistNames);
-    }
 
-    // Recuperar detalles de artistas
-    const storedArtists = localStorage.getItem("artistDetails");
-    if (storedArtists) {
-      const parsedArtists = JSON.parse(storedArtists);
-      setArtists(parsedArtists);
-    }
+  useEffect(() => {
+
+    loadPlaylists();
+    loadArtist();
+    loadSongsAlbums();
+    loadGenres();
 
     // Recuperar usuario
     const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setIsSpotifyConnected(parsedUser.isloggedWithSpotify);
-    }
-
-    // Recuperar Generos
-    const storedGenres = localStorage.getItem("listGenres");
-    if (storedGenres) {
-      const parsedGenres = JSON.parse(storedGenres);
-      setGenres(parsedGenres);
-    }
-
-    // Recuperar ultimas canciones y albunes
-    const storedLastPlayers = localStorage.getItem("playerRecently");
-    if (storedLastPlayers) {
-      const parsedLastPlayers = JSON.parse(storedLastPlayers);
-
-      setHistory(parsedLastPlayers);
     }
 
   }, []);
@@ -193,39 +243,20 @@ export default function ProfileUserPage() {
               className="followers-container"
             >
               <Grid>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: "var(--secondary-text-color)",
-                  }}
-                >
+                <Typography variant="h6" sx={{ color: "var(--secondary-text-color)",}}>
                   {user?.followers}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "var(--secondary-text-color)",
-                  }}
-                >
+                <Typography variant="body2" sx={{ color: "var(--secondary-text-color)",}}>
                   Followers
                 </Typography>
               </Grid>
               <Grid>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: "var(--secondary-text-color)",
-                  }}
-                >
+                <Typography variant="h6" sx={{ color: "var(--secondary-text-color)",}}>
+                  {playlist}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "var(--secondary-text-color)",}}>
                   Playlists
                 </Typography>
-                <List>
-                  {playlist.map((item, index) => (
-                    <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.9rem"}}>
-                      - {item}
-                    </ListItem>
-                  ))}
-                </List>
               </Grid>
             </Grid>
 
@@ -233,8 +264,8 @@ export default function ProfileUserPage() {
             <CardContent className="info-container">
               <Box
                 sx={{
-                  width: 200,
-                  height: 200,
+                  // width: 200,
+                  // height: 200,
                   borderRadius: 1,
                   bgcolor: "var(--card-background)",
                   "&:hover": {
@@ -300,8 +331,8 @@ export default function ProfileUserPage() {
               </Box>
               <Box
                 sx={{
-                  width: 200,
-                  height: 200,
+                  // width: 200,
+                  // height: 200,
                   borderRadius: 1,
                   bgcolor: "var(--card-background)",
                   "&:hover": {
@@ -319,10 +350,17 @@ export default function ProfileUserPage() {
                   ) : !Array.isArray(genres) || genres.length === 0 ? (
                     <Typography>No listened genres.</Typography>
                   ) : (
+                    // <List>
+                    //   {genres.map((item, index) => (
+                    //     <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0 }}>
+                    //       {item}
+                    //     </ListItem>
+                    //   ))}
+                    // </List>
                     <List>
-                      {genres.map((item, index) => (
-                        <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0 }}>
-                          {item}
+                      {genres.map(({ name, artist, id }) => (
+                        <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
+                          - {name} - {artist}
                         </ListItem>
                       ))}
                     </List>
@@ -332,8 +370,8 @@ export default function ProfileUserPage() {
               </Box>
               <Box
                 sx={{
-                  width: 200,
-                  height: 200,
+                  // width: 200,
+                  // height: 200,
                   borderRadius: 1,
                   bgcolor: "var(--card-background)",
                   "&:hover": {
@@ -351,20 +389,20 @@ export default function ProfileUserPage() {
                   ) : history.length === 0 ? (
                     <Typography>No recent history.</Typography>
                   ) : (
-                  <List>
-                  {history.map(({name, artist, id}) => (
-                    <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
-                      - {name} - {artist}
-                    </ListItem>
-                  ))}
-                </List>
+                    <List>
+                      {history.map(({ name, artist, id }) => (
+                        <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
+                          - {name} - {artist}
+                        </ListItem>
+                      ))}
+                    </List>
                   )}
                 </Box>
               </Box>
               <Box
                 sx={{
-                  width: 200,
-                  height: 200,
+                  // width: 200,
+                  // height: 200,
                   borderRadius: 1,
                   bgcolor: "var(--card-background)",
                   "&:hover": {
@@ -397,7 +435,7 @@ export default function ProfileUserPage() {
                         </Typography>
                         <Card
                           sx={{
-                            width: 50,
+                            width: 60,
                             height: 50,
                             display: "flex",
                             flexDirection: "column",
