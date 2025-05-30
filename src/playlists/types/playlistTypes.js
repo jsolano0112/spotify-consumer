@@ -1,3 +1,8 @@
 export const playListTypes = {
-    getCurrentUserPlaylist: "[GET] getCurrentUserPlaylist",
+    getCurrentUserPlaylist: "[PLAYLISTS] getCurrentUserPlaylist",
+    getAllPlaylists: "[PLAYLISTS] getAllPlaylists",
+    errors: "[PLAYLISTS] errors",
+    getRecentlyPlayedTracks: "[PLAYLISTS] getRecentlyPlayedTracks",
+
+
 }

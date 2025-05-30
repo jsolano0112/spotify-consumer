@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import Link from "@mui/material/Link";
+import { UserContext } from "../auth/contexts/UserContext";
+import { useContext } from "react";
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,6 +23,15 @@ export const CarouselCard = ({ card, setMenu }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const {
+    userState: { user },
+  } = useContext(UserContext);
+
+  const handleFollow = (spotifyUserId) => {
+    console.log(spotifyUserId);
+    const url = `https://open.spotify.com/user/${spotifyUserId}`;
+    window.open(url, "_blank");
+  };
   return (
     <>
       <Card
@@ -56,7 +67,7 @@ export const CarouselCard = ({ card, setMenu }) => {
                 flexGrow: 1,
                 objectFit: "cover",
               }}
-              image={card.image}
+              image={card.images.url}
               alt={card.title}
             />
             <Typography
@@ -66,7 +77,7 @@ export const CarouselCard = ({ card, setMenu }) => {
               fontWeight="bold"
               sx={{ mt: 1 }}
             >
-              {card.title}
+              {card.name}
             </Typography>
             <Typography
               variant="caption"
@@ -85,40 +96,54 @@ export const CarouselCard = ({ card, setMenu }) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-          <Modal
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            {card.title}
-          </Typography>
-          <Link
-            href="#"
-            variant="body2"
-            onClick={() => {
-              setMenu("PlayLists");
-              handleClose();
-            }}
-          >
-            {"See playlist"}
-          </Link>
-          <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            {card.songsCount} songs saved, {card.totalTime}
-          </Typography>
-          <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            by {card.by}
-            <Button variant="contained" color="success" size="small" sx={{marginLeft: 1}}>
-              Follow
-            </Button>
-          </Typography>
-        </Box>
-      </Modal>
+        <Modal
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="keep-mounted-modal-title"
+          aria-describedby="keep-mounted-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="keep-mounted-modal-title"
+              variant="h6"
+              component="h2"
+            >
+              {card.name}  ({card.public ? 'public' : 'false'})
+            </Typography>
+            <Link
+              href="#"
+              variant="body2"
+              onClick={() => {
+                setMenu("PlayLists");
+                handleClose();
+              }}
+            >
+              {"See playlist"}
+            </Link>
+            <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+              {card.songs} songs saved.
+            </Typography>
+            <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+              {card.by !== user.id ? `by ${card.by}` : "by me"}
+              {card.by !== user.id && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="small"
+                  sx={{ marginLeft: 1 }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleFollow(card.by_id);
+                  }}
+                >
+                  Follow
+                </Button>
+              )}
+            </Typography>
+          </Box>
+        </Modal>
       </Card>
-    
     </>
   );
-}
+};

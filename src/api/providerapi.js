@@ -6,8 +6,8 @@ const CLIENT_ID = "086acdbbdcef4ba8a564bba64a216325";
 const CLIENT_SECRET = "a94745069e4b42fe8fa283dd3458664a";
 const REDIRECT_URI = "https://7hdlxt3b-5173.use2.devtunnels.ms/callback";
 const SCOPES = [
-  "user-follow-read", // Permiso necesario para obtener los artistas seguidos
-  "playlist-read-private", // Ejemplo de otro permiso que podrías necesitar
+  "user-follow-read", 
+  "playlist-read-private", 
   "user-read-email",
   "user-read-private",
   "playlist-read-collaborative",
@@ -21,45 +21,126 @@ export const loginWithSpotify = () => {
   )}&scope=${SCOPES.join("%20")}&show_dialog=true`;
   window.location.href = authUrl;
 };
-export const getSpotifyToken = async (code) => {
 
+export const getSpotifyToken = async (code) => {
   const body = new URLSearchParams();
   body.append("grant_type", "authorization_code");
   body.append("code", code);
   body.append("redirect_uri", REDIRECT_URI);
   body.append("client_id", CLIENT_ID);
   body.append("client_secret", CLIENT_SECRET);
-  try {
 
+  try {
     const response = await axios.post(SPOTIFY_TOKEN_ENDPOINT, body.toString(), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
-    return response.data;
+    const tokenData = response.data;
+    const expirationTime = new Date().getTime() + tokenData.expires_in * 1000;
+    localStorage.setItem("spotifyToken", JSON.stringify({
+      ...tokenData,
+      expirationTime,
+    }));
+
+    return tokenData;
   } catch (error) {
     console.error("Error fetching Spotify token:", error.response?.data || error.message);
     return null;
   }
 };
 
-export const getPlayList = async () => {
-  const tokenStorage = localStorage.getItem("spotifyToken");
+export const refreshSpotifyToken = async () => {
+  const tokenStorage = JSON.parse(localStorage.getItem("spotifyToken"));
+  if (!tokenStorage?.refresh_token) {
+    console.error("No refresh token available.");
+    return null;
+  }
 
-  const { access_token: token } = JSON.parse(tokenStorage);
+  const body = new URLSearchParams();
+  body.append("grant_type", "refresh_token");
+  body.append("refresh_token", tokenStorage.refresh_token);
+  body.append("client_id", CLIENT_ID);
+  body.append("client_secret", CLIENT_SECRET);
 
   try {
-    const userResponse = await fetch("https://api.spotify.com/v1/me/playlists", {
-      method: "GET",
+    const response = await axios.post(SPOTIFY_TOKEN_ENDPOINT, body.toString(), {
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
-    const userPlaylist = await userResponse.json();
-    return userPlaylist;
+    const newToken = response.data;
+    const expirationTime = new Date().getTime() + newToken.expires_in * 1000;
+    localStorage.setItem("spotifyToken", JSON.stringify({
+      ...tokenStorage,
+      ...newToken,
+      expirationTime,
+    }));
 
+    return newToken;
+  } catch (error) {
+    console.error("Error refreshing token:", error.response?.data || error.message);
+    return null;
+  }
+};
+
+export const getValidAccessToken = async () => {
+  let tokenStorage = JSON.parse(localStorage.getItem("spotifyToken"));
+
+  if (!tokenStorage) return null;
+
+  const isExpired = new Date().getTime() > tokenStorage.expirationTime;
+
+  if (isExpired) {
+    const newToken = await refreshSpotifyToken();
+    if (newToken?.access_token) {
+      tokenStorage = JSON.parse(localStorage.getItem("spotifyToken"));
+    } else {
+      return null;
+    }
+  }
+
+  return tokenStorage.access_token;
+};
+
+export const spotifyFetch = async (url, options = {}) => {
+  const token = await getValidAccessToken();
+  if (!token) throw new Error("No valid access token");
+
+  const mergedOptions = {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await fetch(url, mergedOptions);
+
+  if (response.status === 401) {
+    await refreshSpotifyToken();
+    const retryToken = await getValidAccessToken();
+
+    const retryResponse = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${retryToken}`,
+      },
+    });
+
+    return retryResponse;
+  }
+
+  return response;
+};
+
+export const getPlayList = async () => {
+  try {
+    const response = await spotifyFetch("https://api.spotify.com/v1/me/playlists");
+    return await response.json();
   } catch (error) {
     console.error("Error in getPlayList:", error);
     return null;
@@ -67,68 +148,51 @@ export const getPlayList = async () => {
 };
 
 export const getArtist = async () => {
-
   try {
-    const tokenStorage = localStorage.getItem("spotifyToken");
-
-  const { access_token: token } = JSON.parse(tokenStorage);
-
-  const Response = await fetch("https://api.spotify.com/v1/me/following?type=artist", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const data = await Response.json();
-  return data;
-
+    const response = await spotifyFetch("https://api.spotify.com/v1/me/following?type=artist");
+    return await response.json();
   } catch (error) {
-    console.error("No artist found");
+    console.error("No artists found: " + error.message);
     return [];
   }
-
 };
 
-
 export const getSongsAlbums = async () => {
-
-  const tokenStorage = localStorage.getItem("spotifyToken");
-
-  const { access_token: token } = JSON.parse(tokenStorage);
-try {
-  const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const songsAlbums = await userResponse.json();
-  return songsAlbums;
-
-} catch (error) {
-    console.error("No found");
+  try {
+    const response = await spotifyFetch("https://api.spotify.com/v1/me/player/recently-played?limit=5");
+    return await response.json();
+  } catch (error) {
+    console.error("No songsAlbum found: " + error.message);
     return [];
-  
-}
-
+  }
 };
 
 export const getGenres = async () => {
-
-  const tokenStorage = localStorage.getItem("spotifyToken");
-
-  const { access_token: token } = JSON.parse(tokenStorage);
-try {
-  const userResponse = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  const genres = await userResponse.json();
-  return genres;
-
-} catch (error) {
-    console.error("No genres found");
+  try {
+    const response = await spotifyFetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4");
+    return await response.json();
+  } catch (error) {
+    console.error("No genres found: " + error.message);
     return [];
-  
-}
+  }
+};
 
+export const getRecentlyPlayedTracks = async () => {
+  try {
+    const response = await spotifyFetch("https://api.spotify.com/v1/me/player/recently-played");
+    return await response.json();
+  } catch (error) {
+    console.error("No tracks found: " + error.message);
+    return [];
+  }
+};
+
+export const getTrack = async (id) => {
+  try {
+    const response = await spotifyFetch(`https://api.spotify.com/v1/tracks/${id}`);
+    return await response.json();
+  } catch (error) {
+    console.error("No track found: " + error.message);
+    return [];
+  }
 };

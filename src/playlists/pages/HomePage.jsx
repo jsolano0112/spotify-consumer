@@ -9,14 +9,14 @@ export const HomePage = ({ setMenu }) => {
       <div className="first-playlist">
         <Typography variant="h5">Lists you'd like to try</Typography>
         <div className="playlist-wrapper">
-          <PlayList setMenu={setMenu} />
+          <PlayList setMenu={setMenu} userLogged={false}/>
         </div>
       </div>
 
       <div className="songs">
         <CardToReproduce />
         <div>
-          <SongsCardComponent  background={'var(--card-background)'}/>
+          <SongsCardComponent  background={'var(--card-background)'} userLogged={true}/>
         </div>
       </div>
 

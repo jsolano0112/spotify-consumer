@@ -25,6 +25,14 @@ const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
 import PlayListPage from "../../playlists/pages/PlayListPage";
 import ProfileUserPage from "../../users/pages/ProfileUserPage";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { loginWithSpotify } from "../../api/providerapi";
+import { useEffect } from "react";
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -125,6 +133,13 @@ export const Sidenav = () => {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState("Home");
   const { logout } = useContext(UserContext);
+  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setShowSpotifyModal(!user?.isloggedWithSpotify);
+  }, []);
+
   const navigate = useNavigate();
 
   const onLogoutUser = (target) => {
@@ -133,6 +148,7 @@ export const Sidenav = () => {
     navigate("/", { replace: true });
   };
   const handleDrawerOpen = () => {
+    console.log(user);
     setOpen(true);
   };
 
@@ -258,7 +274,7 @@ export const Sidenav = () => {
                       },
                 ]}
               >
-                <RiLogoutBoxFill color="black"/>
+                <RiLogoutBoxFill color="black" />
               </ListItemIcon>
               <ListItemText
                 color="text.secondary"
@@ -286,6 +302,32 @@ export const Sidenav = () => {
         {menu === "PlayLists" && <PlayListPage />}
         {menu === "Logout" && onLogoutUser()}
       </Box>
+      <Dialog
+        open={showSpotifyModal}
+        onClose={() => setShowSpotifyModal(false)}
+        disableEscapeKeyDown
+      >
+        <DialogTitle>Connect with Spotify</DialogTitle>
+        <DialogContent>
+          <Typography>
+            You need to log in with Spotify to access your playlists, explore
+            those of other users, and enjoy personalized content.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="success"
+            size="small"
+            onClick={() => {
+              loginWithSpotify();
+            }}
+            sx={{ marginLeft: 1 }}
+          >
+            Log in with Spotify
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

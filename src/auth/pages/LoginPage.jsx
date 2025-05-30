@@ -38,7 +38,6 @@ export const LoginPage = () => {
       isLogged = await loginGoogle();
     }
     if (!isLogged) {
-      // TODO: specify message
       setErrorMessage("An error has occurred: "+ errorMessage);
     } else {
       navigate("/", { replace: true });
