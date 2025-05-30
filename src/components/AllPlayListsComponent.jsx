@@ -9,7 +9,6 @@ import {
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Pagination from "@mui/material/Pagination";
-
 import usePagination from "../hooks/usePagination";
 import { CircularProgressComponent } from "./CircularProgressComponent";
 
@@ -26,8 +25,7 @@ function AllPlayListsComponent({ playlists, setValue }) {
     _DATA.jump(p);
   };
 
-  const [loading, setLoading] = useState(false);
-  const [userPlaylists, setUserPlaylists] = useState([]);
+  /*const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -47,8 +45,9 @@ function AllPlayListsComponent({ playlists, setValue }) {
       </>
     );
   }
+    */
 
-  if (!userPlaylists || userPlaylists.length === 0) {
+  if (!playlists || playlists.length === 0) {
     return (
       <>
         <Box
@@ -102,11 +101,11 @@ function AllPlayListsComponent({ playlists, setValue }) {
                   component="img"
                   height="140"
                   image={playList.image}
-                  alt={playList.label}
+                  alt={playList.name}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
-                    {playList.label}
+                    {playList.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {playList.description}

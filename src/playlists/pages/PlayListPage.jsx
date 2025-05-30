@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -10,11 +10,32 @@ import { Card, CardActionArea, Drawer, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { SongsCardComponent } from "../../components/SongsCardComponent";
 import AllPlayListsComponent from "../../components/AllPlayListsComponent";
+import { usePlayListInfo } from "../hooks/useAllPlayListInfo";
 
 export default function PlayListPage() {
   const [value, setValue] = useState(null);
 
+  const { loading, playlists, error } = usePlayListInfo();
+
   const handleClose = () => setValue(null);
+
+  if (loading) {
+    return (
+      <div>
+        <Typography variant="h6">Loading...</Typography>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Typography variant="h6" color="error">
+          {error}
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -25,7 +46,7 @@ export default function PlayListPage() {
             freeSolo
             className="field"
             disablePortal
-            options={allPlayLists}
+            options={playlists}
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
@@ -41,7 +62,10 @@ export default function PlayListPage() {
           />
         </Box>
 
-        <AllPlayListsComponent playlists={allPlayLists} setValue={setValue} />
+        <AllPlayListsComponent
+          playlists={playlists}
+          setValue={setValue}
+        />
 
         {/* Modal Drawer a la derecha */}
         <Drawer anchor="right" open={!!value} onClose={handleClose}>
@@ -88,7 +112,10 @@ export default function PlayListPage() {
                 </Card>
 
                 <Box sx={{ padding: 2 }}>
-                  <SongsCardComponent background={"var(--accent-color)"} color="var(--secondary-text-color)"/>
+                  <SongsCardComponent
+                    background={"var(--accent-color)"}
+                    color="var(--secondary-text-color)"
+                  />
                 </Box>
               </>
             )}
