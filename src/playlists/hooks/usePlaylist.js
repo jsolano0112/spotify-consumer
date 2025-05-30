@@ -1,4 +1,4 @@
-import { getPlayList, getRecentlyPlayedTracks, getTrack } from "../../api/providerapi";
+import { getPlayList, getRecentlyPlayedTracks, getSongsFromPlaylist, getTrack } from "../../api/providerapi";
 import { getPlaylists, saveCurrentUserPlaylists } from "../../firebase/provider";
 import { playListTypes } from "../types/playlistTypes";
 
@@ -107,12 +107,38 @@ export const usePlaylist = (dispatch) => {
   }
 
 
+  const getSongs = async (id) => {
+    const songs = await getSongsFromPlaylist(id)
+    if (songs.items) {
+      const songsDetails = songs.items.map((item) => ({
+        name: item.track.name,
+        id: item.track.id,
+        album: item.track.album?.name,
+        artist: item.track.artists?.[0]?.name || "Unknown Artist",
+        albumImage: item.track.album?.images?.[0]?.url || "",
+        time: formatDuration(item.track.duration_ms) || 0,
+      }));
+      const action = {
+        type: playListTypes.getRecentlyPlayedTracks,
+        payload: songsDetails
+      }
+      dispatch(action);
+      return songsDetails.slice(-5);
+    }
+    const action = {
+      type: playListTypes.errors,
+      payload: {}
+    }
+    dispatch(action);
+    return [];
+
+  };
   const formatDuration = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
-  return { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong };
+  return { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong, getSongs };
 };
 

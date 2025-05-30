@@ -196,3 +196,15 @@ export const getTrack = async (id) => {
     return [];
   }
 };
+
+
+export const getSongsFromPlaylist = async (id) => {
+   try {
+    const response = await spotifyFetch(`https://api.spotify.com/v1/playlists/${id}/tracks`);
+    return await response.json();
+  } catch (error) {
+    console.error("No track found: " + error.message);
+    return [];
+  }
+}
+
