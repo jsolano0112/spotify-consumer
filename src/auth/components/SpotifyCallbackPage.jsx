@@ -1,12 +1,13 @@
 import { useContext, useEffect, useRef } from "react";
 import { getSpotifyToken } from "../../api/providerapi";
 import { UserContext } from "../contexts/UserContext";
-import {GetPlaylist} from "../../users/hooks/GetPlaylist"
+import { GetPlaylist } from "../../users/hooks/GetPlaylist";
 import { GetTopArtist } from "../../users/hooks/GetTopArtist";
 import { GetGenres } from "../../users/hooks/GetGenres";
 import { GetLastSong } from "../../users/hooks/GetLastSong";
-
+import { useNavigate } from "react-router-dom";
 export const SpotifyCallbackPage = () => {
+  const navigate = useNavigate();
   const hasRun = useRef(false);
   const { loginSpotify } = useContext(UserContext);
 
@@ -27,16 +28,16 @@ export const SpotifyCallbackPage = () => {
         const tokenData = await getSpotifyToken(code);
         const accessToken = tokenData.access_token;
         if (accessToken) {
+          let userLogged = false;
+          const user = JSON.parse(localStorage.getItem("user"));
+          if(user) 
+            userLogged = true;
           localStorage.setItem("spotifyToken", JSON.stringify(tokenData));
-
-          const success = await loginSpotify(accessToken);
-          console.log('success', success)
+          const success = await loginSpotify(accessToken, user?.id, userLogged);
           if (success) {
-            await GetPlaylist(accessToken)
-            await GetTopArtist(accessToken)
-            await GetGenres(accessToken)
-            await GetLastSong(accessToken)
-          }else{
+            navigate("/", { replace: true });
+            return;
+          } else {
             console.log("user error");
           }
         } else {
