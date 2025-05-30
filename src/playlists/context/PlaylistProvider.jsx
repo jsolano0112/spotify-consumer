@@ -25,7 +25,7 @@ export const PlaylistProvider = ({ children }) => {
     authInitialState,
     init
   );
-  const { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong } =
+  const { getUserPlaylist, getAllPlaylists, getPlayedTracks, getSong, getSongs } =
     usePlaylist(dispatch);
 
   return (
@@ -36,6 +36,7 @@ export const PlaylistProvider = ({ children }) => {
         getAllPlaylists,
         getPlayedTracks,
         getSong,
+        getSongs
       }}
     >
       {children}

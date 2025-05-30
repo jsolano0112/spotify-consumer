@@ -13,18 +13,25 @@ import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import { useContext } from "react";
 import { PlaylistContext } from "../playlists/context/PlaylistContext";
-export const SongsCardComponent = ({ background, color, userLogged }) => {
+export const SongsCardComponent = ({
+  background,
+  color,
+  userLogged,
+  playlistId,
+}) => {
   const [loading, setLoading] = useState(false);
   const [allSongs, setAllSongs] = useState([]);
-  const { getPlayedTracks } = useContext(PlaylistContext);
+  const { getPlayedTracks, getSongs } = useContext(PlaylistContext);
 
   useEffect(() => {
     setLoading(true);
     const fetchUserHeardSongs = () => {
       setTimeout(async () => {
         let songs = [];
-        if(userLogged){
+        if (userLogged) {
           songs = await getPlayedTracks();
+        } else {
+          songs = await getSongs(playlistId);
         }
         setAllSongs(songs);
         setLoading(false);
@@ -92,7 +99,7 @@ export const SongsCardComponent = ({ background, color, userLogged }) => {
             <Skeleton animation={false} />
           </Box>
         </Box>
-      ) : allSongs.length === 0 && userLogged? (
+      ) : allSongs.length === 0 && userLogged ? (
         <Typography
           variant="overline"
           component="div"
@@ -108,7 +115,7 @@ export const SongsCardComponent = ({ background, color, userLogged }) => {
         <List sx={{ width: "100%" }}>
           {allSongs.map((song, index) => (
             <ListItem
-               key={`${song.id}-${index}`} 
+              key={`${song.id}-${index}`}
               alignItems="flex-start"
               sx={{
                 color: color,
