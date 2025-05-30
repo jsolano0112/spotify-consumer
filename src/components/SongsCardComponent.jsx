@@ -12,6 +12,7 @@ import React, { useEffect, useState, Fragment } from "react";
 //import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
+import SongItem from "./SongItem";
 
 export const SongsCardComponent = ({
   background,
@@ -37,7 +38,6 @@ export const SongsCardComponent = ({
         );
 
         if (!response.ok) {
-          // Captura el error detallado
           const errorData = await response.json();
           console.error("Error fetching playlist tracks:", errorData);
           throw new Error(
@@ -48,6 +48,10 @@ export const SongsCardComponent = ({
         const data = await response.json();
         setSongs(data.items);
         setLoading(false);
+
+        if (data.items.length > 0) {
+          console.log("Primer track encontrado:", data.items[0]);
+        }
       } catch (error) {
         console.error("Error fetching playlist:", error);
         setLoading(false);
@@ -72,10 +76,17 @@ export const SongsCardComponent = ({
     },
   };
 
-  const handlePlaySong = (previewUrl) => {
-    const audio = new Audio(previewUrl);
-    audio.play();
+  const handlePlaySong = (previewUrl, trackUrl) => {
+    if (previewUrl) {
+      // Reproduce el preview si está disponible
+      const audio = new Audio(previewUrl);
+      audio.play();
+    } else {
+      // Si no hay preview, redirige a la página de Spotify para la canción
+      window.open(trackUrl, "_blank");
+    }
   };
+
 
   if (loading) {
     return (
@@ -126,6 +137,7 @@ export const SongsCardComponent = ({
         {songs.map((song, index) => {
           const track = song.track;
           const previewUrl = track.preview_url;
+          const trackUrl = track.external_urls.spotify;
 
           return (
             <ListItem
@@ -154,16 +166,21 @@ export const SongsCardComponent = ({
                 {previewUrl ? (
                   <IconButton
                     sx={playButtonStyle}
-                    onClick={() => handlePlaySong(previewUrl)}
+                    onClick={() => handlePlaySong(previewUrl, trackUrl)}
                   >
                     <Avatar>
                       <FaPlay />
                     </Avatar>
                   </IconButton>
                 ) : (
-                  <Typography variant="body2" sx={{ color: color }}>
-                    No Preview
-                  </Typography>
+                  <IconButton
+                    sx={playButtonStyle}
+                    onClick={() => handlePlaySong(previewUrl, trackUrl)}
+                  >
+                    <Avatar>
+                      <FaPlay />
+                    </Avatar>
+                  </IconButton>
                 )}
               </ListItemAvatar>
             </ListItem>
