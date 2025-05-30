@@ -71,15 +71,15 @@ export const getArtist = async () => {
   try {
     const tokenStorage = localStorage.getItem("spotifyToken");
 
-  const { access_token: token } = JSON.parse(tokenStorage);
+    const { access_token: token } = JSON.parse(tokenStorage);
 
-  const Response = await fetch("https://api.spotify.com/v1/me/following?type=artist", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+    const Response = await fetch("https://api.spotify.com/v1/me/following?type=artist", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  const data = await Response.json();
-  return data;
+    const data = await Response.json();
+    return data;
 
   } catch (error) {
     console.error("No artist found");
@@ -94,20 +94,20 @@ export const getSongsAlbums = async () => {
   const tokenStorage = localStorage.getItem("spotifyToken");
 
   const { access_token: token } = JSON.parse(tokenStorage);
-try {
-  const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=5", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  const songsAlbums = await userResponse.json();
-  return songsAlbums;
+    const songsAlbums = await userResponse.json();
+    return songsAlbums;
 
-} catch (error) {
+  } catch (error) {
     console.error("No found");
     return [];
-  
-}
+
+  }
 
 };
 
@@ -116,19 +116,41 @@ export const getGenres = async () => {
   const tokenStorage = localStorage.getItem("spotifyToken");
 
   const { access_token: token } = JSON.parse(tokenStorage);
-try {
-  const userResponse = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const userResponse = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=4", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  const genres = await userResponse.json();
-  return genres;
+    const genres = await userResponse.json();
+    return genres;
 
-} catch (error) {
+  } catch (error) {
     console.error("No genres found");
     return [];
-  
-}
+
+  }
+
+
+};
+
+export const getRecentlyPlayedTracks = async () => {
+
+  const tokenStorage = localStorage.getItem("spotifyToken");
+
+  const { access_token: token } = JSON.parse(tokenStorage);
+  try {
+    const userResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return await userResponse.json();
+
+  } catch (error) {
+    console.error("No tracks found");
+    return [];
+
+  }
 
 };
