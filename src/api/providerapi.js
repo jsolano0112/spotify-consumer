@@ -2,12 +2,12 @@ import axios from "axios";
 
 const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const SPOTIFY_TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
-const CLIENT_ID = "6b3bbaf9ab0c4a5b80a00a1d2266ecad";
-const CLIENT_SECRET = "7e92c396643a4d5eaf5ece0bb4db969c";
-const REDIRECT_URI = "https://g3hb5g5x-5173.use.devtunnels.ms/callback";
+const CLIENT_ID = "086acdbbdcef4ba8a564bba64a216325";
+const CLIENT_SECRET = "a94745069e4b42fe8fa283dd3458664a";
+const REDIRECT_URI = "https://7hdlxt3b-5173.use2.devtunnels.ms/callback";
 const SCOPES = [
-  "user-follow-read",
-  "playlist-read-private",
+  "user-follow-read", 
+  "playlist-read-private", 
   "user-read-email",
   "user-read-private",
   "playlist-read-collaborative",
