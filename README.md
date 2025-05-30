@@ -7,5 +7,7 @@ Spotify Consumer is done with React + Vite and MUI for the design.
 ## Instructions
 1. Clone the repository.
 2. Run `npm install`.
-3. Run `npm start` to start the application.
+3. Set up variables in `config.js` to use firebase.
+4. Set up variables in `providerapi.js` to use Spotify API.
+5. Run `npm start` to start the application.
 

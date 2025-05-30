@@ -75,10 +75,10 @@ export const useAuthenticate = (dispatch) => {
 
     }
 
-    const signUpWithEmail = async ({ email, password }) => {
-        const { ok, errorMessage } = await signUpWithEmailAndPassword({ email, password })
+    const signUpWithEmail = async ({ email, password, country, fullname }) => {
+        const { ok, errorMessage, uid } = await signUpWithEmailAndPassword({ email, password })
         if (!ok) {
-            const action = {
+             const action = {
                 type: authTypes.errors,
                 payload: { errorMessage }
             }
@@ -86,10 +86,19 @@ export const useAuthenticate = (dispatch) => {
 
             return false;
         }
+
+        const userPayload = {
+            uid: uid,
+            country: country,
+            displayName: fullname,
+        }
         const action = {
-            type: authTypes.signUp,
+            type: authTypes.login,
             payload: 'user registered',
         };
+        const userInfo = await getUserInfo(userPayload);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+
         dispatch(action)
 
         return true;
@@ -128,7 +137,6 @@ export const useAuthenticate = (dispatch) => {
             method: "GET", headers: { Authorization: `Bearer ${tokenData}` }
         });
         const userSpotify = await userResponse.json();
-        console.log(userResponse)
         if (!userResponse.ok) {
             const { userResponse: { statusText } } = userResponse;
 
@@ -145,7 +153,6 @@ export const useAuthenticate = (dispatch) => {
             uid: userSpotify.id,
             displayName: userSpotify.display_name,
             photoURL: userSpotify.images?.[0]?.url || null,
-            // email: userSpotify.email,
             country: userSpotify.country,
             followers: userSpotify.followers,
             isLogged: true

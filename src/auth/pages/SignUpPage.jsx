@@ -8,24 +8,39 @@ import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Alert } from "@mui/material";
 import { AlertTitle } from "@mui/material";
-
-//  TODO: Change naming to buttons
+import { countries } from "../constants/countries";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { loginWithSpotify } from "../../api/providerapi";
 //  TODO: Improve size of the card
-//  TODO: Validate when the user already exists
 const providers = [
   { id: "credentials", name: "Email and Password" },
   { id: "google", name: "Google" },
   { id: "facebook", name: "Facebook" },
   { id: "spotify", name: "Spotify" },
-  { id: "webapi", name: "Web API" },
 ];
 
 export const SignUpPage = () => {
-  const { signUpWithEmail } = useContext(UserContext);
-  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    signUpWithEmail,
+    userState: { errorMessage },
+    loginGoogle,
+    loginFacebook,
+  } = useContext(UserContext);
+  const [error, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
 
-  const onSignUpUser = async (email, password, provider, formData, event) => {
+  const onSignUpUser = async (
+    email,
+    password,
+    fullname,
+    country,
+    provider,
+    formData,
+    event
+  ) => {
     let isRegistered = false;
     setSuccessMessage(false);
     const confirmPassword = formData.get("confirmPassword");
@@ -37,13 +52,22 @@ export const SignUpPage = () => {
       return;
     }
     setErrorMessage("");
-
-    // TODO: Register with the others providers
     if (provider == "Email and Password") {
-      isRegistered = await signUpWithEmail({ email, password });
+      isRegistered = await signUpWithEmail({
+        email,
+        password,
+        country,
+        fullname,
+      });
+    } else if (provider === "Spotify") {
+      isRegistered = await loginWithSpotify();
+    } else if (provider === "Facebook") {
+      isRegistered = await loginFacebook();
+    } else if (provider === "Google") {
+      isRegistered = await loginGoogle();
     }
     if (!isRegistered) {
-      setErrorMessage("An error has occurred");
+      setErrorMessage("An error has occurred: " + errorMessage);
     } else {
       setSuccessMessage(true);
       if (event?.target?.reset) {
@@ -61,9 +85,41 @@ export const SignUpPage = () => {
     );
   }
 
-  function PasswordField() {
+  function Fields() {
     return (
       <>
+        <TextField
+          required
+          type="text"
+          name="fullname"
+          label="Full Name"
+          size="small"
+          variant="standard"
+          InputProps={{
+            style: { fontSize: "0.9rem" },
+          }}
+          InputLabelProps={{
+            style: { fontSize: "0.9rem" },
+          }}
+        />
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-standard-label">
+            Country
+          </InputLabel>
+          <Select
+            name="country"
+            defaultValue="CO"
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Country"
+          >
+            {countries.map((country) => (
+              <MenuItem key={country.id} value={country.id}>
+                {country.country}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           required
           type="password"
@@ -93,16 +149,16 @@ export const SignUpPage = () => {
           }}
         />
         <ErrorAlert />
-        <SuccessAlert />;
+        <SuccessAlert />
       </>
     );
   }
 
   function ErrorAlert() {
-    return errorMessage != "" ? (
+    return error != "" ? (
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        {errorMessage}
+        {error}
       </Alert>
     ) : null;
   }
@@ -144,6 +200,9 @@ export const SignUpPage = () => {
               onSignUpUser(
                 formData?.get("email"),
                 formData?.get("password"),
+                formData?.get("fullname"),
+                formData.get("country"),
+
                 provider.name,
                 formData,
                 event
@@ -155,7 +214,7 @@ export const SignUpPage = () => {
             slots={{
               signUpLink: SignInLink,
               title: Title,
-              passwordField: PasswordField,
+              passwordField: Fields,
               submitButton: ({ onClick }) => (
                 <Button
                   type="submit"
