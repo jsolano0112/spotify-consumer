@@ -21,10 +21,10 @@ const init = () => {
 
 export const PlaylistProvider = ({ children }) => {
   const [userState, dispatch] = useReducer(playListReducer, authInitialState, init);
-  const { getUserPlaylist } = usePlaylist(dispatch);
+  const { getUserPlaylist, getAllPlaylists, getPlayedTracks} = usePlaylist(dispatch);
 
   return (
-    <PlaylistContext.Provider value={{ userState, getUserPlaylist }}>
+    <PlaylistContext.Provider value={{ userState, getUserPlaylist, getAllPlaylists, getPlayedTracks }}>
       {children}
     </PlaylistContext.Provider>
   );

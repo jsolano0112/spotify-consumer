@@ -3,7 +3,7 @@ import { FirebaseAuth, FirebaseDB } from "./config";
 import { GoogleAuthProvider } from "firebase/auth"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { FacebookAuthProvider } from "firebase/auth";
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore/lite'
+import { doc, setDoc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore/lite'
 
 const GoogleProvider = new GoogleAuthProvider();
 const provider = new FacebookAuthProvider();
@@ -161,5 +161,34 @@ export const saveCurrentUserPlaylists = async (playlists, userId) => {
         //TODO: to update playlist
     } catch (error) {
         console.error("Error saving playlists in firestore:", error);
+    }
+}
+
+export const getPlaylists = async () => {
+    try {
+        const playlistsRef = collection(FirebaseDB, 'playlists');
+        const querySnapshot = await getDocs(playlistsRef);
+
+        const allPlaylists = [];
+
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.playlists && Array.isArray(data.playlists)) {
+                allPlaylists.push(...data.playlists);
+            }
+        });
+
+        return {
+            ok: true,
+            playlists: allPlaylists
+        };
+
+    } catch (error) {
+        console.error("Error fetching playlists (firestore):", error);
+        return {
+            ok: false,
+            playlists: [],
+            errorMessage: error.message
+        };
     }
 }

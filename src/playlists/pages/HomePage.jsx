@@ -16,7 +16,7 @@ export const HomePage = ({ setMenu }) => {
       <div className="songs">
         <CardToReproduce />
         <div>
-          <SongsCardComponent  background={'var(--card-background)'}/>
+          <SongsCardComponent  background={'var(--card-background)'} userLogged={true}/>
         </div>
       </div>
 

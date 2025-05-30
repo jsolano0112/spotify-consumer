@@ -9,15 +9,17 @@ import { useContext } from "react";
 export const PlayList = ({ setMenu, userLogged }) => {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { getUserPlaylist } = useContext(PlaylistContext); 
+  const { getUserPlaylist, getAllPlaylists } = useContext(PlaylistContext);
   useEffect(() => {
     setLoading(true);
 
-    const fetchPlaylists = async() => {
+    const fetchPlaylists = async () => {
       setTimeout(async () => {
         let playlists = [];
-        if(userLogged){
-           playlists = await getUserPlaylist();
+        if (userLogged) {
+          playlists = await getUserPlaylist();
+        } else {
+          playlists = await getAllPlaylists();
         }
         setPlaylists(playlists);
         setLoading(false);
@@ -39,7 +41,7 @@ export const PlayList = ({ setMenu, userLogged }) => {
             </Typography>
           ) : (
             <Box>
-              <CarouselComponent  cards={playlists} setMenu={setMenu} />
+              <CarouselComponent cards={playlists} setMenu={setMenu} />
             </Box>
           )}
         </>

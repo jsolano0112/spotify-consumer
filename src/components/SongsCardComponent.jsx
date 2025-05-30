@@ -9,38 +9,30 @@ import {
   IconButton,
 } from "@mui/material";
 import React, { useEffect, useState, Fragment } from "react";
-import { cards } from "../mockdata/cards";
 import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
-
-export const SongsCardComponent = ({ background, color, url }) => {
-  const [userPlaylists, setUserPlaylists] = useState([]);
+import { useContext } from "react";
+import { PlaylistContext } from "../playlists/context/PlaylistContext";
+export const SongsCardComponent = ({ background, color, userLogged }) => {
   const [loading, setLoading] = useState(false);
   const [allSongs, setAllSongs] = useState([]);
+  const { getPlayedTracks } = useContext(PlaylistContext);
 
   useEffect(() => {
     setLoading(true);
     const fetchUserHeardSongs = () => {
-      setTimeout(() => {
-        setUserPlaylists(cards);
+      setTimeout(async () => {
+        let songs = [];
+        if(userLogged){
+          songs = await getPlayedTracks();
+        }
+        setAllSongs(songs);
         setLoading(false);
       }, 3000);
     };
 
     fetchUserHeardSongs();
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      const songs = userPlaylists.reduce((acc, playlist) => {
-        if (playlist.songs && Array.isArray(playlist.songs)) {
-          acc.push(...playlist.songs);
-        }
-        return acc;
-      }, []);
-      setAllSongs(songs.slice(-5));
-    }
-  }, [userPlaylists, loading]);
 
   const boxStyle = {
     marginTop: "10px",
@@ -57,7 +49,7 @@ export const SongsCardComponent = ({ background, color, url }) => {
     },
   };
 
-  if ((!userPlaylists || userPlaylists.length === 0) && !loading) {
+  if ((!allSongs || allSongs.length === 0) && !loading && !userLogged) {
     return (
       <>
         <Box
@@ -114,9 +106,9 @@ export const SongsCardComponent = ({ background, color, url }) => {
         </Typography>
       ) : (
         <List sx={{ width: "100%" }}>
-          {allSongs.map((song) => (
+          {allSongs.map((song, index) => (
             <ListItem
-              key={song.id}
+               key={`${song.id}-${index}`} 
               alignItems="flex-start"
               sx={{
                 color: color,
@@ -126,10 +118,10 @@ export const SongsCardComponent = ({ background, color, url }) => {
               }}
             >
               <ListItemAvatar>
-                <Avatar alt={song.title} src={song.image} />
+                <Avatar alt={song.album} src={song.albumImage} />
               </ListItemAvatar>
               <ListItemText
-                primary={song.title}
+                primary={song.name}
                 secondary={
                   <Fragment>
                     <Typography
