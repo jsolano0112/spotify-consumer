@@ -133,7 +133,6 @@ export default function PlayListPage() {
                     color="var(--secondary-text-color)"
                     playlistId={value.id}
                     token={token}
-                    userLogged={false}
                   />
                 </Box>
               </>

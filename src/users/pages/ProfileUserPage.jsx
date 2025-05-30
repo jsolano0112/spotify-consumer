@@ -1,6 +1,15 @@
 import React, { useContext, useState } from "react";
-import { cards } from "../../mockdata/cards";
-import { Box, Button, Card, CardMedia, CardContent, Container, Grid, Typography, CardActionArea, } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  CardContent,
+  Container,
+  Grid,
+  Typography,
+  CardActionArea,
+} from "@mui/material";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useEffect } from "react";
@@ -43,9 +52,9 @@ export default function ProfileUserPage() {
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
 
-   const { getUserPlaylist } = useContext(PlaylistContext);
-   const {getUserArtist} = useContext(ArtistContext);
-   const {getUserSongsAlbums, getUserGenres} = useContext(SongsAlbumnContext)
+  const { getUserPlaylist } = useContext(PlaylistContext);
+  const { getUserArtist } = useContext(ArtistContext);
+  const { getUserSongsAlbums, getUserGenres } = useContext(SongsAlbumnContext);
 
   async function loadPlaylists() {
     try {
@@ -83,9 +92,9 @@ export default function ProfileUserPage() {
   async function loadSongsAlbums() {
     try {
       const storedSongAlbums = await getUserSongsAlbums();
-      
+
       if (storedSongAlbums) {
-        setHistory(storedSongAlbums);
+        setHistory(storedSongAlbums.slice(-3));
       } else {
         console.warn("No found");
         setHistory([]);
@@ -99,9 +108,9 @@ export default function ProfileUserPage() {
   async function loadGenres() {
     try {
       const storedGenres = await getUserGenres();
-      
+
       if (storedGenres) {
-        setGenres(storedGenres);
+        setGenres(storedGenres.slice(-3));
       } else {
         console.warn("No found");
         setGenres([]);
@@ -118,15 +127,11 @@ export default function ProfileUserPage() {
     window.location.href = "https://accounts.spotify.com/authorize?...";
   };
 
-
   useEffect(() => {
-
     loadPlaylists();
     loadArtist();
     loadSongsAlbums();
     loadGenres();
-
-    // Recuperar usuario
     const storedUser = localStorage.getItem("user");
 
     if (storedUser) {
@@ -134,16 +139,11 @@ export default function ProfileUserPage() {
       setUser(parsedUser);
       setIsSpotifyConnected(parsedUser.isloggedWithSpotify);
     }
-
   }, []);
 
   useEffect(() => {
     const fetchData = () => {
       setTimeout(() => {
-        // setHistory([]);
-        // setPlaylist([]);
-        // setArtists([]);
-        // setGenres([]);
         setLoading(false);
       }, 3000);
     };
@@ -158,6 +158,26 @@ export default function ProfileUserPage() {
     if (user?.id) {
       await updateUserInfo(user.id, { darkMode: newDarkMode });
     }
+  };
+
+  const handleEditPlaylist = async () => {
+    window.open("https://open.spotify.com/collection/playlists", "_blank");
+  };
+
+  const infoBoxStyles = {
+    minWidth: 200,
+    maxWidth: 300,
+    minHeight: 200,
+    borderRadius: 1,
+    bgcolor: "var(--card-background)",
+    color: "black",
+    "&:hover": {
+      bgcolor: "var(--highlight-color)",
+    },
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
@@ -219,8 +239,12 @@ export default function ProfileUserPage() {
               {/* Spotify Connection Section */}
               {/* TODO: change color buttons */}
               <Box className="buttons-container">
-                <Button variant="outlined" size="small">
-                  Edit Playlist
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handleEditPlaylist()}
+                >
+                  Edit Playlists
                 </Button>
                 {!isSpotifyConnected && (
                   <Button
@@ -243,18 +267,30 @@ export default function ProfileUserPage() {
               className="followers-container"
             >
               <Grid>
-                <Typography variant="h6" sx={{ color: "var(--secondary-text-color)",}}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "var(--secondary-text-color)" }}
+                >
                   {user?.followers}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "var(--secondary-text-color)",}}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "var(--secondary-text-color)" }}
+                >
                   Followers
                 </Typography>
               </Grid>
               <Grid>
-                <Typography variant="h6" sx={{ color: "var(--secondary-text-color)",}}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "var(--secondary-text-color)" }}
+                >
                   {playlist}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "var(--secondary-text-color)",}}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "var(--secondary-text-color)" }}
+                >
                   Playlists
                 </Typography>
               </Grid>
@@ -262,40 +298,20 @@ export default function ProfileUserPage() {
 
             {/* Content Section */}
             <CardContent className="info-container">
-              <Box
-                sx={{
-                  // width: 200,
-                  // height: 200,
-                  borderRadius: 1,
-                  bgcolor: "var(--card-background)",
-                  "&:hover": {
-                    bgcolor: "var(--highlight-color)",
-                  },
-                }}
-                className="artists"
-              >
-                <Typography variant="h6" textAlign={"center"}>Top Artists</Typography>
+              <Box sx={infoBoxStyles} className="artists">
+                <Typography variant="h6" textAlign={"center"}>
+                  Top Artists
+                </Typography>
                 <Box className="info-container2">
                   {loading ? (
                     <Box className="progress">
                       <SkeletonProgress />
                     </Box>
                   ) : artists.length === 0 ? (
-                    <Typography>No Artists.</Typography>
+                    <Typography textAlign={"center"}>No Artists.</Typography>
                   ) : (
                     artists.slice(0, 4).map((item) => (
                       <Grid key={item.id}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            textAlign: "center",
-                            fontSize: "0.7rem",
-                            fontWeight: "bold",
-                            padding: "0.1rem 0",
-                          }}
-                        >
-                          {item.name}
-                        </Typography>
                         <Card
                           sx={{
                             width: 50,
@@ -305,7 +321,6 @@ export default function ProfileUserPage() {
                             alignItems: "center",
                           }}
                         >
-
                           <CardActionArea>
                             <CardMedia
                               component="img"
@@ -319,9 +334,9 @@ export default function ProfileUserPage() {
                                 objectFit: "cover",
                               }}
                             />
-                            <CardContent sx={{ textAlign: "center", padding: 1 }}>
-                              {/* <Typography variant="body1" noWrap> {item.name} </Typography> */}
-                            </CardContent>
+                            <CardContent
+                              sx={{ textAlign: "center", padding: 1 }}
+                            ></CardContent>
                           </CardActionArea>
                         </Card>
                       </Grid>
@@ -329,19 +344,10 @@ export default function ProfileUserPage() {
                   )}
                 </Box>
               </Box>
-              <Box
-                sx={{
-                  // width: 200,
-                  // height: 200,
-                  borderRadius: 1,
-                  bgcolor: "var(--card-background)",
-                  "&:hover": {
-                    bgcolor: "var(--highlight-color)",
-                  },
-                }}
-                className="genres"
-              >
-                <Typography variant="h6">Favorite Genres</Typography>
+              <Box sx={infoBoxStyles} className="genres">
+                <Typography variant="h6" textAlign={"center"}>
+                  Favorite Genres
+                </Typography>
                 <Box>
                   {loading ? (
                     <Box className="progress">
@@ -350,37 +356,27 @@ export default function ProfileUserPage() {
                   ) : !Array.isArray(genres) || genres.length === 0 ? (
                     <Typography>No listened genres.</Typography>
                   ) : (
-                    // <List>
-                    //   {genres.map((item, index) => (
-                    //     <ListItem key={index} sx={{ color: "var(--secondary-text-color)", padding: 0 }}>
-                    //       {item}
-                    //     </ListItem>
-                    //   ))}
-                    // </List>
                     <List>
-                      {genres.map(({ name, artist, id }) => (
-                        <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
-                          - {name} - {artist}
+                      {genres.map(({ id, genres }) => (
+                        <ListItem
+                          key={id}
+                          sx={{
+                            color: "black",
+                            padding: 0,
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          ~ {genres}
                         </ListItem>
                       ))}
                     </List>
                   )}
                 </Box>
-
               </Box>
-              <Box
-                sx={{
-                  // width: 200,
-                  // height: 200,
-                  borderRadius: 1,
-                  bgcolor: "var(--card-background)",
-                  "&:hover": {
-                    bgcolor: "var(--highlight-color)",
-                  },
-                }}
-                className="history"
-              >
-                <Typography variant="h6">Recent History</Typography>
+              <Box sx={infoBoxStyles} className="history">
+                <Typography variant="h6" textAlign={"center"}>
+                  Recent History
+                </Typography>
                 <Box>
                   {loading ? (
                     <Box className="progress">
@@ -391,27 +387,25 @@ export default function ProfileUserPage() {
                   ) : (
                     <List>
                       {history.map(({ name, artist, id }) => (
-                        <ListItem key={id} sx={{ color: "var(--secondary-text-color)", padding: 0, fontSize: "0.8rem", }}>
-                          - {name} - {artist}
+                        <ListItem
+                          key={id}
+                          sx={{
+                            color: "black",
+                            padding: 0,
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          ~ {name} | {artist}
                         </ListItem>
                       ))}
                     </List>
                   )}
                 </Box>
               </Box>
-              <Box
-                sx={{
-                  // width: 200,
-                  // height: 200,
-                  borderRadius: 1,
-                  bgcolor: "var(--card-background)",
-                  "&:hover": {
-                    bgcolor: "var(--highlight-color)",
-                  },
-                }}
-                className="albums"
-              >
-                <Typography variant="h6" textAlign={"center"}>Albums</Typography>
+              <Box sx={infoBoxStyles} className="albums">
+                <Typography variant="h6" textAlign={"center"}>
+                  Albums
+                </Typography>
                 <Box className="info-container2">
                   {loading ? (
                     <Box className="progress">
@@ -422,17 +416,6 @@ export default function ProfileUserPage() {
                   ) : (
                     history.slice(0, 4).map((item) => (
                       <Grid key={item.id}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            textAlign: "center",
-                            fontSize: "0.7rem",
-                            fontWeight: "bold",
-                            padding: "0.1rem 0",
-                          }}
-                        >
-                          {item.albumName}
-                        </Typography>
                         <Card
                           sx={{
                             width: 60,
@@ -442,7 +425,6 @@ export default function ProfileUserPage() {
                             alignItems: "center",
                           }}
                         >
-
                           <CardActionArea>
                             <CardMedia
                               component="img"
@@ -456,7 +438,9 @@ export default function ProfileUserPage() {
                                 objectFit: "cover",
                               }}
                             />
-                            <CardContent sx={{ textAlign: "center", padding: 1 }}>
+                            <CardContent
+                              sx={{ textAlign: "center", padding: 1 }}
+                            >
                               {/* <Typography variant="body1" noWrap> {item.name} </Typography> */}
                             </CardContent>
                           </CardActionArea>

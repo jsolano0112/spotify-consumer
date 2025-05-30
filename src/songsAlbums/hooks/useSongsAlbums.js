@@ -1,6 +1,6 @@
 import { getSongsAlbums } from "../../api/providerapi";
 import { songsAlbumsTypes } from "../types/songsAlbumsTypes";
-
+import { getGenres } from "../../api/providerapi";
 export const useSongsAlbums = (dispatch) => {
     const getUserSongsAlbums = async () => {
         try {
@@ -19,7 +19,6 @@ export const useSongsAlbums = (dispatch) => {
                     type: songsAlbumsTypes.getSongsAlbums,
                     payload: songsAlbumsDetails,
                 });
-
                 return songsAlbumsDetails;
             } else {
                 console.error("No playlists found");
@@ -30,5 +29,30 @@ export const useSongsAlbums = (dispatch) => {
         }
     };
 
-    return { getUserSongsAlbums };
+     const getUserGenres = async () => {
+        try {
+            const userGenres = await getGenres();
+            console.log(userGenres)
+            if (userGenres.items) {
+                const listGenres = userGenres.items.map((item) => ({
+                    id: item.id,
+                    genres: item.genres[0],
+                }));
+
+                dispatch({
+                    type: songsAlbumsTypes.getGenres,
+                    payload: listGenres,
+                });
+
+                return listGenres;
+            } else {
+                console.error("No genres found");
+                return [];
+            }
+        } catch (error) {
+            console.error("Error fetching genres:", error);
+        }
+    };
+
+    return { getUserSongsAlbums, getUserGenres };
 };

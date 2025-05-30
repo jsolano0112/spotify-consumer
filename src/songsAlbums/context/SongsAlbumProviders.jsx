@@ -2,7 +2,6 @@ import { useReducer } from "react";
 import { useSongsAlbums } from "../hooks/useSongsAlbums";
 import { songsAlbumsReducer } from "../reducers/songsAlbumsReducer";
 import { SongsAlbumnContext } from "./SongsAlbumContext";
-import { useGenres } from "../hooks/useGenres";
 
 const authInitialState = {
   songsalbums: [], 
@@ -22,9 +21,7 @@ const init = () => {
 
 export const SongsAlbumProvider = ({ children }) => {
   const [userState, dispatch] = useReducer(songsAlbumsReducer, authInitialState, init);
-  const { getUserSongsAlbums } = useSongsAlbums(dispatch);
-  const { getUserGenres } = useGenres(dispatch)
-
+  const { getUserSongsAlbums, getUserGenres } = useSongsAlbums(dispatch)
   return (
     <SongsAlbumnContext.Provider value={{ userState, getUserSongsAlbums, getUserGenres }}>
       {children}

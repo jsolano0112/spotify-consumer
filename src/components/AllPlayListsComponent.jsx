@@ -25,28 +25,6 @@ function AllPlayListsComponent({ playlists, setValue }) {
     _DATA.jump(p);
   };
 
-  /*const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const ferchUserPlayLists = () => {
-      setTimeout(() => {
-        setUserPlaylists(playlists);
-        setLoading(false);
-      }, 3000);
-    };
-    ferchUserPlayLists();
-  }, [playlists]);
-
-  if (loading) {
-    return (
-      <>
-        <CircularProgressComponent />
-      </>
-    );
-  }
-    */
-
   if (!playlists || playlists.length === 0) {
     return (
       <>
