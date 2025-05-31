@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Pagination from "@mui/material/Pagination";
-import usePagination from "../hooks/usePagination";
+import usePagination from "../../hooks/usePagination";
 import { CircularProgressComponent } from "./CircularProgressComponent";
 
 function AllPlayListsComponent({ playlists, setValue }) {

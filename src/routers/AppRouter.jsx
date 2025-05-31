@@ -3,8 +3,8 @@ import { LoginPage } from "../auth/pages/LoginPage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { SignUpPage } from "../auth/pages/SignUpPage";
-import { Sidenav } from "../components/pages/Sidenav";
 import { SpotifyCallbackPage } from "../auth/components/SpotifyCallbackPage";
+import { Sidenav } from "../playlists/pages/Sidenav";
 import "../App.css";
 export const AppRouter = () => {
   const {

@@ -10,7 +10,7 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { useState, useEffect, useContext } from "react";
-import { PlaylistContext } from "../playlists/context/PlaylistContext";
+import { PlaylistContext } from "../context/PlaylistContext";
 import { CircularProgress } from "@mui/material";
 export const CardToReproduce = () => {
   const [song, setSong] = useState(null);

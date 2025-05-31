@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
-import { getSpotifyToken } from "../../api/providerapi";
+import { getSpotifyToken } from "../../api/providerApi";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 

@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
 import { useState } from "react";
 import { CircularProgressComponent } from "./CircularProgressComponent";
-import { PlaylistContext } from "../playlists/context/PlaylistContext";
+import { PlaylistContext } from "../context/PlaylistContext";
 import { useContext } from "react";
 export const PlayList = ({ setMenu, userLogged }) => {
   const [playlists, setPlaylists] = useState([]);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { HomePage } from "../../playlists/pages/HomePage";
+import { HomePage } from "./HomePage";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -23,7 +23,7 @@ import { useContext } from "react";
 import { UserContext } from "../../auth/contexts/UserContext";
 const drawerWidth = 240;
 import { useNavigate } from "react-router-dom";
-import PlayListPage from "../../playlists/pages/PlayListPage";
+import PlayListPage from "./PlayListPage";
 import ProfileUserPage from "../../users/pages/ProfileUserPage";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -148,7 +148,6 @@ export const Sidenav = () => {
     navigate("/", { replace: true });
   };
   const handleDrawerOpen = () => {
-    console.log(user);
     setOpen(true);
   };
 

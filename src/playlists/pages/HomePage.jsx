@@ -1,6 +1,6 @@
-import { CardToReproduce } from "../../components/CardToReproduceComponent";
-import { PlayList } from "../../components/PlayListComponent";
-import { SongsCardComponent } from "../../components/SongsCardComponent";
+import { CardToReproduce } from "../components/CardToReproduceComponent";
+import { PlayList } from "../components/PlayListComponent";
+import { SongsCardComponent } from "../components/SongsCardComponent";
 import { Typography } from "@mui/material";
 
 export const HomePage = ({ setMenu }) => {

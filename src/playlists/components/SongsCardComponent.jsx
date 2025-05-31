@@ -12,7 +12,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { FaPlay } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import { useContext } from "react";
-import { PlaylistContext } from "../playlists/context/PlaylistContext";
+import { PlaylistContext } from "../context/PlaylistContext";
 export const SongsCardComponent = ({
   background,
   color,

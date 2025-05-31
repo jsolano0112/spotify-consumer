@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import Link from "@mui/material/Link";
-import { UserContext } from "../auth/contexts/UserContext";
+import { UserContext } from "../../auth/contexts/UserContext";
 import { useContext } from "react";
 const style = {
   position: "absolute",

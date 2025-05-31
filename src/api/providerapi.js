@@ -1,19 +1,5 @@
 import axios from "axios";
-
-const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-const SPOTIFY_TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
-const CLIENT_ID = "086acdbbdcef4ba8a564bba64a216325";
-const CLIENT_SECRET = "a94745069e4b42fe8fa283dd3458664a";
-const REDIRECT_URI = "https://7hdlxt3b-5173.use2.devtunnels.ms/callback";
-const SCOPES = [
-  "user-follow-read", 
-  "playlist-read-private", 
-  "user-read-email",
-  "user-read-private",
-  "playlist-read-collaborative",
-  "user-top-read",
-  "user-read-recently-played",
-];
+import { SPOTIFY_AUTH_ENDPOINT, CLIENT_ID, REDIRECT_URI, SCOPES, CLIENT_SECRET, SPOTIFY_TOKEN_ENDPOINT } from "./configApi";
 
 export const loginWithSpotify = () => {
   const authUrl = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(
@@ -199,7 +185,7 @@ export const getTrack = async (id) => {
 
 
 export const getSongsFromPlaylist = async (id) => {
-   try {
+  try {
     const response = await spotifyFetch(`https://api.spotify.com/v1/playlists/${id}/tracks`);
     return await response.json();
   } catch (error) {

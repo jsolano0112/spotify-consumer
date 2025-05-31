@@ -8,8 +8,8 @@ import CardMedia from "@mui/material/CardMedia";
 //import { allPlayLists } from "../../mockdata/allPlayList";
 import { Card, CardActionArea, Drawer, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { SongsCardComponent } from "../../components/SongsCardComponent";
-import AllPlayListsComponent from "../../components/AllPlayListsComponent";
+import { SongsCardComponent } from "../components/SongsCardComponent";
+import AllPlayListsComponent from "../components/AllPlayListsComponent";
 import { usePlayListInfo } from "../hooks/useAllPlayListInfo";
 
 export default function PlayListPage() {
